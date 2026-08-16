@@ -11,9 +11,9 @@
   "theme_color": "#0a0e14",
   "icons": [
     {
-      "src": "/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png",
-      "sizes": "256x256",
-      "type": "image/png",
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
       "purpose": "any"
     }
   ]

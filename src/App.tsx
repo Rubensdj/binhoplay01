@@ -22,14 +22,12 @@ function Splash() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-ink-950">
       <div className="text-center">
-        <img
-          src="/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png"
-          alt=""
-          className="mx-auto h-14 w-14 rounded-2xl object-cover ring-1 ring-white/10"
-          onError={(e) => {
-            e.currentTarget.style.display = "none";
-          }}
-        />
+        <div className="mx-auto h-14 w-14 rounded-2xl bg-gradient-to-br from-brand-500 to-accent-600 flex items-center justify-center ring-1 ring-white/10">
+          <svg className="h-8 w-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+            <path strokeLinecap="round" strokeLinejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+            <path strokeLinecap="round" strokeLinejoin="round" d="M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9zm-9 5.75a5.75 5.75 0 110-11.5 5.75 5.75 0 010 11.5z" />
+          </svg>
+        </div>
         <p className="mt-4 text-xs font-semibold uppercase tracking-[0.3em] text-slate-500">
           Binhoplay
         </p>

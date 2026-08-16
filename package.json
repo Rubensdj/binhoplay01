@@ -7,8 +7,8 @@
     "generate": "node scripts/decode-addon.mjs && node scripts/generate-catalog.mjs",
     "streams": "node scripts/extract-streams.mjs",
     "vod": "node scripts/fetch-vod.mjs",
-    "dev": "bun run generate && vite",
-    "build": "bun run generate && tsc -b && vite build",
+    "dev": "npm run generate && vite",
+    "build": "npm run generate && tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b --noEmit"
   },

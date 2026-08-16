@@ -2,18 +2,11 @@ import { useAdminData } from "../lib/adminStore";
 
 export default function Footer() {
   const { config } = useAdminData();
-  const siteName = config.siteName || "Binhoplay";
 
   return (
     <footer className="border-t border-white/5 py-12">
       <div className="mx-auto max-w-6xl px-5">
         <div className="flex flex-col items-center gap-6 text-center">
-          <p className="max-w-3xl text-sm leading-relaxed text-slate-500">
-            <strong className="text-slate-300">{siteName}</strong> é apenas um agregador de links e,
-            assim como o Google, apenas agrega e organiza links externos — não somos responsáveis
-            pelos arquivos encontrados. Proibida a venda dos add-ons. Não vendemos IPTV: qualquer
-            site ou app que ofereça isso é falso.
-          </p>
           <a
             href={config.telegramUrl}
             target="_blank"
