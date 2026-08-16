@@ -199,7 +199,7 @@ export default function ReposPage() {
   };
 
   return (
-    <section className="py-10">
+    <section className="pt-24 pb-10">
       <div className="mx-auto max-w-4xl px-5">
         <div className="max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-400">Repositórios</p>

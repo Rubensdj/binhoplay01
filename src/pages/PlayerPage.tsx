@@ -15,7 +15,7 @@ export default function PlayerPage({ route, navigate }: { route: Extract<Route, 
   };
 
   return (
-    <section className="py-10">
+    <section className="pt-24 pb-10">
       <div className="mx-auto max-w-4xl px-5">
         <div className="flex items-center justify-between gap-4">
           <div>

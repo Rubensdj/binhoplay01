@@ -4,13 +4,16 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "generate": "node scripts/generate-catalog.mjs",
+    "generate": "node scripts/decode-addon.mjs && node scripts/generate-catalog.mjs",
+    "streams": "node scripts/extract-streams.mjs",
+    "vod": "node scripts/fetch-vod.mjs",
     "dev": "bun run generate && vite",
-    "build": "bun run generate && tsc -b && vite build",
+    "build": "bun run generate && node scripts/fetch-vod.mjs && tsc -b && vite build",
     "preview": "vite preview --host 0.0.0.0",
     "typecheck": "tsc -b --noEmit"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.112.3",
     "hls.js": "^1.7.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1"

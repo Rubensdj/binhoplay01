@@ -12,6 +12,8 @@ export interface Addon {
   description: string;
   news: string;
   disclaimer: string;
+  /** Ids de addons exigidos (<requires> do addon.xml) — o Kodi instala junto. */
+  dependencies: string[];
   icon: string | null;
   downloadUrl: string;
   size: number | null;
@@ -62,6 +64,19 @@ export interface DemoVideo {
   demo: boolean;
 }
 
+export interface ContentItem {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  adult: boolean;
+  channelId: string;
+  channelName: string;
+  logo: string | null;
+  start: string;
+  stop: string;
+}
+
 export interface EpgData {
   channels: Record<string, Program[]>;
 }
@@ -75,6 +90,7 @@ export interface CatalogData {
   files: RepoFile[];
   logos: LogoItem[];
   channels: Channel[];
+  content: ContentItem[];
   demoVideos: DemoVideo[];
 }
 

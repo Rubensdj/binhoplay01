@@ -8,15 +8,16 @@
   --color-ink-800: #161d27;
   --color-ink-700: #1f2937;
 
-  --color-brand-300: #93c5fd;
-  --color-brand-400: #60a5fa;
-  --color-brand-500: #2563eb;
-  --color-brand-600: #1d4ed8;
+  /* Tema Netflix: vermelho #E50914 sobre preto profundo */
+  --color-brand-300: #fca5a5;
+  --color-brand-400: #f87171;
+  --color-brand-500: #e50914;
+  --color-brand-600: #b20710;
 
-  --color-accent-300: #c4b5fd;
-  --color-accent-400: #a78bfa;
-  --color-accent-500: #8b5cf6;
-  --color-accent-600: #7c3aed;
+  --color-accent-300: #fecdd3;
+  --color-accent-400: #fb7185;
+  --color-accent-500: #e50914;
+  --color-accent-600: #b20710;
 }
 
 html {
@@ -30,7 +31,7 @@ body {
 }
 
 ::selection {
-  background: rgba(37, 99, 235, 0.45);
+  background: rgba(229, 9, 20, 0.45);
   color: #fff;
 }
 

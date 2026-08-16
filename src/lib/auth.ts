@@ -1,8 +1,12 @@
+import { supabase, supabaseConfigured } from "./supabase";
+
 /**
- * Autenticação local (por dispositivo): usuário/senha com hash PBKDF2 armazenado
- * no navegador. Protege o acesso ao app neste dispositivo — para segurança
- * multiusuário real (servidor), o próximo passo é Convex Auth ou um provedor.
+ * Camada de autenticação.
+ * - Com Supabase configurado (VITE_SUPABASE_URL + VITE_SUPABASE_ANON_KEY):
+ *   login/registro por email e senha, sessão gerenciada pelo SDK.
+ * - Sem Supabase: fallback local (hash PBKDF2 no dispositivo).
  */
+
 export interface Account {
   username: string;
   salt: string;
@@ -20,7 +24,14 @@ const SESSION_KEY = "binho:session";
 
 const enc = new TextEncoder();
 
-async function derive(password: string, salt: string): Promise<string> {
+export function isSupabaseConfigured(): boolean {
+  return supabaseConfigured;
+}
+
+// ---------------------------------------------------------------------------
+// Fallback local (sem Supabase)
+// ---------------------------------------------------------------------------
+async function deriveLocal(password: string, salt: string): Promise<string> {
   const key = await crypto.subtle.importKey("raw", enc.encode(password), "PBKDF2", false, ["deriveBits"]);
   const bits = await crypto.subtle.deriveBits(
     { name: "PBKDF2", salt: enc.encode(salt), iterations: 100_000, hash: "SHA-256" },
@@ -30,7 +41,7 @@ async function derive(password: string, salt: string): Promise<string> {
   return btoa(String.fromCharCode(...new Uint8Array(bits)));
 }
 
-function getAccounts(): Account[] {
+function getLocalAccounts(): Account[] {
   try {
     const parsed = JSON.parse(localStorage.getItem(ACCOUNTS_KEY) ?? "[]");
     return Array.isArray(parsed) ? parsed : [];
@@ -39,12 +50,12 @@ function getAccounts(): Account[] {
   }
 }
 
-function setSession(username: string) {
+function setLocalSession(username: string) {
   const session: Session = { username, at: new Date().toISOString() };
   localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 }
 
-export function getSession(): Session | null {
+export function getLocalSession(): Session | null {
   try {
     return JSON.parse(localStorage.getItem(SESSION_KEY) ?? "null");
   } catch {
@@ -52,20 +63,55 @@ export function getSession(): Session | null {
   }
 }
 
+function clearLocalSession() {
+  localStorage.removeItem(SESSION_KEY);
+}
+
+// ---------------------------------------------------------------------------
+// API pública (Supabase primeiro, fallback local)
+// ---------------------------------------------------------------------------
+/** Usuário ativo do Supabase (atualizado via onAuthStateChange no App). */
+let activeUser: string | null = null;
+
+export function setActiveUser(email: string | null): void {
+  activeUser = email;
+}
+
 export function isAuthenticated(): boolean {
-  return getSession() !== null;
+  if (supabaseConfigured) {
+    // A sessão do Supabase persiste no localStorage com chave sb-<ref>-auth-token
+    // (o estado reativo real é mantido por onAuthStateChange no App).
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith("sb-") && key.endsWith("-auth-token")) return true;
+    }
+    return false;
+  }
+  return getLocalSession() !== null;
 }
 
 export function currentUser(): string | null {
-  return getSession()?.username ?? null;
+  if (supabaseConfigured) return activeUser;
+  return getLocalSession()?.username ?? null;
 }
 
-export async function registerUser(username: string, password: string): Promise<void> {
-  const name = username.trim();
+export interface AuthResult {
+  needsEmailConfirmation?: boolean;
+}
+
+export async function registerUser(emailOrUsername: string, password: string): Promise<AuthResult> {
+  if (supabaseConfigured && supabase) {
+    const { data, error } = await supabase.auth.signUp({ email: emailOrUsername.trim(), password });
+    if (error) throw new Error(mapSupabaseError(error.message));
+    if (!data.session) return { needsEmailConfirmation: true };
+    return {};
+  }
+  // Fallback local
+  const name = emailOrUsername.trim();
   if (!name) throw new Error("Informe um usuário.");
   if (password.length < 4) throw new Error("A senha precisa ter pelo menos 4 caracteres.");
 
-  const accounts = getAccounts();
+  const accounts = getLocalAccounts();
   if (accounts.some((a) => a.username.toLowerCase() === name.toLowerCase())) {
     throw new Error("Este usuário já existe.");
   }
@@ -73,21 +119,44 @@ export async function registerUser(username: string, password: string): Promise<
   const salt = Array.from(crypto.getRandomValues(new Uint8Array(16)))
     .map((b) => b.toString(16).padStart(2, "0"))
     .join("");
-  const hash = await derive(password, salt);
+  const hash = await deriveLocal(password, salt);
   const account: Account = { username: name, salt, hash, createdAt: new Date().toISOString() };
   localStorage.setItem(ACCOUNTS_KEY, JSON.stringify([...accounts, account]));
-  setSession(name);
+  setLocalSession(name);
+  return {};
 }
 
-export async function loginUser(username: string, password: string): Promise<void> {
-  const name = username.trim();
-  const account = getAccounts().find((a) => a.username.toLowerCase() === name.toLowerCase());
+export async function loginUser(emailOrUsername: string, password: string): Promise<AuthResult> {
+  if (supabaseConfigured && supabase) {
+    const { error } = await supabase.auth.signInWithPassword({
+      email: emailOrUsername.trim(),
+      password,
+    });
+    if (error) throw new Error(mapSupabaseError(error.message));
+    return {};
+  }
+  const name = emailOrUsername.trim();
+  const account = getLocalAccounts().find((a) => a.username.toLowerCase() === name.toLowerCase());
   if (!account) throw new Error("Usuário não encontrado.");
-  const hash = await derive(password, account.salt);
+  const hash = await deriveLocal(password, account.salt);
   if (hash !== account.hash) throw new Error("Senha incorreta.");
-  setSession(account.username);
+  setLocalSession(account.username);
+  return {};
 }
 
-export function logoutUser(): void {
-  localStorage.removeItem(SESSION_KEY);
+export async function logoutUser(): Promise<void> {
+  if (supabaseConfigured && supabase) {
+    await supabase.auth.signOut();
+    return;
+  }
+  clearLocalSession();
+}
+
+function mapSupabaseError(message: string): string {
+  if (/invalid login credentials/i.test(message)) return "Email ou senha incorretos.";
+  if (/email not confirmed/i.test(message)) return "Confirme seu e-mail antes de entrar.";
+  if (/already registered/i.test(message)) return "Este email já está cadastrado.";
+  if (/password should be at least/i.test(message)) return "A senha precisa ter pelo menos 6 caracteres.";
+  if (/rate limit/i.test(message)) return "Muitas tentativas — aguarde um pouco e tente de novo.";
+  return message;
 }

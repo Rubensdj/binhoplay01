@@ -7,6 +7,8 @@ import {
   type Program,
 } from "../catalog";
 import { getFavorites, toggleFavorite } from "../lib/favorites";
+import { useAdminData } from "../lib/adminStore";
+import { currentUser } from "../lib/auth";
 import type { Route } from "../lib/router";
 
 const DEMO_STREAM_URL =
@@ -151,11 +153,22 @@ function ChannelDetail({
 }
 
 export default function TvPage({ navigate }: { navigate: (route: Route) => void }) {
+  const { clients } = useAdminData();
   const [query, setQuery] = useState("");
   const [onlyFavorites, setOnlyFavorites] = useState(false);
   const [favorites, setFavorites] = useState<string[]>(() => getFavorites());
   const [selected, setSelected] = useState<Channel | null>(null);
   const [epg, setEpg] = useState<EpgData | null>(null);
+
+  // Acessos do cliente logado: sem TV ao vivo, a página mostra um aviso.
+  const tvAllowed = useMemo(() => {
+    const email = currentUser();
+    if (!email) return true;
+    const record = clients.find(
+      (c) => c.email.trim().toLowerCase() === email.trim().toLowerCase()
+    );
+    return record?.access?.tv ?? true;
+  }, [clients]);
 
   useEffect(() => {
     let alive = true;
@@ -200,19 +213,28 @@ export default function TvPage({ navigate }: { navigate: (route: Route) => void 
   };
 
   return (
-    <section className="py-10">
-      <div className="mx-auto max-w-6xl px-5">
+    <section className="pt-20">
+      <div className="mx-auto max-w-6xl px-5 py-10">
         <div className="max-w-2xl">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-400">Ao vivo</p>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-400">TV ao Vivo</p>
           <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
             Canais de TV
           </h2>
           <p className="mt-3 text-sm leading-relaxed text-slate-400">
-            {catalog.channels.length} canais com guia de programação lido do repositório
-            (<code className="rounded bg-white/5 px-1.5 py-0.5 text-xs text-slate-300">logos/epg/epgbr.xml</code>).
+            {catalog.channels.length} canais, ao vivo e com guia de programação.
           </p>
         </div>
 
+        {!tvAllowed && (
+          <div className="mt-8 rounded-2xl border border-dashed border-white/10 py-14 text-center">
+            <p className="text-lg font-bold text-slate-300">Seu plano não inclui TV ao vivo</p>
+            <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-500">
+              Fale com quem vendeu seu acesso para liberar os canais.
+            </p>
+          </div>
+        )}
+
+        {tvAllowed && (
         <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="relative w-full sm:max-w-sm">
             <input
@@ -244,12 +266,13 @@ export default function TvPage({ navigate }: { navigate: (route: Route) => void 
             ♥ Favoritos {favorites.length > 0 && `(${favorites.length})`}
           </button>
         </div>
+        )}
 
-        {sorted.length === 0 ? (
+        {tvAllowed && sorted.length === 0 ? (
           <div className="mt-10 rounded-2xl border border-dashed border-white/10 py-16 text-center text-sm text-slate-500">
             Nenhum canal encontrado{query.trim() ? ` para “${query.trim()}”` : ""}.
           </div>
-        ) : (
+        ) : tvAllowed ? (
           <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
             {sorted.map((channel) => {
               const fav = favorites.includes(channel.id);
@@ -301,7 +324,7 @@ export default function TvPage({ navigate }: { navigate: (route: Route) => void 
               );
             })}
           </div>
-        )}
+        ) : null}
       </div>
 
       {selected && (

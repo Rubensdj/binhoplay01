@@ -30,9 +30,27 @@ function SearchIcon() {
   );
 }
 
-function AddonCard({ addon }: { addon: Addon }) {
+function AddonCard({ addon, list }: { addon: Addon; list: Addon[] }) {
   const [expanded, setExpanded] = useState(false);
   const size = formatBytes(addon.size);
+
+  // Dependências presentes na mesma lista (ex.: f4mTester → F4mProxy).
+  const deps = (addon.dependencies ?? [])
+    .map((depId) => list.find((a) => a.id === depId))
+    .filter((a): a is Addon => Boolean(a));
+
+  const downloadTogether = () => {
+    const urls = [addon.downloadUrl, ...deps.map((d) => d.downloadUrl)].filter(Boolean);
+    for (const url of urls) {
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "";
+      a.rel = "noopener";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+    }
+  };
 
   return (
     <article className="group flex flex-col rounded-2xl border border-white/5 bg-ink-800/70 p-5 shadow-lg shadow-black/20 transition hover:-translate-y-1 hover:border-brand-500/30 hover:shadow-xl">
@@ -92,6 +110,23 @@ function AddonCard({ addon }: { addon: Addon }) {
         </div>
       )}
 
+      {deps.length > 0 && (
+        <div className="mt-4 rounded-lg border border-amber-500/20 bg-amber-500/5 px-3 py-2.5">
+          <p className="text-xs font-semibold text-amber-200">
+            Requer:{" "}
+            {deps.map((d) => (
+              <span key={d.id} className="font-bold text-amber-300">
+                {d.name} v{d.version}
+              </span>
+            ))}
+          </p>
+          <p className="mt-0.5 text-[11px] leading-relaxed text-amber-200/60">
+            No Kodi, as dependências são instaladas automaticamente. Aqui, baixe os dois juntos
+            e instale {deps.length > 1 ? "na ordem" : "o addon e depois a dependência"} pelo arquivo zip.
+          </p>
+        </div>
+      )}
+
       <div className="mt-auto flex items-center gap-2 pt-5">
         <a
           href={addon.downloadUrl}
@@ -100,6 +135,15 @@ function AddonCard({ addon }: { addon: Addon }) {
         >
           Baixar {size && `(${size})`}
         </a>
+        {deps.length > 0 && (
+          <button
+            type="button"
+            onClick={downloadTogether}
+            className="rounded-lg bg-gradient-to-r from-amber-500 to-orange-600 px-3 py-2.5 text-sm font-bold text-white shadow-md shadow-amber-600/25 transition hover:brightness-110"
+          >
+            Baixar tudo ({deps.length + 1})
+          </button>
+        )}
         <button
           type="button"
           onClick={() => setExpanded((v) => !v)}
@@ -192,7 +236,7 @@ export default function Catalog({
         ) : (
           <div className="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {filtered.map((addon) => (
-              <AddonCard key={addon.id} addon={addon} />
+              <AddonCard key={addon.id} addon={addon} list={list} />
             ))}
           </div>
         )}

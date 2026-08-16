@@ -15,6 +15,7 @@ export interface RepoAddon {
   description: string;
   news: string;
   disclaimer: string;
+  dependencies: string[];
   icon: string;
   downloadUrl: string;
 }
@@ -61,6 +62,10 @@ export function parseRepoXml(xml: string, url: string): Repo {
     const description = stripTags(decodeEntities(/<description>([\s\S]*?)<\/description>/.exec(block)?.[1] ?? ""));
     const news = stripTags(decodeEntities(/<news>([\s\S]*?)<\/news>/.exec(block)?.[1] ?? ""));
     const disclaimer = stripTags(decodeEntities(/<disclaimer>([\s\S]*?)<\/disclaimer>/.exec(block)?.[1] ?? ""));
+    const requiresBlock = /<requires>([\s\S]*?)<\/requires>/.exec(block)?.[1] ?? "";
+    const dependencies = [...requiresBlock.matchAll(/<import\s+addon="([^"]+)"/g)].map(
+      (m) => m[1]
+    );
 
     if (!datadir) {
       const dd = /<datadir zip="true">([^<]+)<\/datadir>/.exec(block)?.[1];
@@ -77,6 +82,7 @@ export function parseRepoXml(xml: string, url: string): Repo {
       description,
       news,
       disclaimer,
+      dependencies,
       icon: base ? `${base}${id}/icon.png` : "",
       downloadUrl: `${base}${id}/${id}-${version}.zip`,
     });
@@ -148,6 +154,7 @@ export async function fetchOfficialRepo(repoBaseUrl: string): Promise<OfficialPu
       description: a.description,
       news: a.news,
       disclaimer: a.disclaimer,
+      dependencies: a.dependencies ?? [],
       icon: a.icon || null,
       downloadUrl: a.downloadUrl,
       size: null,

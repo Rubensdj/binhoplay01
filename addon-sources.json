@@ -1,0 +1,33 @@
+{
+  "decodedAt": "2026-08-16T15:12:17.676Z",
+  "addonVersion": "09.08.26",
+  "sources": {
+    "repoUrl": "https://skyrisk.github.io/brazucaplay",
+    "channelsXml": "https://gist.githubusercontent.com/skyrisk/16070347f20c87c72540f9f805b57a66/raw/channels.xml",
+    "vod": {
+      "filmes": "https://gist.githubusercontent.com/skyrisk/5b87797329c7b46422565ffbaab3be7e/raw/%s",
+      "series": "https://gist.githubusercontent.com/skyrisk/16070347f20c87c72540f9f805b57a66/raw/SeriesBase",
+      "animes": "https://gist.githubusercontent.com/skyrisk/16070347f20c87c72540f9f805b57a66/raw/AnimesBase",
+      "doramas": "https://gist.githubusercontent.com/skyrisk/16070347f20c87c72540f9f805b57a66/raw/DoramasBase",
+      "desenhos": "https://gist.githubusercontent.com/skyrisk/16070347f20c87c72540f9f805b57a66/raw/DesenhosBase",
+      "novelas": "https://gist.githubusercontent.com/skyrisk/07f1f4cd1b203cbf2efec959c4e8645a/raw/novelas.xml"
+    },
+    "resolverEndpoints": [
+      "api.geekantenado.online",
+      "geekantenado.fly.dev"
+    ],
+    "resolverToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyZXNvbHZlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc5MDk4OTczfQ.WzQBuOqMai96Afleh9g-i7NXo6h-YsjPUbOgxlUqVsU",
+    "overflixHost": "www.overflix.party",
+    "doramaHost": "doramasonline.org",
+    "animeHost": "animesonlinecc.to",
+    "novefxHost": "novefx.biz",
+    "askflixHost": "www.askflix.biz",
+    "updateEndpoints": [
+      "https://api.geekantenado.online/gist?path=%s",
+      "https://geekantenado.fly.dev/gist?path=%s",
+      "https://api.geekantenado.online/update.json",
+      "https://geekantenado.fly.dev/update.json"
+    ],
+    "addonBase": "https://brazucaplay.forumeiros.com/h152-addonbase.xml"
+  }
+}

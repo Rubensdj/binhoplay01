@@ -4,7 +4,7 @@ import { catalog } from "../catalog";
 const STEPS = [
   {
     title: "Baixe o repositório",
-    body: "Toque em “Baixar repositório” para salvar o arquivo repository.BrazucaPlay.zip.",
+    body: "Toque em “Baixar repositório” para salvar o arquivo de instalação do repositório.",
   },
   {
     title: "Instale no Kodi",

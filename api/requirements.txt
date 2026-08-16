@@ -1,0 +1,2 @@
+# O bot usa apenas a biblioteca padrão do Python (http.server, urllib).
+# Sem dependências externas — o hosting instala este arquivo automaticamente.

@@ -1,24 +1,33 @@
 import { useState, type FormEvent } from "react";
-import { loginUser, registerUser } from "../lib/auth";
+import { isSupabaseConfigured, loginUser, registerUser } from "../lib/auth";
+import { useAdminData } from "../lib/adminStore";
 
 export default function LoginPage({ onLogin }: { onLogin: () => void }) {
+  const supabaseMode = isSupabaseConfigured();
+  const { config } = useAdminData();
   const [mode, setMode] = useState<"login" | "register">("login");
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [notice, setNotice] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     setError(null);
+    setNotice(null);
     setBusy(true);
     try {
-      if (mode === "register") {
-        if (password !== confirm) throw new Error("As senhas não conferem.");
-        await registerUser(username, password);
-      } else {
-        await loginUser(username, password);
+      if (mode === "register" && password !== confirm) throw new Error("As senhas não conferem.");
+      const result =
+        mode === "register" ? await registerUser(email, password) : await loginUser(email, password);
+      if (result.needsEmailConfirmation) {
+        setNotice("Conta criada! Confirme seu e-mail para ativar e entrar.");
+        setMode("login");
+        setPassword("");
+        setConfirm("");
+        return;
       }
       onLogin();
     } catch (err) {
@@ -46,10 +55,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
             }}
           />
           <h1 className="mt-4 text-3xl font-black tracking-tight text-white">
-            BINHO{" "}
-            <span className="bg-gradient-to-r from-brand-400 via-brand-500 to-accent-500 bg-clip-text text-transparent">
-              PLAY
-            </span>
+            BINHO<span className="bg-gradient-to-r from-brand-400 via-brand-500 to-accent-500 bg-clip-text text-transparent">PLAY</span>
           </h1>
           <p className="mt-2 text-sm text-slate-400">
             {mode === "login" ? "Entre para continuar" : "Crie sua conta para começar"}
@@ -57,16 +63,16 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
         </div>
 
         <form onSubmit={submit} className="mt-8 rounded-3xl border border-white/10 bg-ink-900/80 p-6 shadow-2xl shadow-black/40 backdrop-blur">
-          <label htmlFor="username" className="text-sm font-medium text-slate-300">
-            Usuário
+          <label htmlFor="email" className="text-sm font-medium text-slate-300">
+            {supabaseMode ? "Email" : "Usuário"}
           </label>
           <input
-            id="username"
-            type="text"
-            autoComplete="username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="seu usuário"
+            id="email"
+            type={supabaseMode ? "email" : "text"}
+            autoComplete={supabaseMode ? "email" : "username"}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder={supabaseMode ? "voce@email.com" : "seu usuário"}
             className="mt-1.5 w-full rounded-xl border border-white/10 bg-ink-950 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20"
           />
 
@@ -82,6 +88,13 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
             placeholder="••••••••"
             className="mt-1.5 w-full rounded-xl border border-white/10 bg-ink-950 px-4 py-3 text-sm text-white outline-none transition placeholder:text-slate-600 focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20"
           />
+
+          {mode === "register" && config.requireApproval && (
+            <p className="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2.5 text-xs font-medium text-amber-200/90">
+              Contas novas ficam <strong>aguardando aprovação</strong> do administrador antes de
+              liberar o conteúdo.
+            </p>
+          )}
 
           {mode === "register" && (
             <>
@@ -105,10 +118,15 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
               {error}
             </p>
           )}
+          {notice && (
+            <p className="mt-4 rounded-xl border border-emerald-500/20 bg-emerald-500/10 px-3 py-2.5 text-xs font-medium text-emerald-300">
+              {notice}
+            </p>
+          )}
 
           <button
             type="submit"
-            disabled={busy || !username.trim() || !password}
+            disabled={busy || !email.trim() || !password}
             className="mt-5 w-full rounded-xl bg-gradient-to-r from-brand-500 to-accent-600 px-5 py-3 text-sm font-bold text-white shadow-lg shadow-brand-600/25 transition enabled:hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-40"
           >
             {busy ? "Aguarde…" : mode === "login" ? "Entrar" : "Criar conta e entrar"}
@@ -119,6 +137,7 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
             onClick={() => {
               setMode((m) => (m === "login" ? "register" : "login"));
               setError(null);
+              setNotice(null);
             }}
             className="mt-4 w-full text-center text-xs text-slate-500 transition hover:text-slate-300"
           >
@@ -129,7 +148,9 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
         </form>
 
         <p className="mt-6 text-center text-[11px] leading-relaxed text-slate-600">
-          Acesso protegido neste dispositivo. Login e senha são validados localmente (hash PBKDF2).
+          {supabaseMode
+            ? "Contas e sessão gerenciadas pelo Supabase (email e senha)."
+            : "Supabase não configurado — usando login local neste dispositivo (hash PBKDF2)."}
         </p>
       </div>
     </div>

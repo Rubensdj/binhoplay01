@@ -9,6 +9,10 @@ public/addons/
 public/logos/
 public/epg.json
 
+# Python (bot api/)
+__pycache__/
+*.pyc
+
 # Local env / OS cruft
 *.local
 .env

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T09:47:42.789Z",
+  "generatedAt": "2026-08-16T15:12:17.932Z",
   "repoUrl": "https://skyrisk.github.io/brazucaplay",
   "supportedKodi": "16.1, 17, 18, 19, 20 e 21+",
   "addons": [
@@ -13,6 +13,14 @@
       "description": "● Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.● Proibido a venda dos add-ons do Brazuca Play.● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
       "news": "v2.1.4 - KODI 16 >",
       "disclaimer": "OBRIGADO POR USAR NOSSO ADD-ON S2",
+      "dependencies": [
+        "script.module.six",
+        "script.module.kodi-six",
+        "script.module.requests",
+        "script.module.simplejson",
+        "inputstream.ffmpegdirect",
+        "script.module.inputstreamhelper"
+      ],
       "icon": "/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png",
       "downloadUrl": "/addons/plugin.video.BrazucaPlay.zip",
       "size": 784265
@@ -27,6 +35,14 @@
       "description": "● Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.● Proibido a venda dos add-ons do Brazuca Play.● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
       "news": "v2.1.4 - KODI 16 >",
       "disclaimer": "OBRIGADO POR USAR NOSSO ADD-ON S2",
+      "dependencies": [
+        "script.module.six",
+        "script.module.kodi-six",
+        "script.module.requests",
+        "script.module.simplejson",
+        "inputstream.ffmpegdirect",
+        "script.module.inputstreamhelper"
+      ],
       "icon": "/addons/repo/Plugins/plugin.video.BrazucaPlay.Matrix/icon.png",
       "downloadUrl": "/addons/plugin.video.BrazucaPlay.Matrix.zip",
       "size": 784516
@@ -41,6 +57,9 @@
       "description": "● Repositório oficial do Brazuca Play - 2025 ● Proibido a venda dos add-ons do Brazuca Play. ● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
       "news": "● v1.5 - ADD RESOLVEURL. ● v1.4 - KODI 19 MATRIX. ● v1.3 - CORREÇÕES DE BUGS. ● v1.2 - UPDATES CORRIGIDOS. ● v1.1 - PEQUENAS CORREÇÕES. ● v1.0 - VERSÃO INICIAL.",
       "disclaimer": "Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.",
+      "dependencies": [
+        "xbmc.addon"
+      ],
       "icon": "/addons/repo/Plugins/repository.BrazucaPlay/icon.png",
       "downloadUrl": "/addons/repository.BrazucaPlay.zip",
       "size": 683884
@@ -55,6 +74,10 @@
       "description": "",
       "news": "",
       "disclaimer": "",
+      "dependencies": [
+        "xbmc.python",
+        "script.module.requests"
+      ],
       "icon": "/addons/repo/Plugins/script.video.F4mProxy/icon.png",
       "downloadUrl": "/addons/script.video.F4mProxy-2.8.7.zip",
       "size": 339040
@@ -69,6 +92,10 @@
       "description": "",
       "news": "",
       "disclaimer": "",
+      "dependencies": [
+        "xbmc.python",
+        "script.video.F4mProxy"
+      ],
       "icon": "/addons/repo/Plugins/plugin.video.f4mTester/icon.png",
       "downloadUrl": "/addons/plugin.video.f4mTester-2.7.1.zip",
       "size": 76076
@@ -800,61 +827,61 @@
       "id": "+globosat.br",
       "name": "Globo",
       "logo": "/logos/globo.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/1168996.m3u8"
     },
     {
       "id": "Ae.br",
       "name": "Ae",
       "logo": "/logos/ae.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/23156.m3u8"
     },
     {
       "id": "Amc.br",
       "name": "AMC",
       "logo": "/logos/amc.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/23687.m3u8"
     },
     {
       "id": "Animalplanet.br",
       "name": "Animal Planet",
       "logo": "/logos/animal_planet.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/304491.m3u8"
     },
     {
       "id": "Arte1.br",
       "name": "Arte1",
       "logo": "/logos/arte1.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/67512.m3u8"
     },
     {
       "id": "Axn.br",
       "name": "AXN",
       "logo": "/logos/axn.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/23691.m3u8"
     },
     {
       "id": "Bandnews.br",
       "name": "Band News",
       "logo": "/logos/band_news.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/108367.m3u8"
     },
     {
       "id": "BandRede.br",
       "name": "Band",
       "logo": "/logos/band.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/107926.m3u8"
     },
     {
       "id": "Bandsportshd.br",
       "name": "Band",
       "logo": "/logos/band.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/20525.m3u8"
     },
     {
       "id": "Bishd.br",
-      "name": "Bis",
-      "logo": "/logos/bis.png",
-      "streamUrl": null
+      "name": "Bishd",
+      "logo": null,
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8680.m3u8"
     },
     {
       "id": "Boomerang.br",
@@ -866,25 +893,25 @@
       "id": "Canalbrasil.br",
       "name": "Canalbrasil",
       "logo": "/logos/canalbrasil.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8691.m3u8"
     },
     {
       "id": "Cartoonnetwork.br",
       "name": "Cartoon Network",
       "logo": "/logos/cartoon_network.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8698.m3u8"
     },
     {
       "id": "Cinemax.br",
       "name": "Cinemax",
       "logo": "/logos/cinemax.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8708.m3u8"
     },
     {
       "id": "Cnnbrasil.br",
       "name": "CNN Brasil",
       "logo": "/logos/cnn_brasil.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8711.m3u8"
     },
     {
       "id": "Curta.br",
@@ -896,7 +923,7 @@
       "id": "Discovery.br",
       "name": "Discovery Channel",
       "logo": "/logos/discovery_channel.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8735.m3u8"
     },
     {
       "id": "Discoverykids.br",
@@ -908,13 +935,13 @@
       "id": "DiscoveryScience.br",
       "name": "Discovery Science",
       "logo": "/logos/discovery_science.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8745.m3u8"
     },
     {
       "id": "Discoveryworldhd.br",
       "name": "Discovery World",
       "logo": "/logos/discovery_world.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8758.m3u8"
     },
     {
       "id": "Discturbohd.br",
@@ -938,7 +965,7 @@
       "id": "ESPN+.br",
       "name": "ESPN",
       "logo": "/logos/espn.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/598914.m3u8"
     },
     {
       "id": "Espnbrasil.br",
@@ -954,21 +981,21 @@
     },
     {
       "id": "ESPNInternational.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "ESPN",
+      "logo": "/logos/espn.png",
       "streamUrl": null
     },
     {
       "id": "Fishtv.br",
       "name": "Fishtv",
       "logo": "/logos/fishtv.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8807.m3u8"
     },
     {
       "id": "Foodnetworkhd.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
-      "streamUrl": null
+      "name": "Food Network",
+      "logo": "/logos/food_network.png",
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8811.m3u8"
     },
     {
       "id": "Foxsports.br",
@@ -986,37 +1013,37 @@
       "id": "Globonews.br",
       "name": "Globonews",
       "logo": "/logos/globonews.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8853.m3u8"
     },
     {
       "id": "Globorecife.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Globo",
+      "logo": "/logos/globo.png",
       "streamUrl": null
     },
     {
       "id": "Globorj.br",
       "name": "Globo",
       "logo": "/logos/globo.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/1168920.m3u8"
     },
     {
       "id": "Globosp.br",
       "name": "Globo",
       "logo": "/logos/globo.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/1168917.m3u8"
     },
     {
       "id": "Gloob.br",
       "name": "Gloob",
       "logo": "/logos/gloob.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8887.m3u8"
     },
     {
       "id": "Gloobinho.br",
       "name": "Gloobinho",
       "logo": "/logos/gloobinho.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/69036.m3u8"
     },
     {
       "id": "Gnt.br",
@@ -1028,73 +1055,73 @@
       "id": "H2.br",
       "name": "H2",
       "logo": "/logos/h2.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/304498.m3u8"
     },
     {
       "id": "Hbo.br",
       "name": "HBO",
       "logo": "/logos/hbo.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8902.m3u8"
     },
     {
       "id": "Hbo2.br",
       "name": "Hbo2",
       "logo": "/logos/hbo2.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8897.m3u8"
     },
     {
       "id": "Hbofamily.br",
       "name": "HBO Family",
       "logo": "/logos/hbo_family.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8901.m3u8"
     },
     {
       "id": "Hboplus.br",
       "name": "HBO Plus",
       "logo": "/logos/hbo_plus.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/24592.m3u8"
     },
     {
       "id": "Hbosignature.br",
       "name": "HBO Signature",
       "logo": "/logos/hbo_signature.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8912.m3u8"
     },
     {
       "id": "Hdtheater.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Hdtheater",
+      "logo": null,
       "streamUrl": null
     },
     {
       "id": "Hgtv.br",
       "name": "HGTV",
       "logo": "/logos/hgtv.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/304506.m3u8"
     },
     {
       "id": "Historychannel.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
-      "streamUrl": null
+      "name": "History",
+      "logo": "/logos/history.png",
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/304494.m3u8"
     },
     {
       "id": "Homehealth.br",
       "name": "Discovery Home Health",
       "logo": "/logos/discovery_home_health.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/91397.m3u8"
     },
     {
       "id": "Investigacaodiscoveryid.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Investigacaodiscoveryid",
+      "logo": null,
       "streamUrl": null
     },
     {
       "id": "Lifetime.br",
       "name": "Lifetime",
       "logo": "/logos/lifetime.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8943.m3u8"
     },
     {
       "id": "Max.br",
@@ -1104,8 +1131,8 @@
     },
     {
       "id": "Maxprime.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Maxprime",
+      "logo": null,
       "streamUrl": null
     },
     {
@@ -1118,18 +1145,18 @@
       "id": "Megapix.br",
       "name": "Megapix",
       "logo": "/logos/megapix.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8961.m3u8"
     },
     {
       "id": "Multishow.br",
       "name": "Multishow",
       "logo": "/logos/multishow.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/8975.m3u8"
     },
     {
       "id": "Nationalgeographic.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Nationalgeographic",
+      "logo": null,
       "streamUrl": null
     },
     {
@@ -1142,25 +1169,25 @@
       "id": "Playboytv.br",
       "name": "Playboytv",
       "logo": "/logos/playboytv.png",
-      "streamUrl": null
+      "streamUrl": "http://weavenet.link:80/live/97087756/29607336/621.m3u8"
     },
     {
       "id": "Premierefchd.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
-      "streamUrl": null
+      "name": "Premiere",
+      "logo": "/logos/premiere.png",
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9022.m3u8"
     },
     {
       "id": "Recordnews.br",
       "name": "Record News",
       "logo": "/logos/record_news.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9058.m3u8"
     },
     {
       "id": "Rederecord.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
-      "streamUrl": null
+      "name": "Record",
+      "logo": "/logos/record.png",
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/71697.m3u8"
     },
     {
       "id": "Redetv.br",
@@ -1178,49 +1205,49 @@
       "id": "Sbt.br",
       "name": "Sbt",
       "logo": "/logos/sbt.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/131563.m3u8"
     },
     {
       "id": "Sexyhot.br",
       "name": "Sexyhot",
       "logo": "/logos/sexyhot.png",
-      "streamUrl": null
+      "streamUrl": "http://weavenet.link:80/live/97087756/29607336/615.m3u8"
     },
     {
       "id": "Sony.br",
       "name": "Sony",
       "logo": "/logos/sony.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9098.m3u8"
     },
     {
       "id": "Space.br",
       "name": "Space",
       "logo": "/logos/space.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9101.m3u8"
     },
     {
       "id": "Sportv.br",
       "name": "Sportv",
       "logo": "/logos/sportv.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9107.m3u8"
     },
     {
       "id": "Sportv2.br",
       "name": "Sportv",
       "logo": "/logos/sportv.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9103.m3u8"
     },
     {
       "id": "Sportv3.br",
       "name": "Sportv",
       "logo": "/logos/sportv.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9105.m3u8"
     },
     {
       "id": "Studiouniversal.br",
       "name": "Studio Universal",
       "logo": "/logos/studio_universal.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9115.m3u8"
     },
     {
       "id": "Syfy.br",
@@ -1280,19 +1307,19 @@
       "id": "Tlc.br",
       "name": "Tlc",
       "logo": "/logos/tlc.png",
-      "streamUrl": null
+      "streamUrl": "http://weavenet.link:80/live/97087756/29607336/111.m3u8"
     },
     {
       "id": "Tnt.br",
       "name": "TNT",
       "logo": "/logos/tnt.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/594020.m3u8"
     },
     {
       "id": "Tooncast.br",
       "name": "Tooncast",
       "logo": "/logos/tooncast.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/125443.m3u8"
     },
     {
       "id": "Trutv.br",
@@ -1302,8 +1329,8 @@
     },
     {
       "id": "Universalchannel.br",
-      "name": "E!",
-      "logo": "/logos/e!.png",
+      "name": "Universalchannel",
+      "logo": null,
       "streamUrl": null
     },
     {
@@ -1316,13 +1343,1251 @@
       "id": "Warnerchannel.br",
       "name": "Warner Channel",
       "logo": "/logos/warner_channel.png",
-      "streamUrl": null
+      "streamUrl": "http://bloqueioxphones.win:80/live/3llohwk4g9/kwf099q30o/9219.m3u8"
     },
     {
       "id": "Zoomoo.br",
       "name": "Zoomoo",
       "logo": null,
       "streamUrl": null
+    }
+  ],
+  "content": [
+    {
+      "id": "BandRede.br|2026-08-16T11:00:00.000Z",
+      "title": "O Diário de Mika",
+      "description": "Mika, uma menina de quatro anos muito curiosa, aprende a lidar com tudo que o mundo tem para oferecer. Junto de seus brinquedos, Puquê, Blablá, Bru, Javô, Abelhuda e Lilá, ela aprende sobre o mundo, vivendo incríveis aventuras e novas exper",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T11:00:00.000Z",
+      "stop": "2026-08-16T13:30:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T11:40:00.000Z",
+      "title": "Globo Rural",
+      "description": "As principais notícias sobre o agronegócio, os índices do setor agrícola e informações sobre a vida no campo, além de reportagens especiais.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T11:40:00.000Z",
+      "stop": "2026-08-16T13:15:00.000Z"
+    },
+    {
+      "id": "Rederecord.br|2026-08-16T12:00:00.000Z",
+      "title": "Desenhos Bíblicos",
+      "description": "Faixa destinada à exibição de desenhos bíblicos.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Rederecord.br",
+      "channelName": "Record",
+      "logo": "/logos/record.png",
+      "start": "2026-08-16T12:00:00.000Z",
+      "stop": "2026-08-16T13:30:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T12:01:00.000Z",
+      "title": "Os Renegados",
+      "description": "O notório Richard Pace é atraído por um grupo peculiar de ladrões para um complexo roubo de ouro. O que começa como um simples assalto logo se transforma em um evento com o potencial de alterar drasticamente seu destino e o de incontáveis o",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T12:01:00.000Z",
+      "stop": "2026-08-16T13:35:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T12:12:00.000Z",
+      "title": "Bem Juntinhos",
+      "description": "Fernanda Lima e Rodrigo Hilbert falam sobre hábitos de consumo. Os casais também abordam a influência que eles têm nas crianças e no meio ambiente.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T12:12:00.000Z",
+      "stop": "2026-08-16T13:14:00.000Z"
+    },
+    {
+      "id": "Lifetime.br|2026-08-16T12:24:00.000Z",
+      "title": "Meu Marido, Meu Assassino",
+      "description": "Kristin acaba de se casar com Jay, mas seu sonho se torna um pesadelo quando a tia de seu marido é assassinada, e, ao investigar o obscuro passado de Jay, ela se torna sua próxima vítima.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Lifetime.br",
+      "channelName": "Lifetime",
+      "logo": "/logos/lifetime.png",
+      "start": "2026-08-16T12:24:00.000Z",
+      "stop": "2026-08-16T14:00:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T12:29:00.000Z",
+      "title": "Rotina",
+      "description": "Assista a quatro historinhas bem apimentadas que poderiam acontecer na vida de qualquer casal.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T12:29:00.000Z",
+      "stop": "2026-08-16T13:20:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T12:31:00.000Z",
+      "title": "Hypnotic - Ameaça Invisível",
+      "description": "Determinado a encontrar sua filha desaparecida, um detetive se vê caindo em uma toca de coelho enquanto investiga uma série de crimes que distorcem a realidade. Auxiliado por um médium talentoso, ele persegue um espectro letal.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T12:31:00.000Z",
+      "stop": "2026-08-16T14:06:00.000Z"
+    },
+    {
+      "id": "E.br|2026-08-16T12:35:00.000Z",
+      "title": "Vanderpump Rules",
+      "description": "Andy Cohen junta-se a Lisa e ao elenco para acompanhar imagens nunca vistas da sexta temporada; Lisa descobre o acordo financeiro de Lala com o namorado; Jax comemora seu aniversário.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "E.br",
+      "channelName": "E!",
+      "logo": "/logos/e!.png",
+      "start": "2026-08-16T12:35:00.000Z",
+      "stop": "2026-08-16T13:25:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T12:41:00.000Z",
+      "title": "Círculo de Fogo",
+      "description": "Criaturas monstruosas conhecidas como Kaiju começam a emergir do mar. Para combatê-los, a humanidade desenvolve uma série de robôs gigantescos, os Jaegers. Cada um é controlado por duas pessoas por meio de uma conexão neural. Entretanto, me",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T12:41:00.000Z",
+      "stop": "2026-08-16T14:56:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T12:58:00.000Z",
+      "title": "11 Black Inches in Mommy's A...!",
+      "description": "Elas são apertadinhas e estão prontas para se abrir para este verdadeiro furacão do prazer.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T12:58:00.000Z",
+      "stop": "2026-08-16T14:28:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T13:00:00.000Z",
+      "title": "Making the Movies",
+      "description": "Conheça técnicas e tendências de produção de Hollywood, que fazem os filmes ganharem vida.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T13:00:00.000Z",
+      "stop": "2026-08-16T13:25:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T13:00:00.000Z",
+      "title": "Cinejornal",
+      "description": "O cinema brasileiro em pauta com as novidades e os bastidores da produção nacional, entrevistas com atores e diretores e a cobertura completa de festivais importantes em todo o país.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T13:00:00.000Z",
+      "stop": "2026-08-16T13:15:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T13:00:00.000Z",
+      "title": "O Mundo Maravilhosamente Estranho de Gumball",
+      "description": "Seja batalhando contra um império maligno de fast-food, enfrentando uma inteligência artificial ou tentando impedir Banana Joe de usar calças, Gumball Watterson arrasta seu irmão Darwin, sua irmã Anais e o resto da cidade de Elmore para uma",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T13:00:00.000Z",
+      "stop": "2026-08-16T14:00:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T13:00:00.000Z",
+      "title": "Star Wars - Aventuras dos Jovens Jedi",
+      "description": "Os jovens Jedi estudam os caminhos da Força, exploram a galáxia, ajudam cidadãos e criaturas necessitados e aprendem habilidades valiosas.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T13:00:00.000Z",
+      "stop": "2026-08-16T13:30:00.000Z"
+    },
+    {
+      "id": "Boomerang.br|2026-08-16T13:02:00.000Z",
+      "title": "Perninha em Obras",
+      "description": "A equipe de Perninha em Obras é contratada por Eufrazino Puxa-Briga para construir um rancho. Eufrazino apressa a equipe, impactando negativamente o trabalho.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Boomerang.br",
+      "channelName": "Boomerang",
+      "logo": "/logos/boomerang.png",
+      "start": "2026-08-16T13:02:00.000Z",
+      "stop": "2026-08-16T13:14:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T13:09:00.000Z",
+      "title": "Bubble's Hotel",
+      "description": "Bubble e Nabi estão determinadas a dar à Rainha um tratamento digno da realeza em seu dia de folga. Mas quando Nabi fica doente, Bubble precisa entreter a alteza real sozinha.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T13:09:00.000Z",
+      "stop": "2026-08-16T13:20:00.000Z"
+    },
+    {
+      "id": "Ae.br|2026-08-16T13:10:00.000Z",
+      "title": "Quem Dá Mais?",
+      "description": "Barry e Kenny aparecem a bordo de um veículo de combustível alternativo; Lisa faz o possível para quebrar a maldição do armário e Ivy encontra algumas denominações curiosas.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Ae.br",
+      "channelName": "Ae",
+      "logo": "/logos/ae.png",
+      "start": "2026-08-16T13:10:00.000Z",
+      "stop": "2026-08-16T13:30:00.000Z"
+    },
+    {
+      "id": "Axn.br|2026-08-16T13:10:00.000Z",
+      "title": "NCIS: Hawai'i",
+      "description": "Kai se disfarça de chef em um restaurante local para reunir informações sobre um notável mestre do crime que tem uma conexão com o estabelecimento.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-16T13:10:00.000Z",
+      "stop": "2026-08-16T14:00:00.000Z"
+    },
+    {
+      "id": "Gloob.br|2026-08-16T13:12:00.000Z",
+      "title": "Tara Duncan",
+      "description": "Tara chega à OutroMundo e, assustada, ela congela todo o palácio. Cal e Robin a ajudam a reparar os danos que ela causou na sua primeira lição de magia.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Gloob.br",
+      "channelName": "Gloob",
+      "logo": "/logos/gloob.png",
+      "start": "2026-08-16T13:12:00.000Z",
+      "stop": "2026-08-16T13:24:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T13:14:00.000Z",
+      "title": "Que Seja Doce",
+      "description": "Confeiteiros do Nordeste ao Sudeste fazem suas receitas de biscoitos simples, mas deliciosos.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T13:14:00.000Z",
+      "stop": "2026-08-16T14:10:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T13:15:00.000Z",
+      "title": "Viver Sertanejo",
+      "description": "Daniel abre a porteira de sua fazenda para receber grandes astros da música sertaneja. Juntos, eles relembram suas trajetórias, falam sobre suas inspirações e se deixam levar pelas modas de viola.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T13:15:00.000Z",
+      "stop": "2026-08-16T14:10:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T13:20:00.000Z",
+      "title": "Peppa",
+      "description": "Peppa e seus amigos brincam de restaurante e assumem diferentes papéis, como cozinheiros e garçons. Depois que a comida de mentirinha fica pronta, eles se divertem servindo seus pais.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T13:20:00.000Z",
+      "stop": "2026-08-16T13:45:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T13:20:00.000Z",
+      "title": "Meu Novo Vizinho",
+      "description": "Marco se mudou para o andar de cima de Carol. Ela não suporta suas barulheiras e inconveniências, até que um pedido de desculpas muda tudo. O novo vizinho, que antes martelava as paredes, agora vem colocar sua atenção em outra coisa.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T13:20:00.000Z",
+      "stop": "2026-08-16T14:03:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T13:25:00.000Z",
+      "title": "Isca",
+      "description": "Cinco amigas embarcam em uma viagem paradisíaca para celebrar o casamento de uma delas. A festa logo se transforma em terror quando uma criatura marinha feroz e misteriosa começa a rondá-las nas águas cristalinas e profundas.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T13:25:00.000Z",
+      "stop": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T13:30:00.000Z",
+      "title": "A Virada de Chave",
+      "description": "O programa visa realizar o sonho de acessibilidade, mobilidade e conforto para seus telespectadores.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T13:30:00.000Z",
+      "stop": "2026-08-16T14:00:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T13:30:00.000Z",
+      "title": "Esquinas - Pílulas",
+      "description": "Reportagens documentais inspiradas na seção homônima da Revista Piauí. Personagens e eventos peculiares são colhidos pelos quatro cantos do país com uma abordagem inovadora.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T13:30:00.000Z",
+      "stop": "2026-08-16T13:45:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T13:30:00.000Z",
+      "title": "Spidey e Seus Amigos Espetaculares",
+      "description": "Peter Parker e seus amigos Miles Morales, Gwen, Hulk, Pantera Negra e Miss Marvel trabalham juntos para derrotar as forças do mal e aprender que o trabalho em equipe é a melhor maneira de salvar o dia.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T13:30:00.000Z",
+      "stop": "2026-08-16T14:00:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T13:35:00.000Z",
+      "title": "7 Dias no Inferno",
+      "description": "Dois campeões de tênis, Aaron Williams e Charles Poole, se enfrentam em uma partida épica que tem sete dias de duração.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T13:35:00.000Z",
+      "stop": "2026-08-16T14:21:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T13:45:00.000Z",
+      "title": "O Homem do Sputnik",
+      "description": "O casal de caipiras Anastácio e Cleci é surpreendido por um estrondo em seu galinheiro. Anastácio encontra entre suas galinhas um globo metálico. No dia seguinte, Cleci lê no jornal sobre o acidente com o satélite russo Sputnik e reconhece ",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T13:45:00.000Z",
+      "stop": "2026-08-16T15:26:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T14:00:00.000Z",
+      "title": "Viva Sorte",
+      "description": "Concorra a uma casa própria e prêmios em dinheiro com o título de capitalização Viva Sorte.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T14:00:00.000Z",
+      "stop": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "id": "Boomerang.br|2026-08-16T14:00:00.000Z",
+      "title": "Batwheels",
+      "description": "O Mestre da Música rouba as vozes cantantes dos habitantes de Gotham. A cidade fica em perigo, e a responsabilidade de salvá-la recai sobre Buff, um herói tímido.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Boomerang.br",
+      "channelName": "Boomerang",
+      "logo": "/logos/boomerang.png",
+      "start": "2026-08-16T14:00:00.000Z",
+      "stop": "2026-08-16T14:11:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T14:00:00.000Z",
+      "title": "Ilha dos Desafios",
+      "description": "Dezesseis adolescentes estão presos juntos e devem competir uns contra os outros para saírem vitoriosos. Eles enfrentam uma série de provações e desafios que fazem com que os competidores sejam eliminados até que um único indivíduo permaneç",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T14:00:00.000Z",
+      "stop": "2026-08-16T14:30:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T14:00:00.000Z",
+      "title": "Lino - Meu Pai É Fera",
+      "description": "Lino se mantém como animador de festas infantis, mas agora em seu próprio bufê, que é o maior da cidade. Ele vive com Janine e sua filha Juliana. Sua vida vai muito bem, até que Lino volta a se tornar um gato gigante.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T14:00:00.000Z",
+      "stop": "2026-08-16T14:15:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T14:03:00.000Z",
+      "title": "Série e Sacanagem",
+      "description": "Um casal com química \"de milhões\", Lady Milf e Tony Tigrão fazem sexo com muita vontade.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T14:03:00.000Z",
+      "stop": "2026-08-16T14:24:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T14:06:00.000Z",
+      "title": "Covil de Ladrões 2",
+      "description": "O xerife Big Nick O'Brien continua sua perseguição implacável a Donnie Wilson, que consegue escapar para a Europa e está planejando mais um assalto.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T14:06:00.000Z",
+      "stop": "2026-08-16T16:21:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T14:08:00.000Z",
+      "title": "O Show da Luna!",
+      "description": "Luna, Júpiter e Cláudio encontram uma caixa misteriosa cheia de surpresas no aniversário de Luna.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T14:08:00.000Z",
+      "stop": "2026-08-16T14:19:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T14:10:00.000Z",
+      "title": "Esporte Espetacular",
+      "description": "Fique por dentro de tudo o que rolou durante a semana nos esportes e veja os gols pelo mundo afora. Entrevistas, reportagens sobre ciência esportiva e personagens históricos também fazem parte da atração.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T14:10:00.000Z",
+      "stop": "2026-08-16T16:00:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T14:10:00.000Z",
+      "title": "Que Marravilha! Chato pra Comer",
+      "description": "Para um chato para comer cheio de argumentos como Carlos, Claude e Batista fazem um sanduíche de pão de queijo com rabada e agrião.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T14:10:00.000Z",
+      "stop": "2026-08-16T14:56:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T14:15:00.000Z",
+      "title": "Tromba Trem",
+      "description": "Um elefante indiano sem memória, um tamanduá vegetariano e uma colônia de cupins que acredita ser de outro planeta viajam em um trem a vapor pela América Latina.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T14:15:00.000Z",
+      "stop": "2026-08-16T14:30:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T14:21:00.000Z",
+      "title": "Tour do Dopping",
+      "description": "Cinco competidores dão uma visão interna do mundo do ciclismo profissional e contam suas histórias com o doping.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T14:21:00.000Z",
+      "stop": "2026-08-16T15:02:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T14:24:00.000Z",
+      "title": "Mulheres Maduras",
+      "description": "Mulheres maduras provam que animação não tem idade. Léo fica animado só de olhar a foto de Kristal.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T14:24:00.000Z",
+      "stop": "2026-08-16T15:31:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T14:28:00.000Z",
+      "title": "Spanking the Pleasure of Punishment",
+      "description": "Elas conseguem tudo o que querem. Bateu um tesão da em seus corpos perfeitos e só uma coisa pode saciá-las: uma bela jeba bem dura.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T14:28:00.000Z",
+      "stop": "2026-08-16T15:48:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T14:30:00.000Z",
+      "title": "O Mundo (Sem Filtro) de Any Malu",
+      "description": "Any Malu cria um canal de Toontube para passar de ano com tranquilidade, ou sem humilhação, na Universidade para Desenhos Animados.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T14:30:00.000Z",
+      "stop": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T14:30:00.000Z",
+      "title": "Molly McGee e o Fantasma",
+      "description": "A adolescente Molly McGee e um fantasma chamado Scratch ficam ligados reciprocamente para sempre quando um dos feitiços de Scratch sai pela culatra.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T14:30:00.000Z",
+      "stop": "2026-08-16T14:45:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T14:45:00.000Z",
+      "title": "Zombies - A Série Reanimada",
+      "description": "No último ano de escola de Zed e Addison, Seabrook se tornou um refúgio para monstros e humanos, mas quando estranhos intergalácticos aparecem para competir na Torcida, Seabrook suspeita que eles possam querer mais do que uma competição ami",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T14:45:00.000Z",
+      "stop": "2026-08-16T15:00:00.000Z"
+    },
+    {
+      "id": "E.br|2026-08-16T14:45:00.000Z",
+      "title": "Keeping Up With the Kardashians",
+      "description": "Os compromissos de trabalho que Kim assume bem no Dia das Mães acabam despertando um conflito inesperado; um caso de FOMO deixa Scott abatido; Kim decide fazer o que estiver ao seu alcance para resolver a tensão criada pelo conselho de Kyli",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "E.br",
+      "channelName": "E!",
+      "logo": "/logos/e!.png",
+      "start": "2026-08-16T14:45:00.000Z",
+      "stop": "2026-08-16T15:35:00.000Z"
+    },
+    {
+      "id": "Axn.br|2026-08-16T14:55:00.000Z",
+      "title": "NCIS: Los Angeles",
+      "description": "A equipe investiga o assassinato de uma mulher empregada no programa de defesa da Marinha e sua conexão com a tecnologia de antimísseis; uma assistente social rigorosa estressa Deeks; Sam discute a venda de seu barco.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-16T14:55:00.000Z",
+      "stop": "2026-08-16T15:50:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T14:56:00.000Z",
+      "title": "Cozinha Prática com Rita Lobo",
+      "description": "Rita Lobo prepara um ensopado rápido de filé mignon suíno e couve e cuscuz de milho com chuchu e mostra uma versão vegetariana do prato. A sobremesa é a torta brookie.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T14:56:00.000Z",
+      "stop": "2026-08-16T15:43:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T14:56:00.000Z",
+      "title": "Mortal Kombat - O Filme",
+      "description": "Os planetas estão desalinhados. Para deter as forças do mal e salvar a humanidade, Lord Rayden, o protetor da Terra, escolhe as três pessoas capazes de vencer o Mortal Kombat, disputado pelos melhores lutadores do universo.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T14:56:00.000Z",
+      "stop": "2026-08-16T16:41:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T15:00:00.000Z",
+      "title": "Bons Companheiros",
+      "description": "O dublê Luo busca a ajuda de sua filha distante e do namorado dela, advogado, quando seu amado cavalo dublê pode ser leiloado para pagar suas dívidas.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T15:00:00.000Z",
+      "stop": "2026-08-16T17:30:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T15:00:00.000Z",
+      "title": "Show do Esporte",
+      "description": "O programa traz o gol mais bonito, aquele lance polêmico da rodada, resultados e melhores momentos dos principais jogos. Isso tudo com hilários esquetes de humor, games divertidos e muitos convidados: atletas, famosos, cantores e técnicos.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T15:00:00.000Z",
+      "stop": "2026-08-16T16:00:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T15:00:00.000Z",
+      "title": "Irmão do Jorel",
+      "description": "Um garoto tímido e sem nome é sempre chamado de irmão do Jorel. Sendo quase sempre ofuscado pela fama e popularidade de seu irmão mais velho, ele tenta ganhar sua própria identidade e ser alguém importante na família.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T15:00:00.000Z",
+      "stop": "2026-08-16T16:00:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T15:00:00.000Z",
+      "title": "Filme",
+      "description": "Acompanhe uma produção cinematográfica.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T15:00:00.000Z",
+      "stop": "2026-08-16T16:45:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T15:02:00.000Z",
+      "title": "A Novíssima Roupa do Imperador",
+      "description": "Um imperador que ninguém se atreve a contradizer recebe uma lição de uma criança que expressa o que todos pensam, que por medo, não se manifestam.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T15:02:00.000Z",
+      "stop": "2026-08-16T15:30:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T15:26:00.000Z",
+      "title": "Pílulas Sangue Latino - Luiz Carlos Barreto",
+      "description": "Relatos do cineasta brasileiro Luiz Carlos Barreto sobre o cinema e a cultura.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T15:26:00.000Z",
+      "stop": "2026-08-16T15:30:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T15:30:00.000Z",
+      "title": "Adoniran - Meu Nome É João Rubinato",
+      "description": "Adoniran Barbosa carrega o título de maior sambista paulista de todos os tempos. Por meio do acervo pessoal do artista, imagens de arquivo raras e depoimentos de amigos e familiares, descubra um personagem multifacetado, que retratou a sua ",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T15:30:00.000Z",
+      "stop": "2026-08-16T17:07:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T15:30:00.000Z",
+      "title": "Tá Chovendo Hambúrguer 2",
+      "description": "Flint e seus amigos são obrigados a deixar Boca Grande após a desastrosa tempestade de comida atingir a cidade. Sem saída, ele aceita o convite de seu ídolo, Chester V., e se junta à The Live Corp Company, que reúne os melhores inventores d",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T15:30:00.000Z",
+      "stop": "2026-08-16T17:00:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T15:31:00.000Z",
+      "title": "Flashback",
+      "description": "Uma jovem hippie dos anos 60 começa a ter visões de uma vida passada no Japão antigo, onde viveu um romance profundo. Entre sonhos e realidade, ela embarca em uma jornada de autodescoberta, deixando no ar o mistério sobre o que é real.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T15:31:00.000Z",
+      "stop": "2026-08-16T15:52:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T15:48:00.000Z",
+      "title": "Show Us Your Wits",
+      "description": "Dançarinas sensuais dão uma atenção especial para homens com os maiores cérebros.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T15:48:00.000Z",
+      "stop": "2026-08-16T16:12:00.000Z"
+    },
+    {
+      "id": "Axn.br|2026-08-16T15:50:00.000Z",
+      "title": "S.W.A.T.",
+      "description": "Em uma parceria com a SWAT tailandesa, Hondo e sua equipe se preparam para desmantelar a operação de um chefão da heroína e resgatar uma criança.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-16T15:50:00.000Z",
+      "stop": "2026-08-16T16:45:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T15:52:00.000Z",
+      "title": "Câmera Indiscreta",
+      "description": "Acompanhe as histórias mais quentes e molhadas captadas por câmeras bem indiscretas.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T15:52:00.000Z",
+      "stop": "2026-08-16T16:09:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T16:00:00.000Z",
+      "title": "GP de Markham",
+      "description": "Toda a disputa da IndyCar, ou Fórmula Indy, uma das principais competições de automobilismo do mundo. Com os famosos circuitos ovais e também corridas de rua, as etapas do calendário são disputadas em diversas cidades pelos Estados Unidos.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T16:00:00.000Z",
+      "stop": "2026-08-16T18:30:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T16:00:00.000Z",
+      "title": "Clarêncio, o Otimista",
+      "description": "Clarêncio é um menino espirituoso que vê coisas boas em tudo. Sua perspectiva única da vida transforma até uma situação boba em interessante ou divertida.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T16:00:00.000Z",
+      "stop": "2026-08-16T16:30:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T16:00:00.000Z",
+      "title": "Filme",
+      "description": "Acompanhe uma produção cinematográfica.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T16:00:00.000Z",
+      "stop": "2026-08-16T17:55:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T16:09:00.000Z",
+      "title": "Treinamento Duplo de Bumbum",
+      "description": "Elas fazem o treino do dia ser muito mais interessante com a penetração dupla.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T16:09:00.000Z",
+      "stop": "2026-08-16T17:10:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T16:11:00.000Z",
+      "title": "Diogo na Cozinha",
+      "description": "Diogo Nogueira recebe Zeca Pagodinho e os músicos Sereno, Sombrinha e Ademir Batera, do Fundo de Quintal. Eles celebram as raízes do samba e a amizade, regados a histórias do Cacique de Ramos.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T16:11:00.000Z",
+      "stop": "2026-08-16T16:43:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T16:12:00.000Z",
+      "title": "In Our Bed",
+      "description": "Casais amadores esquentam os lençóis. Dê uma olhada nesta série ousada e sem roteiro.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T16:12:00.000Z",
+      "stop": "2026-08-16T16:36:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T16:21:00.000Z",
+      "title": "Shazam! Fúria dos Deuses",
+      "description": "Deuses antigos chegam ao planeta Terra em busca da magia roubada deles há muito tempo. Shazam e seus aliados são forçados a entrar em uma batalha por seus superpoderes, suas vidas e o destino do mundo.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T16:21:00.000Z",
+      "stop": "2026-08-16T18:36:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T16:30:00.000Z",
+      "title": "Cartoon Network",
+      "description": "Transmissão da programação ininterrupta do canal Cartoon Network.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T16:30:00.000Z",
+      "stop": "2026-08-16T17:30:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T16:36:00.000Z",
+      "title": "Summer in Love in the Farm",
+      "description": "Uma mulher descobre novos desejos explorando novas fantasias eróticas.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T16:36:00.000Z",
+      "stop": "2026-08-16T16:57:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T16:41:00.000Z",
+      "title": "Mortal Kombat 2",
+      "description": "Os lutadores favoritos, incluindo Johnny Cage, enfrentam-se na batalha final contra o regime sombrio de Shao Kahn que ameaça destruir o Reino da Terra e seus guardiões.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T16:41:00.000Z",
+      "stop": "2026-08-16T18:41:00.000Z"
+    },
+    {
+      "id": "Gnt.br|2026-08-16T16:43:00.000Z",
+      "title": "Tempero de Família",
+      "description": "Rodrigo Hilbert vai até Jabour, em Bangu, no Rio de Janeiro, e conhece Jaime e Chiquinho. Juntos eles cozinham uma costeleta de cordeiro com geleia de menta e purê de aipim; de sobremesa, uma torta de bombom.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-16T16:43:00.000Z",
+      "stop": "2026-08-16T17:12:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-16T16:45:00.000Z",
+      "title": "Star vs. as Forças do Mal",
+      "description": "Star Borboleta é uma princesa mágica de outra dimensão enviada à Terra por seus pais como \"estudante de intercâmbio\". Mas, em vez de viver uma vida normal, ela continua a combater vilões não só em todo o universo, mas também na escola.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T16:45:00.000Z",
+      "stop": "2026-08-16T17:00:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T16:57:00.000Z",
+      "title": "Sabor latino",
+      "description": "Com suas curvas latinas inigualáveis e muito erotismo, a coelhinha mexicana faz a temperatura subir.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T16:57:00.000Z",
+      "stop": "2026-08-16T17:18:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T17:00:00.000Z",
+      "title": "Harry Potter e as Relíquias da Morte - Parte 1",
+      "description": "Sem a proteção de seus professores, Harry, Rony e Hermione começam uma missão para destruir as Horcruxes, que são fontes da imortalidade de Voldemort. Mais do que nunca, eles dependem uns dos outros, mas forças obscuras ameaçam separá-los.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T17:00:00.000Z",
+      "stop": "2026-08-16T19:25:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T17:07:00.000Z",
+      "title": "Guard Dog & Bill Plympton no Brasil",
+      "description": "Um ansioso e neurótico cãozinho se desgarra de seu dono Plympton e parte rumo a pequenas aventuras ao chegar no Brasil.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T17:07:00.000Z",
+      "stop": "2026-08-16T17:15:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T17:10:00.000Z",
+      "title": "Dois a Dois",
+      "description": "",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T17:10:00.000Z",
+      "stop": "2026-08-16T18:33:00.000Z"
+    },
+    {
+      "id": "Canalbrasil.br|2026-08-16T17:15:00.000Z",
+      "title": "A Bela América",
+      "description": "O cozinheiro Lucas entra na casa de América, estrela de televisão e candidata presidencial, para seduzi-la com refeições extraordinárias.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T17:15:00.000Z",
+      "stop": "2026-08-16T19:00:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-16T17:18:00.000Z",
+      "title": "The Warm Up",
+      "description": "Exercícios físicos inspiram sensações sensuais e vigorosas em treinos inesquecíveis.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T17:18:00.000Z",
+      "stop": "2026-08-16T17:42:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T17:30:00.000Z",
+      "title": "Frankenstein - Entre Anjos e Demônios",
+      "description": "Após enterrar o Dr. Victor Frankenstein, o monstro criado por ele é atacado por demônios, que pretendem capturá-lo. Ele consegue se salvar e segue sua vida. Porém, 200 anos depois, ele agora com o nome de Adam, acaba se envolvendo em uma gu",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T17:30:00.000Z",
+      "stop": "2026-08-16T19:05:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T17:30:00.000Z",
+      "title": "Os Jovens Titãs em Ação",
+      "description": "Robin, Estelar e outros super-heróis vivem juntos sem supervisão adulta e lidam com as questões diárias do universo jovem quando não estão salvando o mundo.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T17:30:00.000Z",
+      "stop": "2026-08-16T18:00:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T17:55:00.000Z",
+      "title": "Domingão com Huck",
+      "description": "Todo final de semana, Luciano Huck oferece o melhor do entretenimento, com quadros divertidos e emocionantes, muita música, a presença marcante de famosos e matérias especiais pelo Brasil.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T17:55:00.000Z",
+      "stop": "2026-08-16T20:45:00.000Z"
+    },
+    {
+      "id": "Cartoonnetwork.br|2026-08-16T18:00:00.000Z",
+      "title": "Ursos sem Curso",
+      "description": "Pardo, Panda e Polar são apenas três forasteiros tentando encontrar uma maneira de se adaptar. Se, pelo caminho, eles conseguirem algum sorvete, melhor ainda. Ser um urso no mundo moderno e civilizado não é nada fácil.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T18:00:00.000Z",
+      "stop": "2026-08-16T18:30:00.000Z"
+    },
+    {
+      "id": "Axn.br|2026-08-16T18:35:00.000Z",
+      "title": "Criminal Minds",
+      "description": "Morgan é sequestrado e reforça sua própria mente de modo a tentar sobreviver a esta provação. Enquanto isso, os membros da UAC correm contra o tempo para encontrá-lo e salvá-lo.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-16T18:35:00.000Z",
+      "stop": "2026-08-16T19:30:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T18:36:00.000Z",
+      "title": "Adão Negro",
+      "description": "Teth Adam recebeu poderes divinos, que utilizou para uma vingança e, por isso, foi aprisionado. Quase 5 mil anos depois, o Adão Negro é liberto de sua tumba para lançar sua justiça cruel sobre a Terra.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T18:36:00.000Z",
+      "stop": "2026-08-16T20:46:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T18:41:00.000Z",
+      "title": "Christy - Um Novo Round",
+      "description": "Christy Martin jamais imaginou a vida além de suas raízes em uma pequena cidade da Virgínia Ocidental, até descobrir seu talento para brigas. Impulsionada por garra, determinação e um desejo inabalável de vencer, ela mergulha no mundo do bo",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T18:41:00.000Z",
+      "stop": "2026-08-16T21:01:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T19:00:00.000Z",
+      "title": "Kung Fusão",
+      "description": "Ao tentarem enganar os residentes de Pig Sty Alley, fingindo ser de uma gangue, o estranho Sing e seu amigo idiota Bones são surpreendidos pelos verdadeiros bandidos. Ameaçados, são defendidos por um grande mestre em artes marciais.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T19:00:00.000Z",
+      "stop": "2026-08-16T20:30:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T19:05:00.000Z",
+      "title": "Qual Seu Número?",
+      "description": "Ally lê em uma revista que mulheres que já tiveram mais de 20 parceiros não conseguem casar. Desesperada, ela decide procurar seus ex-namorados na esperança de firmar o verdadeiro amor.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T19:05:00.000Z",
+      "stop": "2026-08-16T21:10:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T19:25:00.000Z",
+      "title": "Harry Potter e as Relíquias da Morte - Parte 2",
+      "description": "A batalha entre as forças do bem e do mal da magia alcançam o mundo dos trouxas. O risco nunca foi tão grande, e ninguém está seguro. Harry Potter precisa fazer um sacrifício final conforme o confronto com Lord Voldemort se aproxima.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T19:25:00.000Z",
+      "stop": "2026-08-16T21:32:00.000Z"
+    },
+    {
+      "id": "BandRede.br|2026-08-16T20:30:00.000Z",
+      "title": "Planeta Selvagem",
+      "description": "Série de documentários apresenta as paisagens mais perigosas e selvagens do nosso planeta.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "BandRede.br",
+      "channelName": "Band",
+      "logo": "/logos/band.png",
+      "start": "2026-08-16T20:30:00.000Z",
+      "stop": "2026-08-16T23:00:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T20:45:00.000Z",
+      "title": "Futebol",
+      "description": "Acompanhe o que de melhor aconteceu nas partidas de futebol pelo mundo.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T20:45:00.000Z",
+      "stop": "2026-08-16T23:15:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T20:46:00.000Z",
+      "title": "Aquaman 2 - O Reino Perdido",
+      "description": "Um antigo poder é liberto e o herói Aquaman precisa fazer um perigoso acordo com um aliado improvável para proteger Atlântida e o mundo de uma devastação irreversível.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T20:46:00.000Z",
+      "stop": "2026-08-16T22:56:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T21:01:00.000Z",
+      "title": "Assassino sem Rastro",
+      "description": "Alex, um assassino profissional, se recusa a completar um trabalho para uma organização criminosa e acaba se tornando um alvo. Agentes do FBI e da inteligência mexicana são trazidos para investigar seu rastro de corpos, levando-os para mais",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T21:01:00.000Z",
+      "stop": "2026-08-16T23:01:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T21:10:00.000Z",
+      "title": "Gente Grande 2",
+      "description": "Lenny Feder e a família se mudam para a própria cidade natal com o objetivo ficarem perto dos amigos, mas acabam tendo que enfrentar alguns fantasmas do passado, como a covardia diante de valentões e o famigerado bullying na escola.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T21:10:00.000Z",
+      "stop": "2026-08-16T23:00:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-16T22:56:00.000Z",
+      "title": "Superman",
+      "description": "Superman embarca em uma jornada para reconciliar sua herança kryptoniana com sua criação humana.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-16T22:56:00.000Z",
+      "stop": "2026-08-17T01:02:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-16T23:00:00.000Z",
+      "title": "Caçador de Recompensas",
+      "description": "Milo Boyd é um ex-policial que se tornou caçador de recompensas. Sua missão é prender a repórter Nicole, que também é sua ex-esposa. Ele acaba descobrindo que tem mais gente atrás dela devido a uma reportagem sobre um possível assassinato. ",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-16T23:00:00.000Z",
+      "stop": "2026-08-17T01:00:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-16T23:01:00.000Z",
+      "title": "Pacto de Redenção",
+      "description": "Um assassino de aluguel tem demência e ela evolui rapidamente. Ele tem a oportunidade de se redimir ao salvar a vida do filho, com quem não tem mais contato.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-16T23:01:00.000Z",
+      "stop": "2026-08-17T01:01:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-16T23:15:00.000Z",
+      "title": "Fantástico",
+      "description": "Em forma de revista eletrônica, o programa mistura jornalismo, denúncia, esporte, humor, dramaturgia, música e ciência.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-16T23:15:00.000Z",
+      "stop": "2026-08-17T01:45:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-17T01:00:00.000Z",
+      "title": "Encontro Explosivo",
+      "description": "June Havens paquera um encantador passageiro durante um voo de Kansas, mas ela não sabe que logo estará no meio de uma aventura internacional. O passageiro, Roy Miller, é um agente disfarçado que afirma ter sido enganado. Agora, como parcei",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-17T01:00:00.000Z",
+      "stop": "2026-08-17T03:00:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-17T01:01:00.000Z",
+      "title": "Criatura Voraz",
+      "description": "Uma terapeuta clarividente confronta seus próprios demônios pessoais enquanto tenta salvar uma jovem que acredita que uma entidade malévola está se alimentando dela.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-17T01:01:00.000Z",
+      "stop": "2026-08-17T02:46:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-17T01:02:00.000Z",
+      "title": "Lanternas",
+      "description": "Ao seguirem o novo recruta John Stewart e a lenda Hal Jordan, dois policiais intergalácticos se envolvem em um mistério ao investigarem assassinato no coração dos Estados Unidos.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-17T01:02:00.000Z",
+      "stop": "2026-08-17T02:07:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-17T02:46:00.000Z",
+      "title": "Invocação do Mal",
+      "description": "Os investigadores paranormais Ed e Lorraine Warren trabalham para ajudar a família aterrorizada por uma entidade demoníaca em sua fazenda.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-17T02:46:00.000Z",
+      "stop": "2026-08-17T04:46:00.000Z"
     }
   ],
   "demoVideos": [

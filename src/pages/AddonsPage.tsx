@@ -134,7 +134,7 @@ export default function AddonsPage() {
 
   return (
     <>
-      <section className="pt-10">
+      <section className="pt-24">
         <div className="mx-auto max-w-6xl px-5">
           <div
             className={`flex flex-col gap-3 rounded-2xl border px-4 py-3 sm:flex-row sm:items-center sm:justify-between ${

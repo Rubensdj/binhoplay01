@@ -22,8 +22,21 @@ const PLUGINS = path.join(REPO_DIR, "Plugins");
 const LOGOS_DIR = path.join(ROOT, "logos");
 const EPG_FILE = path.join(LOGOS_DIR, "epg", "epgbr.xml");
 const PUBLIC = path.join(ROOT, "public");
+const ADDON_SOURCES = path.join(ROOT, "addon-sources.json");
 
-const REPO_URL = "https://skyrisk.github.io/brazucaplay";
+// URL do repositório oficial — extraída do próprio addon quando disponível
+// (scripts/decode-addon.mjs), com fallback fixo.
+function addonRepoUrl() {
+  try {
+    const cfg = JSON.parse(fs.readFileSync(ADDON_SOURCES, "utf8"));
+    if (typeof cfg?.sources?.repoUrl === "string") return cfg.sources.repoUrl;
+  } catch {
+    /* sem config decodificada */
+  }
+  return "https://skyrisk.github.io/brazucaplay";
+}
+
+const REPO_URL = addonRepoUrl();
 const SUPPORTED_KODI = "16.1, 17, 18, 19, 20 e 21+";
 
 const ACRONYMS = new Set(["cnn", "espn", "hbo", "amc", "axn", "gnt", "h2", "hgtv", "tv", "hd", "br", "sp", "rj", "e", "mtv", "tnt", "fx", "max"]);
@@ -92,6 +105,12 @@ function parseAddonsXml(file) {
       };
       const id = /id="([^"]+)"/.exec(b)?.[1] ?? "";
       if (!id) return null;
+      // Dependências (<requires><import addon="..."/></requires>) — o Kodi as
+      // instala automaticamente; o app replica isso no botão de download.
+      const requiresBlock = /<requires>([\s\S]*?)<\/requires>/.exec(b)?.[1] ?? "";
+      const dependencies = [...requiresBlock.matchAll(/<import\s+addon="([^"]+)"/g)].map(
+        (m) => m[1]
+      );
       return {
         id,
         name: strip(/name="([^"]*)"/.exec(b)?.[1] ?? ""),
@@ -102,6 +121,7 @@ function parseAddonsXml(file) {
         news: strip(grab("news")),
         disclaimer: strip(grab("disclaimer")),
         provides: strip(grab("provides")),
+        dependencies,
       };
     })
     .filter(Boolean);
@@ -183,6 +203,7 @@ const addons = [...byId.values()]
       description: a.description,
       news: a.news,
       disclaimer: a.disclaimer,
+      dependencies: a.dependencies ?? [],
       icon,
       downloadUrl: downloadPath ? toUrl(downloadPath) : null,
       size: downloadPath ? fileSize(downloadPath) : null,
@@ -223,7 +244,11 @@ function parseAddonXmlString(xml) {
   const name = strip(/<addon\s+id="[^"]*"\s+name="([^"]*)"/.exec(xml)?.[1] ?? "");
   const version = /<addon\s[^>]*version="([^"]+)"/.exec(xml)?.[1] ?? "";
   const summary = strip(/<summary>([\s\S]*?)<\/summary>/.exec(xml)?.[1] ?? "");
-  return id ? { id, name, version, summary } : null;
+  const requiresBlock = /<requires>([\s\S]*?)<\/requires>/.exec(xml)?.[1] ?? "";
+  const dependencies = [...requiresBlock.matchAll(/<import\s+addon="([^"]+)"/g)].map(
+    (m) => m[1]
+  );
+  return id ? { id, name, version, summary, dependencies } : null;
 }
 
 function prettyZipName(stem) {
@@ -361,12 +386,81 @@ const channels = [...epg.keys()]
     const key = norm(id.replace(/^\+/, "").replace(/\.[a-z0-9]{2,4}$/i, ""));
     const matchedLogo =
       logoByNorm.get(key) ??
-      logos.find((l) => norm(l.name).includes(key) || key.includes(norm(l.name))) ??
+      logos.find((l) => {
+        const n = norm(l.name);
+        return n.length >= 4 && (n.includes(key) || key.includes(n));
+      }) ??
       null;
     const name = matchedLogo ? prettyName(matchedLogo.name) : prettyName(id);
     const streamUrl = typeof streamOverrides[id] === "string" ? streamOverrides[id] : null;
     return { id, name, logo: matchedLogo ? matchedLogo.url : null, streamUrl };
   });
+
+// ---------------------------------------------------------------------------
+// 6b) Conteúdo estilo Netflix a partir do EPG (títulos por categoria)
+// ---------------------------------------------------------------------------
+// Categorias de conteúdo do app final (estilo Netflix):
+// TV AO VIVO (página de canais) + FILMES, SÉRIES, DESENHOS, DORAMAS, ANIMES, NOVELAS.
+const CATEGORY_RULES = [
+  { re: /playboy|sexyhot/i, category: "Adultos", adult: true },
+  { re: /cartoon|disney|kids|gloob|boomerang|zoomoo|tooncast|baby/i, category: "Desenhos" },
+  { re: /^viva\.|^globo(recife|rj|sp)\.|^sbt\.|rederecord|^redetv\.|^bandrede\.|canalbrasil/i, category: "Novelas" },
+  { re: /^hbo|hdtheater|^cinemax|^max\.|^maxprime|megapix|studiouniversal|universalchannel|^tnt\.|^sony\.|^space\.|syfy|^tbs\.|warner|^tc(action|cult|fun|m|pipoca|premium|touch)/i, category: "Filmes" },
+  { re: /^axn\.|^amc\.|^e\.|lifetime|trutv|^off\.|multishow|^gnt\.|^ae\.|^tlc\./i, category: "Séries" },
+  { re: /dorama|kdrama|korean/i, category: "Doramas" },
+  { re: /anime|crunchyroll|funimation/i, category: "Animes" },
+];
+
+// Canais fora das categorias acima (esportes, notícias, docs etc.) ficam no TV AO VIVO
+// e não geram fileiras — basta adicionar uma regra aqui para incluí-los.
+
+function channelCategory(id) {
+  for (const rule of CATEGORY_RULES) {
+    if (rule.re.test(id)) return { category: rule.category, adult: Boolean(rule.adult) };
+  }
+  return null; // fora das categorias do app final — fica apenas no TV AO VIVO
+}
+
+const nowMs = Date.now();
+const content = [];
+const seenPerCategory = new Map();
+const MAX_PER_CATEGORY = 22;
+
+for (const channel of channels) {
+  const programs = epg.get(channel.id) ?? [];
+  if (programs.length === 0) continue;
+  const classified = channelCategory(channel.id);
+  if (!classified) continue;
+  const { category, adult } = classified;
+  const seen = seenPerCategory.get(category) ?? new Set();
+  if (seen.size >= MAX_PER_CATEGORY) continue;
+
+  // Janela: no ar agora (com 2h de folga) até as próximas 36h; senão, primeiros do EPG.
+  let pool = programs.filter(
+    (p) => Date.parse(p.stop) > nowMs - 2 * 3600e3 && Date.parse(p.start) < nowMs + 36 * 3600e3
+  );
+  if (pool.length === 0) pool = programs.slice(0, 8);
+
+  for (const p of pool.slice(0, 8)) {
+    if (!p.title || seen.has(p.title.toLowerCase()) || seen.size >= MAX_PER_CATEGORY) continue;
+    seen.add(p.title.toLowerCase());
+    content.push({
+      id: `${channel.id}|${p.start}`,
+      title: p.title,
+      description: p.desc || "",
+      category,
+      adult,
+      channelId: channel.id,
+      channelName: channel.name,
+      logo: channel.logo,
+      start: p.start,
+      stop: p.stop,
+    });
+  }
+  seenPerCategory.set(category, seen);
+}
+
+content.sort((a, b) => (a.start < b.start ? -1 : 1));
 
 // ---------------------------------------------------------------------------
 // 7) public/epg.json — programação completa, carregada sob demanda
@@ -396,6 +490,7 @@ const catalog = {
   files,
   logos,
   channels,
+  content,
   demoVideos: DEMO_VIDEOS,
 };
 fs.mkdirSync(SRC, { recursive: true });
@@ -403,5 +498,6 @@ fs.writeFileSync(path.join(SRC, "catalog.json"), JSON.stringify(catalog, null, 2
 
 console.log(
   `catalog.json gerado: ${addons.length} addons, ${extraFiles.length} arquivos extras, ${logos.length} logos, ` +
-    `${channels.length} canais (EPG), ${Object.keys(epgData).reduce((n, k) => n + epgData[k].length, 0)} programas.`
+    `${channels.length} canais (EPG), ${Object.keys(epgData).reduce((n, k) => n + epgData[k].length, 0)} programas, ` +
+    `${content.length} itens de conteúdo Netflix.`
 );

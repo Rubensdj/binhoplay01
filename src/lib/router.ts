@@ -3,8 +3,12 @@ import { useEffect, useState } from "react";
 export type Route =
   | { page: "home" }
   | { page: "tv" }
+  | { page: "list" }
+  | { page: "mais" }
   | { page: "addons" }
   | { page: "repos" }
+  | { page: "admin" }
+  | { page: "category"; name: string }
   | { page: "player"; url?: string; title?: string };
 
 function parseHash(hash: string): Route {
@@ -17,8 +21,16 @@ function parseHash(hash: string): Route {
       return { page: "tv" };
     case "addons":
       return { page: "addons" };
+    case "list":
+      return { page: "list" };
+    case "mais":
+      return { page: "mais" };
     case "repos":
       return { page: "repos" };
+    case "admin":
+      return { page: "admin" };
+    case "categoria":
+      return { page: "category", name: decodeURIComponent(path.split("/")[1] ?? "Filmes") };
     case "player":
       return {
         page: "player",
@@ -40,7 +52,10 @@ export function useHashRoute(): [Route, (route: Route) => void] {
   }, []);
 
   const navigate = (next: Route) => {
-    const base = next.page === "home" ? "/" : `/${next.page}`;
+    let base: string;
+    if (next.page === "home") base = "/";
+    else if (next.page === "category") base = `/categoria/${encodeURIComponent(next.name)}`;
+    else base = `/${next.page}`;
     const params = new URLSearchParams();
     if (next.page === "player") {
       if (next.url) params.set("url", next.url);

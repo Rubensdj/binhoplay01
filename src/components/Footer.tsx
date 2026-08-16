@@ -1,20 +1,21 @@
-import { catalog } from "../catalog";
-
-const TELEGRAM_URL = "https://t.me/+6oulWWlEwpo0ZDE5";
+import { useAdminData } from "../lib/adminStore";
 
 export default function Footer() {
+  const { config } = useAdminData();
+  const siteName = config.siteName || "Binhoplay";
+
   return (
     <footer className="border-t border-white/5 py-12">
       <div className="mx-auto max-w-6xl px-5">
         <div className="flex flex-col items-center gap-6 text-center">
           <p className="max-w-3xl text-sm leading-relaxed text-slate-500">
-            <strong className="text-slate-300">Brazuca Play</strong> é apenas um agregador de links e,
+            <strong className="text-slate-300">{siteName}</strong> é apenas um agregador de links e,
             assim como o Google, apenas agrega e organiza links externos — não somos responsáveis
             pelos arquivos encontrados. Proibida a venda dos add-ons. Não vendemos IPTV: qualquer
             site ou app que ofereça isso é falso.
           </p>
           <a
-            href={TELEGRAM_URL}
+            href={config.telegramUrl}
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-2 rounded-full border border-sky-500/30 bg-sky-500/10 px-5 py-2.5 text-sm font-semibold text-sky-300 transition hover:bg-sky-500/20"
@@ -25,8 +26,8 @@ export default function Footer() {
             Participe do Telegram
           </a>
           <p className="text-xs text-slate-600">
-            <strong>Brazuca Community</strong> — Projeto comunitário, sem anúncios e com comunicação
-            transparente. © 2026. Catálogo gerado em {new Date(catalog.generatedAt).getFullYear()}.
+            <strong>Binhoplay</strong> — Projeto comunitário, sem anúncios e com comunicação
+            transparente. © 2026.
           </p>
         </div>
       </div>
