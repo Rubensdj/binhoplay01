@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T18:56:00.643Z",
+  "generatedAt": "2026-08-16T19:52:51.054Z",
   "repoUrl": "https://skyrisk.github.io/brazucaplay",
   "supportedKodi": "16.1, 17, 18, 19, 20 e 21+",
   "addons": [
@@ -1354,42 +1354,6 @@
   ],
   "content": [
     {
-      "id": "Amc.br|2026-08-16T15:00:00.000Z",
-      "title": "Bons Companheiros",
-      "description": "O dublê Luo busca a ajuda de sua filha distante e do namorado dela, advogado, quando seu amado cavalo dublê pode ser leiloado para pagar suas dívidas.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Amc.br",
-      "channelName": "AMC",
-      "logo": "/logos/amc.png",
-      "start": "2026-08-16T15:00:00.000Z",
-      "stop": "2026-08-16T17:30:00.000Z"
-    },
-    {
-      "id": "Canalbrasil.br|2026-08-16T15:30:00.000Z",
-      "title": "Adoniran - Meu Nome É João Rubinato",
-      "description": "Adoniran Barbosa carrega o título de maior sambista paulista de todos os tempos. Por meio do acervo pessoal do artista, imagens de arquivo raras e depoimentos de amigos e familiares, descubra um personagem multifacetado, que retratou a sua ",
-      "category": "Novelas",
-      "adult": false,
-      "channelId": "Canalbrasil.br",
-      "channelName": "Canalbrasil",
-      "logo": "/logos/canalbrasil.png",
-      "start": "2026-08-16T15:30:00.000Z",
-      "stop": "2026-08-16T17:07:00.000Z"
-    },
-    {
-      "id": "Cinemax.br|2026-08-16T15:30:00.000Z",
-      "title": "Tá Chovendo Hambúrguer 2",
-      "description": "Flint e seus amigos são obrigados a deixar Boca Grande após a desastrosa tempestade de comida atingir a cidade. Sem saída, ele aceita o convite de seu ídolo, Chester V., e se junta à The Live Corp Company, que reúne os melhores inventores d",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Cinemax.br",
-      "channelName": "Cinemax",
-      "logo": "/logos/cinemax.png",
-      "start": "2026-08-16T15:30:00.000Z",
-      "stop": "2026-08-16T17:00:00.000Z"
-    },
-    {
       "id": "BandRede.br|2026-08-16T16:00:00.000Z",
       "title": "GP de Markham",
       "description": "Toda a disputa da IndyCar, ou Fórmula Indy, uma das principais competições de automobilismo do mundo. Com os famosos circuitos ovais e também corridas de rua, as etapas do calendário são disputadas em diversas cidades pelos Estados Unidos.",
@@ -1412,18 +1376,6 @@
       "logo": "/logos/globo.png",
       "start": "2026-08-16T16:00:00.000Z",
       "stop": "2026-08-16T17:55:00.000Z"
-    },
-    {
-      "id": "Sexyhot.br|2026-08-16T16:09:00.000Z",
-      "title": "Treinamento Duplo de Bumbum",
-      "description": "Elas fazem o treino do dia ser muito mais interessante com a penetração dupla.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Sexyhot.br",
-      "channelName": "Sexyhot",
-      "logo": "/logos/sexyhot.png",
-      "start": "2026-08-16T16:09:00.000Z",
-      "stop": "2026-08-16T17:10:00.000Z"
     },
     {
       "id": "Hbofamily.br|2026-08-16T16:17:00.000Z",
@@ -1450,66 +1402,6 @@
       "stop": "2026-08-16T18:36:00.000Z"
     },
     {
-      "id": "E.br|2026-08-16T16:25:00.000Z",
-      "title": "Keeping Up With the Kardashians",
-      "description": "Kris percebe o quanto Khloé está lutando e insiste para que Rob volte a se relacionar com sua irmã; Kourtney se preocupa se ela irá confundir Scott se ela for com ele para Las Vegas comemorar o aniversário dele; Kris se esforça demais.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "E.br",
-      "channelName": "E!",
-      "logo": "/logos/e!.png",
-      "start": "2026-08-16T16:25:00.000Z",
-      "stop": "2026-08-16T17:15:00.000Z"
-    },
-    {
-      "id": "Boomerang.br|2026-08-16T16:30:00.000Z",
-      "title": "Scooby-Doo! Medo do Palco",
-      "description": "Scooby-Doo tem um novo mistério para resolver. No interior de um antigo teatro se esconde uma presença fantasmagórica. Para que o show continue, Scooby e seus amigos precisam capturar o fantasma.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Boomerang.br",
-      "channelName": "Boomerang",
-      "logo": "/logos/boomerang.png",
-      "start": "2026-08-16T16:30:00.000Z",
-      "stop": "2026-08-16T17:52:00.000Z"
-    },
-    {
-      "id": "Cartoonnetwork.br|2026-08-16T16:30:00.000Z",
-      "title": "Cartoon Network",
-      "description": "Transmissão da programação ininterrupta do canal Cartoon Network.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Cartoonnetwork.br",
-      "channelName": "Cartoon Network",
-      "logo": "/logos/cartoon_network.png",
-      "start": "2026-08-16T16:30:00.000Z",
-      "stop": "2026-08-16T17:30:00.000Z"
-    },
-    {
-      "id": "Playboytv.br|2026-08-16T16:36:00.000Z",
-      "title": "Summer in Love in the Farm",
-      "description": "Uma mulher descobre novos desejos explorando novas fantasias eróticas.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Playboytv.br",
-      "channelName": "Playboytv",
-      "logo": "/logos/playboytv.png",
-      "start": "2026-08-16T16:36:00.000Z",
-      "stop": "2026-08-16T16:57:00.000Z"
-    },
-    {
-      "id": "Ae.br|2026-08-16T16:40:00.000Z",
-      "title": "Quem Dá Mais?",
-      "description": "Barry testa uma tática pouco conhecida para ganhar um depósito; Brandi dá um show enquanto faz compras no porão de pechinchas; Ivy consegue ficar com um enorme contêiner onde as ferramentas são empilhadas.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Ae.br",
-      "channelName": "Ae",
-      "logo": "/logos/ae.png",
-      "start": "2026-08-16T16:40:00.000Z",
-      "stop": "2026-08-16T17:05:00.000Z"
-    },
-    {
       "id": "Hbo2.br|2026-08-16T16:41:00.000Z",
       "title": "Mortal Kombat 2",
       "description": "Os lutadores favoritos, incluindo Johnny Cage, enfrentam-se na batalha final contra o regime sombrio de Shao Kahn que ameaça destruir o Reino da Terra e seus guardiões.",
@@ -1522,66 +1414,6 @@
       "stop": "2026-08-16T18:41:00.000Z"
     },
     {
-      "id": "Gnt.br|2026-08-16T16:43:00.000Z",
-      "title": "Tempero de Família",
-      "description": "Rodrigo Hilbert vai até Jabour, em Bangu, no Rio de Janeiro, e conhece Jaime e Chiquinho. Juntos eles cozinham uma costeleta de cordeiro com geleia de menta e purê de aipim; de sobremesa, uma torta de bombom.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Gnt.br",
-      "channelName": "GNT",
-      "logo": "/logos/gnt.png",
-      "start": "2026-08-16T16:43:00.000Z",
-      "stop": "2026-08-16T17:12:00.000Z"
-    },
-    {
-      "id": "Axn.br|2026-08-16T16:45:00.000Z",
-      "title": "S.W.A.T.",
-      "description": "O blindado da SWAT é roubado. Jackie Vasquez, ex-policial da polícia de Los Angeles e agora agente do FBI, se une à equipe para ajudar na missão.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Axn.br",
-      "channelName": "AXN",
-      "logo": "/logos/axn.png",
-      "start": "2026-08-16T16:45:00.000Z",
-      "stop": "2026-08-16T17:40:00.000Z"
-    },
-    {
-      "id": "Disneychannel.br|2026-08-16T16:45:00.000Z",
-      "title": "Star vs. as Forças do Mal",
-      "description": "Star Borboleta é uma princesa mágica de outra dimensão enviada à Terra por seus pais como \"estudante de intercâmbio\". Mas, em vez de viver uma vida normal, ela continua a combater vilões não só em todo o universo, mas também na escola.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Disneychannel.br",
-      "channelName": "Disney Channel",
-      "logo": "/logos/disney_channel.png",
-      "start": "2026-08-16T16:45:00.000Z",
-      "stop": "2026-08-16T17:00:00.000Z"
-    },
-    {
-      "id": "Discoverykids.br|2026-08-16T16:51:00.000Z",
-      "title": "O Show da Luna!",
-      "description": "Luna, Júpiter e Claudio querem jogar ping-pong, mas estão com fome e sem tempo para pausa. A Vovó sugere a melhor invenção de todos os tempos: o lanche. O trio faz um faz-de-conta delicioso em busca de descobrirem quem teve essa ideia.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Discoverykids.br",
-      "channelName": "Discovery Kids",
-      "logo": "/logos/discovery_kids.png",
-      "start": "2026-08-16T16:51:00.000Z",
-      "stop": "2026-08-16T17:02:00.000Z"
-    },
-    {
-      "id": "Playboytv.br|2026-08-16T16:57:00.000Z",
-      "title": "Sabor latino",
-      "description": "Com suas curvas latinas inigualáveis e muito erotismo, a coelhinha mexicana faz a temperatura subir.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Playboytv.br",
-      "channelName": "Playboytv",
-      "logo": "/logos/playboytv.png",
-      "start": "2026-08-16T16:57:00.000Z",
-      "stop": "2026-08-16T17:18:00.000Z"
-    },
-    {
       "id": "Cinemax.br|2026-08-16T17:00:00.000Z",
       "title": "Harry Potter e as Relíquias da Morte - Parte 1",
       "description": "Sem a proteção de seus professores, Harry, Rony e Hermione começam uma missão para destruir as Horcruxes, que são fontes da imortalidade de Voldemort. Mais do que nunca, eles dependem uns dos outros, mas forças obscuras ameaçam separá-los.",
@@ -1592,30 +1424,6 @@
       "logo": "/logos/cinemax.png",
       "start": "2026-08-16T17:00:00.000Z",
       "stop": "2026-08-16T19:25:00.000Z"
-    },
-    {
-      "id": "Disneychannel.br|2026-08-16T17:00:00.000Z",
-      "title": "Phineas e Ferb",
-      "description": "Phineas e Ferb querem aproveitar as férias ao máximo. Nas aventuras, os dois tornam-se músicos, constroem uma montanha-russa e uma praia no fundo do quintal e até voltam ao passado para encontrar dinossauros.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Disneychannel.br",
-      "channelName": "Disney Channel",
-      "logo": "/logos/disney_channel.png",
-      "start": "2026-08-16T17:00:00.000Z",
-      "stop": "2026-08-16T17:30:00.000Z"
-    },
-    {
-      "id": "Canalbrasil.br|2026-08-16T17:07:00.000Z",
-      "title": "Guard Dog & Bill Plympton no Brasil",
-      "description": "Um ansioso e neurótico cãozinho se desgarra de seu dono Plympton e parte rumo a pequenas aventuras ao chegar no Brasil.",
-      "category": "Novelas",
-      "adult": false,
-      "channelId": "Canalbrasil.br",
-      "channelName": "Canalbrasil",
-      "logo": "/logos/canalbrasil.png",
-      "start": "2026-08-16T17:07:00.000Z",
-      "stop": "2026-08-16T17:15:00.000Z"
     },
     {
       "id": "Sexyhot.br|2026-08-16T17:10:00.000Z",
@@ -1642,16 +1450,16 @@
       "stop": "2026-08-16T19:00:00.000Z"
     },
     {
-      "id": "Playboytv.br|2026-08-16T17:18:00.000Z",
-      "title": "The Warm Up",
-      "description": "Exercícios físicos inspiram sensações sensuais e vigorosas em treinos inesquecíveis.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Playboytv.br",
-      "channelName": "Playboytv",
-      "logo": "/logos/playboytv.png",
-      "start": "2026-08-16T17:18:00.000Z",
-      "stop": "2026-08-16T17:42:00.000Z"
+      "id": "E.br|2026-08-16T17:15:00.000Z",
+      "title": "Keeping Up With the Kardashians",
+      "description": "Rob e Chyna brigam.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "E.br",
+      "channelName": "E!",
+      "logo": "/logos/e!.png",
+      "start": "2026-08-16T17:15:00.000Z",
+      "stop": "2026-08-16T18:05:00.000Z"
     },
     {
       "id": "Amc.br|2026-08-16T17:30:00.000Z",
@@ -1690,6 +1498,18 @@
       "stop": "2026-08-16T18:00:00.000Z"
     },
     {
+      "id": "Axn.br|2026-08-16T17:40:00.000Z",
+      "title": "S.W.A.T.",
+      "description": "A ex-namorada de Hondo reaparece para ajudar em um caso que envolve um chefão do crime russo e uma fuga espetacular da prisão.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-16T17:40:00.000Z",
+      "stop": "2026-08-16T18:35:00.000Z"
+    },
+    {
       "id": "Gnt.br|2026-08-16T17:41:00.000Z",
       "title": "Avisa Lá que Eu Vou",
       "description": "Paulo conhece o dono de um bar que larga o bar aberto para ir beber em outros bares, uma drag queen restauradora de arte sacra, e ainda vai morar com uma família ribeirinha.",
@@ -1712,6 +1532,30 @@
       "logo": "/logos/playboytv.png",
       "start": "2026-08-16T17:42:00.000Z",
       "stop": "2026-08-16T18:06:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T17:49:00.000Z",
+      "title": "O Show da Luna!",
+      "description": "Quando fazem um piquenique com George no lago, Luna e Júpiter percebem que os patos que estão nadando e mergulhando não parecem estar molhados.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T17:49:00.000Z",
+      "stop": "2026-08-16T18:00:00.000Z"
+    },
+    {
+      "id": "Ae.br|2026-08-16T17:50:00.000Z",
+      "title": "Quem Dá Mais?",
+      "description": "Em Rosamond, as mulheres são a grande maioria; Dusty e sua namorada descobrem uma pilha de objetos colecionáveis antigos relacionados à televisão; Brandi pede a ajuda de Danielle e Lisa para conseguir ouro.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Ae.br",
+      "channelName": "Ae",
+      "logo": "/logos/ae.png",
+      "start": "2026-08-16T17:50:00.000Z",
+      "stop": "2026-08-16T18:15:00.000Z"
     },
     {
       "id": "Boomerang.br|2026-08-16T17:52:00.000Z",
@@ -2026,16 +1870,16 @@
       "stop": "2026-08-16T21:10:00.000Z"
     },
     {
-      "id": "Gnt.br|2026-08-16T19:18:00.000Z",
-      "title": "No Fogo com Bronze",
-      "description": "Em competição de alto nível, chef Priscila Deus desafia Felipe a fazer um cordeiro na brasa.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Gnt.br",
-      "channelName": "GNT",
-      "logo": "/logos/gnt.png",
-      "start": "2026-08-16T19:18:00.000Z",
-      "stop": "2026-08-16T20:01:00.000Z"
+      "id": "Playboytv.br|2026-08-16T19:19:00.000Z",
+      "title": "The Warm Up",
+      "description": "Exercícios físicos inspiram sensações sensuais e vigorosas em treinos inesquecíveis.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T19:19:00.000Z",
+      "stop": "2026-08-16T19:43:00.000Z"
     },
     {
       "id": "Sexyhot.br|2026-08-16T19:24:00.000Z",
@@ -2122,16 +1966,16 @@
       "stop": "2026-08-16T21:32:00.000Z"
     },
     {
-      "id": "Gnt.br|2026-08-16T20:01:00.000Z",
-      "title": "Cozinha Prática com Rita Lobo",
-      "description": "Rita Lobo ensina a preparar queijos como ricota, requeijão e mascarpone. E ainda mostra o passo a passo de um tiramisu 100% caseiro, do queijo ao biscoito.",
-      "category": "Séries",
+      "id": "Disneychannel.br|2026-08-16T20:00:00.000Z",
+      "title": "Acampados",
+      "description": "Os irmãos Emma, Ravi e Zuri Ross passam o verão no acampamento Kikiwaka, no estado do Maine, o mesmo em que seus pais se conheceram quando adolescentes. As crianças não são acostumadas a estar ao ar livre e acabam precisando de ajuda para s",
+      "category": "Desenhos",
       "adult": false,
-      "channelId": "Gnt.br",
-      "channelName": "GNT",
-      "logo": "/logos/gnt.png",
-      "start": "2026-08-16T20:01:00.000Z",
-      "stop": "2026-08-16T20:31:00.000Z"
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-16T20:00:00.000Z",
+      "stop": "2026-08-16T20:30:00.000Z"
     },
     {
       "id": "Ae.br|2026-08-16T20:15:00.000Z",
@@ -2144,6 +1988,18 @@
       "logo": "/logos/ae.png",
       "start": "2026-08-16T20:15:00.000Z",
       "stop": "2026-08-16T21:05:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T20:16:00.000Z",
+      "title": "Mermicorno - A Queda das Estrelas",
+      "description": "Os Mermicornos encontram uma criatura que mexe com suas ansiedades. Sawtooth tenta drenar a última estrela caída.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T20:16:00.000Z",
+      "stop": "2026-08-16T20:38:00.000Z"
     },
     {
       "id": "Canalbrasil.br|2026-08-16T20:26:00.000Z",
@@ -2182,6 +2038,18 @@
       "stop": "2026-08-16T22:30:00.000Z"
     },
     {
+      "id": "Playboytv.br|2026-08-16T20:31:00.000Z",
+      "title": "Brooklyn Kinda Love",
+      "description": "Os casais enfrentam decisões difíceis.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-16T20:31:00.000Z",
+      "stop": "2026-08-16T20:59:00.000Z"
+    },
+    {
       "id": "E.br|2026-08-16T20:35:00.000Z",
       "title": "Vida a Bordo - Mediterrâneo",
       "description": "Uma possível catástrofe se aproxima quando um prato, quase fatal, é servido aos hóspedes. Os desafios internos chegam ao auge enquanto a equipe de Aesha permanece em desordem.",
@@ -2192,6 +2060,18 @@
       "logo": "/logos/e!.png",
       "start": "2026-08-16T20:35:00.000Z",
       "stop": "2026-08-16T21:25:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-16T20:38:00.000Z",
+      "title": "Hello Kitty: Super Style!",
+      "description": "Está faltando um ingrediente para Nori conseguir fazer seu mega bolo, e a Chef Kitty ajuda seu amigo a chegar ao topo da Montanha da Cereja para conseguir o ingrediente que precisa.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-16T20:38:00.000Z",
+      "stop": "2026-08-16T20:51:00.000Z"
     },
     {
       "id": "Globorecife.br|2026-08-16T20:45:00.000Z",
@@ -2242,6 +2122,18 @@
       "stop": "2026-08-16T23:01:00.000Z"
     },
     {
+      "id": "Ae.br|2026-08-16T21:05:00.000Z",
+      "title": "Segredos das Celebridades - Sex Tapes",
+      "description": "Pamela Anderson e Tommy Lee eram o casal de celebridades mais badalado dos anos 90, mas quando sua gravação íntima é roubada e vazada, ela se torna a fita de sexo mais famosa do mundo.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Ae.br",
+      "channelName": "Ae",
+      "logo": "/logos/ae.png",
+      "start": "2026-08-16T21:05:00.000Z",
+      "stop": "2026-08-16T21:55:00.000Z"
+    },
+    {
       "id": "Sexyhot.br|2026-08-16T21:07:00.000Z",
       "title": "Dicionário Erótico",
       "description": "A de \"algemas\", B de \"bondage\", C de \"chicote\", D e E de \"dicionário erótico\" aberto para um pouco da história do BDSM. Tesão e outras sensações à flor da pele de uma forma bem explicada para quem curte ou que tem curiosidade sobre a prátic",
@@ -2266,6 +2158,18 @@
       "stop": "2026-08-16T23:00:00.000Z"
     },
     {
+      "id": "Cartoonnetwork.br|2026-08-16T21:30:00.000Z",
+      "title": "Minhas Aventuras com o Superman",
+      "description": "Os heróis tentam salvar o mundo. Clark tenta alcançá-los. Lex encara as consequências de suas ações.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-16T21:30:00.000Z",
+      "stop": "2026-08-16T22:00:00.000Z"
+    },
+    {
       "id": "Sexyhot.br|2026-08-16T21:31:00.000Z",
       "title": "Voyeur - O Ápice do Prazer",
       "description": "Uma turma interessante consente com um voyeurismo gostoso com sentimento.",
@@ -2276,6 +2180,42 @@
       "logo": "/logos/sexyhot.png",
       "start": "2026-08-16T21:31:00.000Z",
       "stop": "2026-08-16T21:46:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-16T21:32:00.000Z",
+      "title": "Tá Chovendo Hambúrguer 2",
+      "description": "Flint e seus amigos são obrigados a deixar Boca Grande após a desastrosa tempestade de comida atingir a cidade. Sem saída, ele aceita o convite de seu ídolo, Chester V., e se junta à The Live Corp Company, que reúne os melhores inventores d",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-16T21:32:00.000Z",
+      "stop": "2026-08-16T23:03:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-16T21:46:00.000Z",
+      "title": "Urbex F...",
+      "description": "Após invadir um prédio abandonado, quatro amigas são atingidas por uma antiga magia que as deixa sedentas por sexo.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-16T21:46:00.000Z",
+      "stop": "2026-08-16T22:23:00.000Z"
+    },
+    {
+      "id": "Ae.br|2026-08-16T21:55:00.000Z",
+      "title": "Mais Escuro que a Noite",
+      "description": "Um assassino persegue uma garota cega no campo, transformando um final de semana tranquilo em uma luta pela sobrevivência.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Ae.br",
+      "channelName": "Ae",
+      "logo": "/logos/ae.png",
+      "start": "2026-08-16T21:55:00.000Z",
+      "stop": "2026-08-16T23:25:00.000Z"
     },
     {
       "id": "E.br|2026-08-16T22:15:00.000Z",
@@ -2350,6 +2290,18 @@
       "stop": "2026-08-17T01:00:00.000Z"
     },
     {
+      "id": "Canalbrasil.br|2026-08-16T23:00:00.000Z",
+      "title": "Engole o Choro",
+      "description": "Na periferia de São Paulo, Anderson, de 17 anos, furta uma moto. Ele quer se tornar um homem dando um basta em anos de exclusão e rejeição, mas baterá de frente com o que nunca foi ensinado a lidar: seus sentimentos.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T23:00:00.000Z",
+      "stop": "2026-08-16T23:15:00.000Z"
+    },
+    {
       "id": "Hbo2.br|2026-08-16T23:01:00.000Z",
       "title": "Pacto de Redenção",
       "description": "Um assassino de aluguel tem demência e ela evolui rapidamente. Ele tem a oportunidade de se redimir ao salvar a vida do filho, com quem não tem mais contato.",
@@ -2374,6 +2326,18 @@
       "stop": "2026-08-17T00:00:00.000Z"
     },
     {
+      "id": "Canalbrasil.br|2026-08-16T23:15:00.000Z",
+      "title": "Noturnas - Memórias do Transformismo Carioca",
+      "description": "Um retrato íntimo e sensível da vida de grandes nomes do transformismo carioca, artistas que animaram e marcaram a noite LGBTQIA+ do Rio de Janeiro.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Canalbrasil.br",
+      "channelName": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "start": "2026-08-16T23:15:00.000Z",
+      "stop": "2026-08-16T23:30:00.000Z"
+    },
+    {
       "id": "Globorecife.br|2026-08-16T23:15:00.000Z",
       "title": "Fantástico",
       "description": "Em forma de revista eletrônica, o programa mistura jornalismo, denúncia, esporte, humor, dramaturgia, música e ciência.",
@@ -2384,6 +2348,18 @@
       "logo": "/logos/globo.png",
       "start": "2026-08-16T23:15:00.000Z",
       "stop": "2026-08-17T01:45:00.000Z"
+    },
+    {
+      "id": "Ae.br|2026-08-16T23:25:00.000Z",
+      "title": "Terminus - Um Novo Começo",
+      "description": "Após um acidente fatal, David faz uma descoberta sem precedentes que pode determinar o destino da humanidade. Motivado pelo que acredita ser uma proposta fantástica, ele precisa concluir sua tarefa antes que o governo o impeça e que o mundo",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Ae.br",
+      "channelName": "Ae",
+      "logo": "/logos/ae.png",
+      "start": "2026-08-16T23:25:00.000Z",
+      "stop": "2026-08-17T01:00:00.000Z"
     },
     {
       "id": "Amc.br|2026-08-17T01:00:00.000Z",
@@ -2564,6 +2540,18 @@
       "logo": "/logos/hbo2.png",
       "start": "2026-08-17T07:06:00.000Z",
       "stop": "2026-08-17T07:36:00.000Z"
+    },
+    {
+      "id": "Amc.br|2026-08-17T07:25:00.000Z",
+      "title": "Presa",
+      "description": "Um casal de missionários cristãos no deserto do Kalahari tem a fé testada quando se torna alvo de uma gangue de militantes extremistas. Ameaçados de morte, eles são forçados a abandonar tudo e embarcar em uma fuga desesperada pela sobrevivê",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Amc.br",
+      "channelName": "AMC",
+      "logo": "/logos/amc.png",
+      "start": "2026-08-17T07:25:00.000Z",
+      "stop": "2026-08-17T07:55:00.000Z"
     },
     {
       "id": "Globorecife.br|2026-08-17T09:00:00.000Z",
