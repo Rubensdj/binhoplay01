@@ -1,279 +1,30 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
-<head>
-  <meta charset="utf-8" />
-  <meta name="robots" content="noindex">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Brazuca Community Repo</title>
-  <link rel="icon" type="image/png" href="https://i.imgur.com/BfFiAAy.png" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.2.0/crypto-js.min.js"></script>
-  <link href="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer@3.4.6/dist/css/jquery.mb.YTPlayer.min.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/jquery.mb.ytplayer@3.4.6/dist/jquery.mb.YTPlayer.min.js"></script>
-  <style>
-    :root {
-      --bg: #0b0f14;
-      --card: #141a22;
-      --text: #e6edf3;
-      --muted: #9aa7b2;
-      --primary: #2563eb;
-      --accent: #7c3aed;
-      --border: #1f2937;
-      --shadow: 0 8px 24px rgba(0,0,0,0.25);
-      --radius: 14px;
-    }
-    html { scroll-behavior: smooth; }
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-    }
-    header {
-      position: sticky; top: 0; z-index: 100;
-      backdrop-filter: blur(12px) saturate(180%);
-      -webkit-backdrop-filter: blur(12px) saturate(180%);
-      background-color: rgba(20,24,30,0.85);
-      border-bottom: 1px solid rgba(255,255,255,0.08);
-      box-shadow: 0 2px 12px rgba(0,0,0,0.25);
-    }
-    .nav { display:flex; justify-content:space-between; align-items:center; padding:10px 20px; flex-wrap:wrap; }
-    .brand { display:flex; align-items:center; gap:12px; }
-    .brand img { height:36px; border-radius:8px; }
-    .brand h1 { margin:0; font-size:18px; font-weight:600; line-height:1; }
-    .nav-actions { display:flex; gap:12px; flex-wrap:wrap; margin-top:8px; }
-    .btn {
-      padding:8px 12px; border-radius:10px; border:1px solid var(--border);
-      background: var(--card); color: var(--text); cursor:pointer;
-      transition:all .2s ease; text-decoration:none; display:inline-flex; align-items:center; gap:6px;
-      font-size:14px;
-    }
-    .btn:hover { transform:translateY(-1px); box-shadow:var(--shadow); }
-    .btn-primary {
-      background: linear-gradient(135deg, var(--primary), var(--accent));
-      color:white; border:none; text-decoration:none;
-    }
-    .container { max-width:1100px; margin:0 auto; padding:24px; }
-    .card {
-      background: var(--card); border:1px solid var(--border);
-      border-radius:var(--radius); padding:20px; margin-top:20px;
-      box-shadow:var(--shadow);
-    }
-    .update-card {
-      border-left: 6px solid var(--primary);
-      background: linear-gradient(180deg, rgba(37,99,235,0.15), rgba(20,20,30,0.9));
-    }
-    .update-card h3 { margin-top:0; }
-    .howto { display:flex; gap:24px; align-items:center; flex-wrap:wrap; }
-    .howto img { flex:1; max-width:480px; border-radius:12px; box-shadow:var(--shadow); }
-    .howto-content { flex:1; min-width:280px; }
-    .repo-box { display:flex; gap:10px; margin-top:12px; flex-wrap:wrap; }
-    .repo-box input {
-      flex:1; padding:10px; border-radius:8px; border:1px solid var(--border);
-      background:var(--bg); color:var(--text);
-    }
-    .copy-status { margin-top:8px; font-size:14px; color:var(--primary); opacity:0; transition:opacity .3s ease; }
-    .copy-status.show { opacity:1; }
-    .info-messages { margin-top:12px; font-size:14px; color:var(--muted); }
-    .footer { margin-top:28px; padding:24px; border-top:1px solid var(--border); text-align:center; color:var(--muted); }
-    /* Cards de novidades */
-    .news-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:20px; }
-    .news-card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); }
-    .news-card h4 { margin:0 0 8px; font-size:16px; }
-    .news-card small { color:var(--muted); }
-    @media (max-width:768px) {
-      .nav { flex-direction:column; align-items:flex-start; }
-      .nav-actions { margin-top:12px; }
-      .howto { flex-direction:column; }
-      .howto img { max-width:100%; }
-    }
-    .footer q {
-      display: block;
-      margin-top: 12px;
-      padding: 10px;
-      background: rgba(250, 142, 142, 0.1);
-      border-left: 4px solid #fa8e8e;
-      border-radius: 8px;
-    }
-    #bgndVideo {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: -2;
-    }
-    .overlay {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: rgba(0,0,0,0.95);
-      z-index: 0;
-    }
-    /* Esconde a barra de controle do YTPlayer */
-    .mb_YTPBar {
-        display: none !important;
-    }
-    #controlBar_bgndVideo {
-        display: none !important;
-    }
-  </style>
-</head>
-<body>
-  <div id="bgndVideo"></div>
-  <div class="overlay"></div>
-
-  <header>
-    <div class="nav container">
-      <div class="brand">
-        <img src="https://i.imgur.com/kjtlfSP.png" alt="Logo Brazuca Community Repo" />
-        <h1>Brazuca Community Repo</h1>
-      </div>
-      <div class="nav-actions">
-        <a class="btn" href="addons/repository.BrazucaPlay.zip" download aria-label="Baixar repositório BrazucaPlay">📥 Baixar Repositório</a>
-        <a id="telegramLink" class="btn btn-primary" href="https://t.me/+6oulWWlEwpo0ZDE5" target="_blank">📢 Participe do Telegram</a>
-      </div>
-    </div>
-  </header>
-
-  <main class="container">
-    <section id="updateCard" class="card update-card" style="display:none;">
-      <h3>Faça o update manualmente</h3>
-      <p id="updateMessage"></p>
-      <a id="updateLink" class="btn btn-primary" href="#" target="_blank">📥 Baixar atualização manual</a>
-    </section>
-
-    <section class="card">
-      <h2>Central de atualizações</h2>
-      <p>Fique por dentro das novidades, correções e lançamentos. Receba avisos rápidos pelo Telegram.</p>
-    </section>
-
-    <section class="card">
-      <h3>Novidades recentes</h3>
-      <div class="news-grid">
-        <div class="news-card">
-          <h4>Repositório v1.5</h4>
-          <small>25/11/2025</small>
-          <p>Nosso repositório foi atualizado.</p>
-        </div>
-        <div class="news-card">
-          <h4>Suporte estendido</h4>
-          <small>Compatível com várias versões</small>
-          <p>16.1, 17, 18, 19, 20 e 21+</p>
-        </div>
-        <div class="news-card">
-          <h4>Atualização frequente</h4>
-          <small>Semanalmente</small>
-          <p>Não se preocupe, nós mantemos tudo atualizado.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- Seção Como adicionar -->
-    <section id="howto" class="card">
-      <h3>Como adicionar o repositório</h3>
-      <div class="howto">
-        <img src="https://imgur.com/8U1bKJf.png" alt="Exemplo de como adicionar o repositório" />
-        <div class="howto-content">
-          <p>Copie e cole este link no seu gerenciador de repositórios:</p>
-          <div class="repo-box">
-            <input id="repoLink" type="text" readonly value="https://skyrisk.github.io/brazucaplay" />
-            <button class="btn btn-primary" onclick="copyRepoLink()">📋 Copiar</button>
-          </div>
-          <div id="copyStatus" class="copy-status">Link copiado!</div>
-          <div class="info-messages">
-            <p>ℹ️ Instale o repositório para ficar atualizado e evitar falhas nos addons.</p>
-            <p>📲 Ative as notificações no canal do Telegram para receber avisos importantes.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer class="footer">
-      <p><strong>Brazuca Community</strong> — Projeto comunitário, sem anúncios e com comunicação transparente.</p>
-      <q>O autor não se responsabiliza pelo conteúdo encontrado aqui nem pelo mau uso do mesmo. 
-      Nosso add-on funciona apenas como um agregador de links e organiza os mesmos, bem como sinopses, títulos e outros!</q>
-    </footer>
-  </main>
-  <script>
-    $(function() {
-        $("#bgndVideo").YTPlayer({
-            videoURL: "C1xUergJyvA", // ID do vídeo
-            containment: "body",
-            vol: 20,
-            startAt: 0,
-            stopAt: 59,
-            opacity: 1,
-            addRaster: true,
-            quality: 'hd720',
-            stopMovieOnBlur: false,
-            optimizeDisplay: true,
-            showControls: true,
-            autoPlay: true,
-            mute: false,
-            loop: true
-        });
-    });
-  </script>
-  <script>
-    function copyRepoLink() {
-        const input = document.getElementById('repoLink');
-        navigator.clipboard.writeText(input.value).then(() => {
-            const status = document.getElementById('copyStatus');
-            status.classList.add('show');
-            setTimeout(() => status.classList.remove('show'), 2000);
-        });
-    }
-
-    // Convite encriptado com AES (gerado previamente)
-    const conviteCriptografado = "U2FsdGVkX19/3Pp3rm+mxcSPYxyhHk9XBNus01JctA2Gaqdrav+EZQATM1OPNSOq"; // substitua pelo texto gerado
-
-    // Mostrar card de atualização apenas se ?update= contiver plugin.video.BrazucaPlay
-    const params = new URLSearchParams(window.location.search);
-    const secretKey = params.get("addon");
-    const updateFile = params.get("update");
-    if (updateFile && updateFile.toLowerCase().startsWith("plugin.video.brazucaplay")) {
-        const card = document.getElementById("updateCard");
-        const msg = document.getElementById("updateMessage");
-        const link = document.getElementById("updateLink");
-        card.style.display = "block";
-        msg.textContent = `Clique abaixo para baixar o "${updateFile}" e instale via zip.`;
-        link.href = "addons/" + updateFile;
-        link.setAttribute("download", updateFile);
-    }
-
-    if (secretKey) {
-        try {
-            // Descriptografa usando a chave passada
-            const bytes = CryptoJS.AES.decrypt(conviteCriptografado, secretKey);
-            const link = bytes.toString(CryptoJS.enc.Utf8);
-
-            // Se for um link válido do Telegram, altera o botão
-            if (link.startsWith("https://t.me/")) {
-                document.getElementById("telegramLink").href = link;
-            }
-        } catch (e) {
-            console.error("Erro ao descriptografar convite:", e);
-        }
-    }
-  </script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0a0e14" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Binho Play" />
+    <link rel="apple-touch-icon" href="/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png" />
+    <meta
+      name="description"
+      content="Binho Play — TV, Filmes, Séries, Desenhos e Animes. Catálogo interativo e player multiplataforma para Android, iOS e web."
+    />
+    <title>Binho Play — Catálogo interativo e player multiplataforma</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
-<div id="div" style="display:none">
-  <table>
-    <tr>
-      <td>
-        <a href="addons/repository.BrazucaPlay.zip">addons/repository.BrazucaPlay.zip</a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="addons/plugin.video.BrazucaPlay.zip">addons/plugin.video.BrazucaPlay.zip</a>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <a href="addons/plugin.video.BrazucaPlay.Matrix.zip">addons/plugin.video.BrazucaPlay.Matrix.zip</a>
-      </td>
-    </tr>
-  </table>
-</div>

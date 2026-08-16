@@ -1,0 +1,20 @@
+{
+  "name": "Binho Play",
+  "short_name": "Binho Play",
+  "description": "TV, Filmes, Séries, Desenhos e Animes — catálogo interativo e player multiplataforma.",
+  "lang": "pt-BR",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0a0e14",
+  "theme_color": "#0a0e14",
+  "icons": [
+    {
+      "src": "/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}

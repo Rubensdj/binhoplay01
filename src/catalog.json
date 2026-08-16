@@ -1,0 +1,1358 @@
+{
+  "generatedAt": "2026-08-16T09:47:42.789Z",
+  "repoUrl": "https://skyrisk.github.io/brazucaplay",
+  "supportedKodi": "16.1, 17, 18, 19, 20 e 21+",
+  "addons": [
+    {
+      "id": "plugin.video.BrazucaPlay",
+      "name": "BRAZUCA PLAY",
+      "version": "2.1.4",
+      "provider": "Brazuca Play",
+      "type": "video",
+      "summary": "TV, Filmes, Séries, Desenhos e Animes.",
+      "description": "● Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.● Proibido a venda dos add-ons do Brazuca Play.● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
+      "news": "v2.1.4 - KODI 16 >",
+      "disclaimer": "OBRIGADO POR USAR NOSSO ADD-ON S2",
+      "icon": "/addons/repo/Plugins/plugin.video.BrazucaPlay/icon.png",
+      "downloadUrl": "/addons/plugin.video.BrazucaPlay.zip",
+      "size": 784265
+    },
+    {
+      "id": "plugin.video.BrazucaPlay.Matrix",
+      "name": "BRAZUCA PLAY",
+      "version": "2.1.4",
+      "provider": "Brazuca Play",
+      "type": "video",
+      "summary": "TV, Filmes, Séries, Desenhos e Animes.",
+      "description": "● Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.● Proibido a venda dos add-ons do Brazuca Play.● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
+      "news": "v2.1.4 - KODI 16 >",
+      "disclaimer": "OBRIGADO POR USAR NOSSO ADD-ON S2",
+      "icon": "/addons/repo/Plugins/plugin.video.BrazucaPlay.Matrix/icon.png",
+      "downloadUrl": "/addons/plugin.video.BrazucaPlay.Matrix.zip",
+      "size": 784516
+    },
+    {
+      "id": "repository.BrazucaPlay",
+      "name": "Brazuca Play Repo",
+      "version": "1.5",
+      "provider": "Brazuca Play",
+      "type": "repository",
+      "summary": "Repositório Brazuca Play",
+      "description": "● Repositório oficial do Brazuca Play - 2025 ● Proibido a venda dos add-ons do Brazuca Play. ● Não vendemos IPTV, caso ache sites ou mesmo apps é falso.",
+      "news": "● v1.5 - ADD RESOLVEURL. ● v1.4 - KODI 19 MATRIX. ● v1.3 - CORREÇÕES DE BUGS. ● v1.2 - UPDATES CORRIGIDOS. ● v1.1 - PEQUENAS CORREÇÕES. ● v1.0 - VERSÃO INICIAL.",
+      "disclaimer": "Brazuca Play é apenas um AGREGADOR de links e, assim como o Google.com, apenas agrega e organiza os links externos. Não somos responsáveis pelos arquivos aqui encontrados.",
+      "icon": "/addons/repo/Plugins/repository.BrazucaPlay/icon.png",
+      "downloadUrl": "/addons/repository.BrazucaPlay.zip",
+      "size": 683884
+    },
+    {
+      "id": "script.video.F4mProxy",
+      "name": "F4MPROXY",
+      "version": "2.8.7",
+      "provider": "Shani",
+      "type": "script",
+      "summary": "",
+      "description": "",
+      "news": "",
+      "disclaimer": "",
+      "icon": "/addons/repo/Plugins/script.video.F4mProxy/icon.png",
+      "downloadUrl": "/addons/script.video.F4mProxy-2.8.7.zip",
+      "size": 339040
+    },
+    {
+      "id": "plugin.video.f4mTester",
+      "name": "F4MTESTER",
+      "version": "2.7.1",
+      "provider": "Shani",
+      "type": "video",
+      "summary": "PLUGIN F4M OFICIAL - SHANI",
+      "description": "",
+      "news": "",
+      "disclaimer": "",
+      "icon": "/addons/repo/Plugins/plugin.video.f4mTester/icon.png",
+      "downloadUrl": "/addons/plugin.video.f4mTester-2.7.1.zip",
+      "size": 76076
+    }
+  ],
+  "extraFiles": [
+    {
+      "id": "plugin.video.Mais18Play",
+      "name": "+18 PLAY",
+      "version": "2.0.0",
+      "summary": "ADD-ON COM CONTEÚDOS ADULTOS.",
+      "type": "video",
+      "adult": true,
+      "url": "/addons/plugin.video.+18Play.zip",
+      "size": 661764
+    },
+    {
+      "id": "cloudrequest-py2",
+      "name": "Cloudrequest Py2",
+      "version": "",
+      "summary": "Módulo de requisições HTTP (Python 2)",
+      "type": "video",
+      "adult": false,
+      "url": "/addons/cloudrequest-py2.zip",
+      "size": 127959
+    },
+    {
+      "id": "cloudrequest-py3",
+      "name": "Cloudrequest Py3",
+      "version": "",
+      "summary": "Módulo de requisições HTTP (Python 3)",
+      "type": "video",
+      "adult": false,
+      "url": "/addons/cloudrequest-py3.zip",
+      "size": 130573
+    },
+    {
+      "id": "Plugins - Extrair",
+      "name": "Plugins Extrair",
+      "version": "",
+      "summary": "Pacote com dependências de módulos Kodi (extrair para instalar)",
+      "type": "video",
+      "adult": false,
+      "url": "/addons/Plugins - Extrair.zip",
+      "size": 2252963
+    }
+  ],
+  "files": [
+    {
+      "name": "cloudrequest-py2.zip",
+      "url": "/addons/cloudrequest-py2.zip",
+      "size": 127959
+    },
+    {
+      "name": "cloudrequest-py3.zip",
+      "url": "/addons/cloudrequest-py3.zip",
+      "size": 130573
+    },
+    {
+      "name": "logo.png",
+      "url": "/addons/logo.png",
+      "size": 320842
+    },
+    {
+      "name": "mrpiracy.otf",
+      "url": "/addons/mrpiracy.otf",
+      "size": 10540
+    },
+    {
+      "name": "plugin.video.+18Play.zip",
+      "url": "/addons/plugin.video.+18Play.zip",
+      "size": 661764
+    },
+    {
+      "name": "plugin.video.BrazucaPlay.Matrix.zip",
+      "url": "/addons/plugin.video.BrazucaPlay.Matrix.zip",
+      "size": 784516
+    },
+    {
+      "name": "plugin.video.BrazucaPlay.zip",
+      "url": "/addons/plugin.video.BrazucaPlay.zip",
+      "size": 784265
+    },
+    {
+      "name": "plugin.video.f4mTester-2.7.1.zip",
+      "url": "/addons/plugin.video.f4mTester-2.7.1.zip",
+      "size": 76076
+    },
+    {
+      "name": "Plugins - Extrair.zip",
+      "url": "/addons/Plugins - Extrair.zip",
+      "size": 2252963
+    },
+    {
+      "name": "repository.BrazucaPlay.zip",
+      "url": "/addons/repository.BrazucaPlay.zip",
+      "size": 683884
+    },
+    {
+      "name": "script.video.F4mProxy-2.8.7.zip",
+      "url": "/addons/script.video.F4mProxy-2.8.7.zip",
+      "size": 339040
+    }
+  ],
+  "logos": [
+    {
+      "name": "1hd",
+      "url": "/logos/1hd.png"
+    },
+    {
+      "name": "24hrs",
+      "url": "/logos/24hrs.png"
+    },
+    {
+      "name": "acriticaplay",
+      "url": "/logos/acriticaplay.png"
+    },
+    {
+      "name": "ae",
+      "url": "/logos/ae.png"
+    },
+    {
+      "name": "afazenda",
+      "url": "/logos/afazenda.png"
+    },
+    {
+      "name": "allsports",
+      "url": "/logos/allsports.png"
+    },
+    {
+      "name": "amc",
+      "url": "/logos/amc.png"
+    },
+    {
+      "name": "animal_planet",
+      "url": "/logos/animal_planet.png"
+    },
+    {
+      "name": "arte1",
+      "url": "/logos/arte1.png"
+    },
+    {
+      "name": "axn",
+      "url": "/logos/axn.png"
+    },
+    {
+      "name": "babytv",
+      "url": "/logos/babytv.png"
+    },
+    {
+      "name": "band_news",
+      "url": "/logos/band_news.png"
+    },
+    {
+      "name": "band",
+      "url": "/logos/band.png"
+    },
+    {
+      "name": "bandsports",
+      "url": "/logos/bandsports.png"
+    },
+    {
+      "name": "bbb",
+      "url": "/logos/bbb.png"
+    },
+    {
+      "name": "bhnews_tv",
+      "url": "/logos/bhnews_tv.png"
+    },
+    {
+      "name": "bis",
+      "url": "/logos/bis.png"
+    },
+    {
+      "name": "boomerang",
+      "url": "/logos/boomerang.png"
+    },
+    {
+      "name": "canalbrasil",
+      "url": "/logos/canalbrasil.png"
+    },
+    {
+      "name": "canalfutura",
+      "url": "/logos/canalfutura.png"
+    },
+    {
+      "name": "canalrural",
+      "url": "/logos/canalrural.png"
+    },
+    {
+      "name": "cartoon_network",
+      "url": "/logos/cartoon_network.png"
+    },
+    {
+      "name": "casadopatrao",
+      "url": "/logos/casadopatrao.png"
+    },
+    {
+      "name": "cinemax",
+      "url": "/logos/cinemax.png"
+    },
+    {
+      "name": "cinesky",
+      "url": "/logos/cinesky.png"
+    },
+    {
+      "name": "cnn_brasil",
+      "url": "/logos/cnn_brasil.png"
+    },
+    {
+      "name": "combate",
+      "url": "/logos/combate.png"
+    },
+    {
+      "name": "comedy_central",
+      "url": "/logos/comedy_central.png"
+    },
+    {
+      "name": "conmebol",
+      "url": "/logos/conmebol.png"
+    },
+    {
+      "name": "curta!",
+      "url": "/logos/curta!.jpg"
+    },
+    {
+      "name": "discovery_channel",
+      "url": "/logos/discovery_channel.png"
+    },
+    {
+      "name": "discovery_civilization",
+      "url": "/logos/discovery_civilization.png"
+    },
+    {
+      "name": "discovery_home_health",
+      "url": "/logos/discovery_home_health.png"
+    },
+    {
+      "name": "discovery_investigation",
+      "url": "/logos/discovery_investigation.png"
+    },
+    {
+      "name": "discovery_kids",
+      "url": "/logos/discovery_kids.png"
+    },
+    {
+      "name": "discovery_science",
+      "url": "/logos/discovery_science.png"
+    },
+    {
+      "name": "discovery_theater",
+      "url": "/logos/discovery_theater.png"
+    },
+    {
+      "name": "discovery_turbo",
+      "url": "/logos/discovery_turbo.png"
+    },
+    {
+      "name": "discovery_world",
+      "url": "/logos/discovery_world.png"
+    },
+    {
+      "name": "disney_channel",
+      "url": "/logos/disney_channel.png"
+    },
+    {
+      "name": "disney_junior",
+      "url": "/logos/disney_junior.png"
+    },
+    {
+      "name": "disney_xd",
+      "url": "/logos/disney_xd.png"
+    },
+    {
+      "name": "djing",
+      "url": "/logos/djing.png"
+    },
+    {
+      "name": "e!",
+      "url": "/logos/e!.png"
+    },
+    {
+      "name": "ei1",
+      "url": "/logos/ei1.png"
+    },
+    {
+      "name": "ei2",
+      "url": "/logos/ei2.png"
+    },
+    {
+      "name": "eimaxx",
+      "url": "/logos/eimaxx.png"
+    },
+    {
+      "name": "eimaxx2",
+      "url": "/logos/eimaxx2.png"
+    },
+    {
+      "name": "espn_brasil",
+      "url": "/logos/espn_brasil.png"
+    },
+    {
+      "name": "espn_extra",
+      "url": "/logos/espn_extra.png"
+    },
+    {
+      "name": "espn_plus",
+      "url": "/logos/espn_plus.png"
+    },
+    {
+      "name": "espn",
+      "url": "/logos/espn.png"
+    },
+    {
+      "name": "fishtv",
+      "url": "/logos/fishtv.png"
+    },
+    {
+      "name": "food_network",
+      "url": "/logos/food_network.png"
+    },
+    {
+      "name": "fox_premium",
+      "url": "/logos/fox_premium.png"
+    },
+    {
+      "name": "foxsports_full",
+      "url": "/logos/foxsports_full.png"
+    },
+    {
+      "name": "foxsports",
+      "url": "/logos/foxsports.png"
+    },
+    {
+      "name": "foxsports2",
+      "url": "/logos/foxsports2.png"
+    },
+    {
+      "name": "fx",
+      "url": "/logos/fx.png"
+    },
+    {
+      "name": "globo",
+      "url": "/logos/globo.png"
+    },
+    {
+      "name": "globonews",
+      "url": "/logos/globonews.png"
+    },
+    {
+      "name": "gloob",
+      "url": "/logos/gloob.png"
+    },
+    {
+      "name": "gloobinho",
+      "url": "/logos/gloobinho.png"
+    },
+    {
+      "name": "gnt",
+      "url": "/logos/gnt.png"
+    },
+    {
+      "name": "gospelmusic_tv",
+      "url": "/logos/gospelmusic_tv.png"
+    },
+    {
+      "name": "h2",
+      "url": "/logos/h2.png"
+    },
+    {
+      "name": "hbo_family",
+      "url": "/logos/hbo_family.png"
+    },
+    {
+      "name": "hbo_max",
+      "url": "/logos/hbo_max.png"
+    },
+    {
+      "name": "hbo_mundi",
+      "url": "/logos/hbo_mundi.png"
+    },
+    {
+      "name": "hbo_plus_e",
+      "url": "/logos/hbo_plus_e.png"
+    },
+    {
+      "name": "hbo_plus",
+      "url": "/logos/hbo_plus.png"
+    },
+    {
+      "name": "hbo_pop",
+      "url": "/logos/hbo_pop.png"
+    },
+    {
+      "name": "hbo_signature",
+      "url": "/logos/hbo_signature.png"
+    },
+    {
+      "name": "hbo_xtreme",
+      "url": "/logos/hbo_xtreme.png"
+    },
+    {
+      "name": "hbo",
+      "url": "/logos/hbo.png"
+    },
+    {
+      "name": "hbo2",
+      "url": "/logos/hbo2.png"
+    },
+    {
+      "name": "heartv",
+      "url": "/logos/heartv.png"
+    },
+    {
+      "name": "hgtv",
+      "url": "/logos/hgtv.png"
+    },
+    {
+      "name": "history",
+      "url": "/logos/history.png"
+    },
+    {
+      "name": "hittv",
+      "url": "/logos/hittv.png"
+    },
+    {
+      "name": "lifetime",
+      "url": "/logos/lifetime.png"
+    },
+    {
+      "name": "loading",
+      "url": "/logos/loading.png"
+    },
+    {
+      "name": "megapix",
+      "url": "/logos/megapix.png"
+    },
+    {
+      "name": "mimusica",
+      "url": "/logos/mimusica.png"
+    },
+    {
+      "name": "mixtv",
+      "url": "/logos/mixtv.png"
+    },
+    {
+      "name": "modo_viagem",
+      "url": "/logos/modo_viagem.png"
+    },
+    {
+      "name": "mtv",
+      "url": "/logos/mtv.png"
+    },
+    {
+      "name": "multishow",
+      "url": "/logos/multishow.png"
+    },
+    {
+      "name": "muztv",
+      "url": "/logos/muztv.png"
+    },
+    {
+      "name": "natgeo_kids",
+      "url": "/logos/natgeo_kids.png"
+    },
+    {
+      "name": "natgeo_wild",
+      "url": "/logos/natgeo_wild.png"
+    },
+    {
+      "name": "natgeo",
+      "url": "/logos/natgeo.png"
+    },
+    {
+      "name": "nick_jr",
+      "url": "/logos/nick_jr.png"
+    },
+    {
+      "name": "nick",
+      "url": "/logos/nick.png"
+    },
+    {
+      "name": "nosso_futebol",
+      "url": "/logos/nosso_futebol.png"
+    },
+    {
+      "name": "nsports",
+      "url": "/logos/nsports.png"
+    },
+    {
+      "name": "off",
+      "url": "/logos/off.png"
+    },
+    {
+      "name": "paramount_network",
+      "url": "/logos/paramount_network.png"
+    },
+    {
+      "name": "paramount_plus",
+      "url": "/logos/paramount_plus.png"
+    },
+    {
+      "name": "playboytv",
+      "url": "/logos/playboytv.png"
+    },
+    {
+      "name": "playtv",
+      "url": "/logos/playtv.png"
+    },
+    {
+      "name": "premiere",
+      "url": "/logos/premiere.png"
+    },
+    {
+      "name": "prime_video",
+      "url": "/logos/prime_video.png"
+    },
+    {
+      "name": "radiomontecarlo",
+      "url": "/logos/radiomontecarlo.png"
+    },
+    {
+      "name": "rbstv",
+      "url": "/logos/rbstv.png"
+    },
+    {
+      "name": "record_news",
+      "url": "/logos/record_news.png"
+    },
+    {
+      "name": "record",
+      "url": "/logos/record.png"
+    },
+    {
+      "name": "rede_vida",
+      "url": "/logos/rede_vida.png"
+    },
+    {
+      "name": "redebrasil",
+      "url": "/logos/redebrasil.png"
+    },
+    {
+      "name": "redetv",
+      "url": "/logos/redetv.png"
+    },
+    {
+      "name": "retro_cartoon",
+      "url": "/logos/retro_cartoon.png"
+    },
+    {
+      "name": "sbt",
+      "url": "/logos/sbt.png"
+    },
+    {
+      "name": "sextreme",
+      "url": "/logos/sextreme.png"
+    },
+    {
+      "name": "sexyhot",
+      "url": "/logos/sexyhot.png"
+    },
+    {
+      "name": "slam",
+      "url": "/logos/slam.png"
+    },
+    {
+      "name": "sony",
+      "url": "/logos/sony.png"
+    },
+    {
+      "name": "space",
+      "url": "/logos/space.png"
+    },
+    {
+      "name": "sportv",
+      "url": "/logos/sportv.png"
+    },
+    {
+      "name": "star_channel",
+      "url": "/logos/star_channel.png"
+    },
+    {
+      "name": "star_hits",
+      "url": "/logos/star_hits.png"
+    },
+    {
+      "name": "star_life",
+      "url": "/logos/star_life.png"
+    },
+    {
+      "name": "star_plus",
+      "url": "/logos/star_plus.png"
+    },
+    {
+      "name": "studio_universal",
+      "url": "/logos/studio_universal.png"
+    },
+    {
+      "name": "syfy",
+      "url": "/logos/syfy.png"
+    },
+    {
+      "name": "tbs",
+      "url": "/logos/tbs.png"
+    },
+    {
+      "name": "tc_action",
+      "url": "/logos/tc_action.png"
+    },
+    {
+      "name": "tc_cult",
+      "url": "/logos/tc_cult.png"
+    },
+    {
+      "name": "tc_fun",
+      "url": "/logos/tc_fun.png"
+    },
+    {
+      "name": "tc_pipoca",
+      "url": "/logos/tc_pipoca.png"
+    },
+    {
+      "name": "tc_premium",
+      "url": "/logos/tc_premium.png"
+    },
+    {
+      "name": "tc_touch",
+      "url": "/logos/tc_touch.png"
+    },
+    {
+      "name": "tcm",
+      "url": "/logos/tcm.png"
+    },
+    {
+      "name": "tlc",
+      "url": "/logos/tlc.png"
+    },
+    {
+      "name": "tnt_novelas",
+      "url": "/logos/tnt_novelas.png"
+    },
+    {
+      "name": "tnt_series",
+      "url": "/logos/tnt_series.png"
+    },
+    {
+      "name": "tnt",
+      "url": "/logos/tnt.png"
+    },
+    {
+      "name": "tooncast",
+      "url": "/logos/tooncast.png"
+    },
+    {
+      "name": "trutv",
+      "url": "/logos/trutv.png"
+    },
+    {
+      "name": "tv_aparecida",
+      "url": "/logos/tv_aparecida.png"
+    },
+    {
+      "name": "tvclima",
+      "url": "/logos/tvclima.png"
+    },
+    {
+      "name": "tvcultura",
+      "url": "/logos/tvcultura.png"
+    },
+    {
+      "name": "tvescola",
+      "url": "/logos/tvescola.png"
+    },
+    {
+      "name": "tvgazeta",
+      "url": "/logos/tvgazeta.png"
+    },
+    {
+      "name": "tvpontanegra",
+      "url": "/logos/tvpontanegra.png"
+    },
+    {
+      "name": "tvtem",
+      "url": "/logos/tvtem.png"
+    },
+    {
+      "name": "universal_premiere",
+      "url": "/logos/universal_premiere.png"
+    },
+    {
+      "name": "universal_reality",
+      "url": "/logos/universal_reality.png"
+    },
+    {
+      "name": "universal_tv",
+      "url": "/logos/universal_tv.png"
+    },
+    {
+      "name": "usa_network",
+      "url": "/logos/usa_network.png"
+    },
+    {
+      "name": "venus",
+      "url": "/logos/venus.png"
+    },
+    {
+      "name": "vh1",
+      "url": "/logos/vh1.png"
+    },
+    {
+      "name": "virgintv",
+      "url": "/logos/virgintv.png"
+    },
+    {
+      "name": "viva",
+      "url": "/logos/viva.png"
+    },
+    {
+      "name": "warner_channel",
+      "url": "/logos/warner_channel.png"
+    },
+    {
+      "name": "woohoo",
+      "url": "/logos/woohoo.png"
+    }
+  ],
+  "channels": [
+    {
+      "id": "+globosat.br",
+      "name": "Globo",
+      "logo": "/logos/globo.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Ae.br",
+      "name": "Ae",
+      "logo": "/logos/ae.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Amc.br",
+      "name": "AMC",
+      "logo": "/logos/amc.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Animalplanet.br",
+      "name": "Animal Planet",
+      "logo": "/logos/animal_planet.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Arte1.br",
+      "name": "Arte1",
+      "logo": "/logos/arte1.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Axn.br",
+      "name": "AXN",
+      "logo": "/logos/axn.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Bandnews.br",
+      "name": "Band News",
+      "logo": "/logos/band_news.png",
+      "streamUrl": null
+    },
+    {
+      "id": "BandRede.br",
+      "name": "Band",
+      "logo": "/logos/band.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Bandsportshd.br",
+      "name": "Band",
+      "logo": "/logos/band.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Bishd.br",
+      "name": "Bis",
+      "logo": "/logos/bis.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Boomerang.br",
+      "name": "Boomerang",
+      "logo": "/logos/boomerang.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Canalbrasil.br",
+      "name": "Canalbrasil",
+      "logo": "/logos/canalbrasil.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Cartoonnetwork.br",
+      "name": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Cinemax.br",
+      "name": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Cnnbrasil.br",
+      "name": "CNN Brasil",
+      "logo": "/logos/cnn_brasil.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Curta.br",
+      "name": "Curta!",
+      "logo": "/logos/curta!.jpg",
+      "streamUrl": null
+    },
+    {
+      "id": "Discovery.br",
+      "name": "Discovery Channel",
+      "logo": "/logos/discovery_channel.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Discoverykids.br",
+      "name": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "streamUrl": null
+    },
+    {
+      "id": "DiscoveryScience.br",
+      "name": "Discovery Science",
+      "logo": "/logos/discovery_science.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Discoveryworldhd.br",
+      "name": "Discovery World",
+      "logo": "/logos/discovery_world.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Discturbohd.br",
+      "name": "Discturbohd",
+      "logo": null,
+      "streamUrl": null
+    },
+    {
+      "id": "Disneychannel.br",
+      "name": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "streamUrl": null
+    },
+    {
+      "id": "E.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "ESPN+.br",
+      "name": "ESPN",
+      "logo": "/logos/espn.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Espnbrasil.br",
+      "name": "ESPN Brasil",
+      "logo": "/logos/espn_brasil.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Espnextra.br",
+      "name": "ESPN Extra",
+      "logo": "/logos/espn_extra.png",
+      "streamUrl": null
+    },
+    {
+      "id": "ESPNInternational.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Fishtv.br",
+      "name": "Fishtv",
+      "logo": "/logos/fishtv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Foodnetworkhd.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Foxsports.br",
+      "name": "Foxsports",
+      "logo": "/logos/foxsports.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Foxsports2.br",
+      "name": "Foxsports2",
+      "logo": "/logos/foxsports2.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Globonews.br",
+      "name": "Globonews",
+      "logo": "/logos/globonews.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Globorecife.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Globorj.br",
+      "name": "Globo",
+      "logo": "/logos/globo.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Globosp.br",
+      "name": "Globo",
+      "logo": "/logos/globo.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Gloob.br",
+      "name": "Gloob",
+      "logo": "/logos/gloob.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Gloobinho.br",
+      "name": "Gloobinho",
+      "logo": "/logos/gloobinho.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Gnt.br",
+      "name": "GNT",
+      "logo": "/logos/gnt.png",
+      "streamUrl": null
+    },
+    {
+      "id": "H2.br",
+      "name": "H2",
+      "logo": "/logos/h2.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hbo.br",
+      "name": "HBO",
+      "logo": "/logos/hbo.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hbo2.br",
+      "name": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hbofamily.br",
+      "name": "HBO Family",
+      "logo": "/logos/hbo_family.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hboplus.br",
+      "name": "HBO Plus",
+      "logo": "/logos/hbo_plus.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hbosignature.br",
+      "name": "HBO Signature",
+      "logo": "/logos/hbo_signature.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hdtheater.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Hgtv.br",
+      "name": "HGTV",
+      "logo": "/logos/hgtv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Historychannel.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Homehealth.br",
+      "name": "Discovery Home Health",
+      "logo": "/logos/discovery_home_health.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Investigacaodiscoveryid.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Lifetime.br",
+      "name": "Lifetime",
+      "logo": "/logos/lifetime.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Max.br",
+      "name": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Maxprime.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Maxup.br",
+      "name": "Maxup",
+      "logo": null,
+      "streamUrl": null
+    },
+    {
+      "id": "Megapix.br",
+      "name": "Megapix",
+      "logo": "/logos/megapix.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Multishow.br",
+      "name": "Multishow",
+      "logo": "/logos/multishow.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Nationalgeographic.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Off.br",
+      "name": "Off",
+      "logo": "/logos/off.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Playboytv.br",
+      "name": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Premierefchd.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Recordnews.br",
+      "name": "Record News",
+      "logo": "/logos/record_news.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Rederecord.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Redetv.br",
+      "name": "Redetv",
+      "logo": "/logos/redetv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Rpccuritiba.br",
+      "name": "Rpccuritiba",
+      "logo": null,
+      "streamUrl": null
+    },
+    {
+      "id": "Sbt.br",
+      "name": "Sbt",
+      "logo": "/logos/sbt.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Sexyhot.br",
+      "name": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Sony.br",
+      "name": "Sony",
+      "logo": "/logos/sony.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Space.br",
+      "name": "Space",
+      "logo": "/logos/space.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Sportv.br",
+      "name": "Sportv",
+      "logo": "/logos/sportv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Sportv2.br",
+      "name": "Sportv",
+      "logo": "/logos/sportv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Sportv3.br",
+      "name": "Sportv",
+      "logo": "/logos/sportv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Studiouniversal.br",
+      "name": "Studio Universal",
+      "logo": "/logos/studio_universal.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Syfy.br",
+      "name": "Syfy",
+      "logo": "/logos/syfy.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tbs.br",
+      "name": "Tbs",
+      "logo": "/logos/tbs.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tcaction.br",
+      "name": "Tc Action",
+      "logo": "/logos/tc_action.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tccult.br",
+      "name": "Tc Cult",
+      "logo": "/logos/tc_cult.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tcfun.br",
+      "name": "Tc Fun",
+      "logo": "/logos/tc_fun.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tcm.br",
+      "name": "Tcm",
+      "logo": "/logos/tcm.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tcpipoca.br",
+      "name": "Tc Pipoca",
+      "logo": "/logos/tc_pipoca.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tcpremium.br",
+      "name": "Tc Premium",
+      "logo": "/logos/tc_premium.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tctouch.br",
+      "name": "Tc Touch",
+      "logo": "/logos/tc_touch.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tlc.br",
+      "name": "Tlc",
+      "logo": "/logos/tlc.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tnt.br",
+      "name": "TNT",
+      "logo": "/logos/tnt.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Tooncast.br",
+      "name": "Tooncast",
+      "logo": "/logos/tooncast.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Trutv.br",
+      "name": "Trutv",
+      "logo": "/logos/trutv.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Universalchannel.br",
+      "name": "E!",
+      "logo": "/logos/e!.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Viva.br",
+      "name": "Viva",
+      "logo": "/logos/viva.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Warnerchannel.br",
+      "name": "Warner Channel",
+      "logo": "/logos/warner_channel.png",
+      "streamUrl": null
+    },
+    {
+      "id": "Zoomoo.br",
+      "name": "Zoomoo",
+      "logo": null,
+      "streamUrl": null
+    }
+  ],
+  "demoVideos": [
+    {
+      "id": "demo-bbb",
+      "title": "Big Buck Bunny",
+      "category": "Demo",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "demo": true
+    },
+    {
+      "id": "demo-sintel",
+      "title": "Sintel",
+      "category": "Demo",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4",
+      "demo": true
+    },
+    {
+      "id": "demo-tos",
+      "title": "Tears of Steel",
+      "category": "Demo",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "demo": true
+    },
+    {
+      "id": "demo-hls",
+      "title": "Sinal HLS (transmissão demo)",
+      "category": "Demo",
+      "url": "https://test-streams.mux.dev/x36xhzz/x36xhzz.m3u8",
+      "demo": true
+    }
+  ]
+}
