@@ -6,10 +6,10 @@ export const CLIENT_CATEGORIES = [
   { label: "TV ao Vivo", href: "#/tv" },
   { label: "Filmes", href: "#/categoria/Filmes" },
   { label: "Séries", href: "#/categoria/Séries" },
-  { label: "Desenhos", href: "#/categoria/Desenhos" },
-  { label: "Doramas", href: "#/categoria/Doramas" },
   { label: "Animes", href: "#/categoria/Animes" },
+  { label: "Doramas", href: "#/categoria/Doramas" },
   { label: "Novelas", href: "#/categoria/Novelas" },
+  { label: "Desenhos", href: "#/categoria/Desenhos" },
 ];
 
 export default function CategoryNav() {

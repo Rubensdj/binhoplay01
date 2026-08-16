@@ -2,36 +2,89 @@ import { useEffect, useMemo, useState } from "react";
 import CategoryNav from "../components/CategoryNav";
 import ContentModal from "../components/ContentModal";
 import { ContentCard } from "../components/ContentRow";
+import { LiveCard } from "../components/LiveModal";
+import LiveModal from "../components/LiveModal";
 import VodModal from "../components/VodModal";
 import { VodCard } from "../components/VodRow";
 import { catalog, type ContentItem } from "../catalog";
 import { isAdultConfirmed, streamFor } from "../lib/content";
+import { liveBrowse, type LiveItem } from "../lib/live";
 import { getMyList, toggleMyList } from "../lib/list";
 import { fetchVodCategory, VOD_CATEGORIES, type VodItem } from "../lib/vod";
 import type { Route } from "../lib/router";
 
 const PAGE_SIZE = 60;
 
+/** Menus do addon para cada categoria (mesmos modos que o Kodi usa). */
+const LIVE_MENUS: Record<string, { mode: string; url: string }> = {
+  Filmes: { mode: "27", url: "#filmes_menu" },
+  Séries: { mode: "27", url: "#series_menu" },
+  Animes: { mode: "22", url: "#animes_menu" },
+  Doramas: { mode: "31", url: "#doramas_menu" },
+  Novelas: { mode: "25", url: "#novelas_menu" },
+  Desenhos: { mode: "28", url: "#desenhos_menu" },
+};
+
+interface Level {
+  title: string;
+  items: LiveItem[];
+}
+
+function toPluginUrl(menu: { mode: string; url: string }, name: string): string {
+  return `plugin://plugin.video.BrazucaPlay.Matrix/?mode=${menu.mode}&url=${encodeURIComponent(menu.url)}&name=${encodeURIComponent(name)}`;
+}
+
 export default function CategoryPage({ name, navigate }: { name: string; navigate: (route: Route) => void }) {
   const isVod = VOD_CATEGORIES.includes(name);
   const [selected, setSelected] = useState<ContentItem | null>(null);
   const [vodSelected, setVodSelected] = useState<VodItem | null>(null);
+  const [liveSelected, setLiveSelected] = useState<LiveItem | null>(null);
   const [myList, setMyList] = useState<string[]>(() => getMyList());
   const [vodItems, setVodItems] = useState<VodItem[] | null>(null);
   const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  const [liveMode, setLiveMode] = useState<"loading" | "live" | "static">("loading");
+  const [stack, setStack] = useState<Level[]>([]);
+  const [liveError, setLiveError] = useState<string | null>(null);
   const now = Date.now();
 
+  const menu = isVod ? LIVE_MENUS[name] : null;
+
   useEffect(() => {
-    if (!isVod) return;
+    if (!isVod || !menu) return;
     setVodItems(null);
     setVisibleCount(PAGE_SIZE);
+    setLiveMode("loading");
+    setStack([]);
+    setLiveError(null);
     let alive = true;
-    fetchVodCategory(name).then((items) => {
-      if (alive) setVodItems(items);
-    });
+
+    const pluginUrl = toPluginUrl(menu, name);
+    liveBrowse(pluginUrl)
+      .then((res) => {
+        if (!alive) return;
+        if (res.type === "listing") {
+          setStack([{ title: name, items: res.items }]);
+          setLiveMode("live");
+        } else if (res.type === "stream") {
+          setLiveMode("live");
+          navigate({ page: "player", url: res.stream, title: name });
+        } else {
+          throw new Error(res.message);
+        }
+      })
+      .catch(() => {
+        if (!alive) return;
+        // fallback: catálogo estático embutido (discovery; reprodução continua ao vivo)
+        setLiveMode("static");
+        fetchVodCategory(name).then((items) => {
+          if (alive) setVodItems(items);
+        });
+      });
+
     return () => {
       alive = false;
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [name, isVod]);
 
   const items = useMemo(() => {
@@ -51,6 +104,9 @@ export default function CategoryPage({ name, navigate }: { name: string; navigat
     });
   };
 
+  const level = stack[stack.length - 1];
+  const back = () => setStack((s) => (s.length > 1 ? s.slice(0, -1) : s));
+
   const shown = vodItems?.slice(0, visibleCount) ?? [];
 
   return (
@@ -60,19 +116,80 @@ export default function CategoryPage({ name, navigate }: { name: string; navigat
       <div className="mx-auto max-w-6xl px-5 pt-8 sm:px-6">
         <p className="text-xs font-bold uppercase tracking-[0.25em] text-brand-400">{name}</p>
         <h2 className="mt-2 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">{name}</h2>
-        <p className="mt-3 text-sm leading-relaxed text-slate-400">
-          {isVod
-            ? vodItems === null
-              ? "Carregando catálogo…"
-              : vodItems.length > 0
-                ? `${vodItems.length.toLocaleString("pt-BR")} títulos disponíveis.`
-                : "Nenhum título disponível no momento."
-            : items.length > 0
-              ? `${items.length} títulos ${items.length === 1 ? "disponível" : "disponíveis"} nesta categoria.`
-              : "Nenhum título disponível no momento."}
-        </p>
 
-        {isVod ? (
+        {isVod && liveMode === "live" && (
+          <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-emerald-500/20 bg-emerald-500/5 px-3 py-1 text-[11px] font-semibold text-emerald-300">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-400" />
+            AO VIVO — navegando o catálogo do addon (mesma fonte do Kodi)
+          </p>
+        )}
+
+        {isVod && liveMode === "live" && (
+          <div className="mt-4 flex items-center gap-2">
+            {stack.length > 1 && (
+              <button
+                type="button"
+                onClick={back}
+                className="rounded-lg border border-white/10 px-4 py-1.5 text-xs font-semibold text-slate-300 transition hover:bg-white/5"
+              >
+                ← Voltar
+              </button>
+            )}
+            <span className="text-sm text-slate-500">{level?.title}</span>
+          </div>
+        )}
+
+        {liveError && (
+          <p className="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-4 py-3 text-xs font-medium text-amber-200">
+            {liveError}
+          </p>
+        )}
+
+        {isVod && liveMode === "loading" ? (
+          <div className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
+            {Array.from({ length: 12 }).map((_, i) => (
+              <div key={i} className="aspect-[2/3] animate-pulse rounded-lg bg-ink-800/80" />
+            ))}
+          </div>
+        ) : isVod && liveMode === "live" && level ? (
+          level.items.length === 0 ? (
+            <div className="mt-10 rounded-2xl border border-dashed border-white/10 py-20 text-center">
+              <p className="text-lg font-bold text-slate-300">Nada disponível neste menu</p>
+              <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-500">
+                O addon ainda não publicou conteúdo aqui. Volte mais tarde.
+              </p>
+            </div>
+          ) : (
+            <div className="mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5">
+              {level.items.map((item, i) => (
+                <LiveCard
+                  key={`${item.name}-${i}-${item.url}`}
+                  item={item}
+                  onSelect={(target) => {
+                    if (target.folder) {
+                      setLiveError(null);
+                      liveBrowse(target.url)
+                        .then((res) => {
+                          if (res.type === "listing") {
+                            setStack((s) => [...s, { title: target.name, items: res.items }]);
+                          } else if (res.type === "stream") {
+                            navigate({ page: "player", url: res.stream, title: target.name });
+                          } else {
+                            setLiveError(res.message);
+                          }
+                        })
+                        .catch((err) =>
+                          setLiveError(err instanceof Error ? err.message : "Falha na navegação.")
+                        );
+                    } else {
+                      setLiveSelected(target);
+                    }
+                  }}
+                />
+              ))}
+            </div>
+          )
+        ) : isVod ? (
           vodItems === null ? (
             <div className="mt-10 grid grid-cols-3 gap-4 sm:grid-cols-4 lg:grid-cols-6">
               {Array.from({ length: 12 }).map((_, i) => (
@@ -83,12 +200,15 @@ export default function CategoryPage({ name, navigate }: { name: string; navigat
             <div className="mt-10 rounded-2xl border border-dashed border-white/10 py-20 text-center">
               <p className="text-lg font-bold text-slate-300">Sem títulos em {name} por enquanto</p>
               <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-500">
-                O catálogo do repositório ainda não publicou conteúdo desta categoria. Assim que
-                for adicionado, aparece aqui automaticamente.
+                O catálogo do repositório ainda não publicou conteúdo desta categoria.
               </p>
             </div>
           ) : (
             <>
+              <p className="mt-3 text-sm leading-relaxed text-slate-400">
+                {vodItems.length.toLocaleString("pt-BR")} títulos disponíveis (catálogo embutido —
+                reprodução ao vivo pelo addon).
+              </p>
               <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-4 sm:gap-4 lg:grid-cols-5 xl:grid-cols-6">
                 {shown.map((item) => (
                   <VodCard key={`${item.c}-${item.l}-${item.t}`} item={item} onSelect={setVodSelected} />
@@ -111,8 +231,7 @@ export default function CategoryPage({ name, navigate }: { name: string; navigat
           <div className="mt-10 rounded-2xl border border-dashed border-white/10 py-20 text-center">
             <p className="text-lg font-bold text-slate-300">Sem títulos em {name} por enquanto</p>
             <p className="mx-auto mt-2 max-w-md text-sm leading-relaxed text-slate-500">
-              Os canais desta categoria ainda não estão no guia do repositório. Assim que forem
-              adicionados, os títulos aparecem aqui automaticamente.
+              Os canais desta categoria ainda não estão no guia do repositório.
             </p>
           </div>
         ) : (
@@ -141,6 +260,7 @@ export default function CategoryPage({ name, navigate }: { name: string; navigat
         />
       )}
       {vodSelected && <VodModal item={vodSelected} onClose={() => setVodSelected(null)} navigate={navigate} />}
+      {liveSelected && <LiveModal item={liveSelected} onClose={() => setLiveSelected(null)} navigate={navigate} />}
     </section>
   );
 }

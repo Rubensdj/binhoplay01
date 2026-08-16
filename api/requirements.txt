@@ -1,2 +1,2 @@
-# O bot usa apenas a biblioteca padrão do Python (http.server, urllib).
-# Sem dependências externas — o hosting instala este arquivo automaticamente.
+# O bot executa o addon Kodi real, que importa `requests`.
+requests>=2.31

@@ -1,5 +1,6 @@
 import Hls from "hls.js";
 import { useEffect, useRef, useState } from "react";
+import { isHlsUrl } from "../lib/live";
 
 export default function Player({ url, title }: { url: string; title?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -16,7 +17,7 @@ export default function Player({ url, title }: { url: string; title?: string }) 
     video.load();
     setError(null);
 
-    const isHls = /\.m3u8($|\?)/i.test(url);
+    const isHls = isHlsUrl(url);
     if (isHls && Hls.isSupported()) {
       const hls = new Hls({ enableWorker: true });
       hlsRef.current = hls;

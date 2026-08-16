@@ -1,10 +1,13 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import ContentModal from "./ContentModal";
 import { ContentCard } from "./ContentRow";
+import { LiveCard } from "./LiveModal";
+import LiveModal from "./LiveModal";
 import VodModal from "./VodModal";
 import { VodCard } from "./VodRow";
 import { catalog, type ContentItem } from "../catalog";
 import { isAdultConfirmed, streamFor } from "../lib/content";
+import { liveSearch, type LiveItem } from "../lib/live";
 import { getMyList, toggleMyList } from "../lib/list";
 import { fetchVodCategory, normalizeVodName, VOD_CATEGORIES, type VodItem } from "../lib/vod";
 import type { Route } from "../lib/router";
@@ -21,6 +24,8 @@ export default function SearchOverlay({
   const [vodSelected, setVodSelected] = useState<VodItem | null>(null);
   const [vodAll, setVodAll] = useState<VodItem[]>([]);
   const [vodLoading, setVodLoading] = useState(false);
+  const [liveItems, setLiveItems] = useState<LiveItem[] | null>(null);
+  const [liveSelected, setLiveSelected] = useState<LiveItem | null>(null);
   const [myList, setMyList] = useState<string[]>(() => getMyList());
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -45,6 +50,26 @@ export default function SearchOverlay({
           .includes(q)
       )
       .slice(0, 24);
+  }, [query]);
+
+  // Busca AO VIVO no addon (mesma busca do Kodi) — sem extração manual.
+  useEffect(() => {
+    const q = query.trim();
+    if (!q) {
+      setLiveItems(null);
+      return;
+    }
+    let alive = true;
+    liveSearch(q)
+      .then((res) => {
+        if (alive) setLiveItems(res.type === "listing" ? res.items : null);
+      })
+      .catch(() => {
+        if (alive) setLiveItems(null);
+      });
+    return () => {
+      alive = false;
+    };
   }, [query]);
 
   // Busca no catálogo VOD (carrega cada categoria uma única vez, com cache).
@@ -110,12 +135,26 @@ export default function SearchOverlay({
             <p className="py-10 text-center text-sm text-slate-500">
               Digite um título, canal ou gênero para encontrar conteúdo.
             </p>
-          ) : results.length === 0 && vodResults.length === 0 ? (
+          ) : results.length === 0 && vodResults.length === 0 && liveItems !== null && liveItems.length === 0 ? (
             <p className="py-10 text-center text-sm text-slate-500">
-              {vodLoading ? "Buscando no catálogo…" : `Nada encontrado para “${query.trim()}”.`}
+              Nada encontrado para “{query.trim()}”.
             </p>
+          ) : results.length === 0 && vodResults.length === 0 && liveItems === null ? (
+            <p className="py-10 text-center text-sm text-slate-500">Buscando ao vivo…</p>
           ) : (
             <>
+              {liveItems !== null && liveItems.length > 0 && (
+                <>
+                  <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
+                    Ao vivo do addon (mesma busca do Kodi)
+                  </p>
+                  <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+                    {liveItems.map((item, i) => (
+                      <LiveCard key={`${item.name}-${i}-${item.url}`} item={item} onSelect={setLiveSelected} />
+                    ))}
+                  </div>
+                </>
+              )}
               {results.length > 0 && (
                 <>
                   <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">
@@ -163,6 +202,9 @@ export default function SearchOverlay({
       )}
       {vodSelected && (
         <VodModal item={vodSelected} onClose={() => setVodSelected(null)} navigate={navigate} />
+      )}
+      {liveSelected && (
+        <LiveModal item={liveSelected} onClose={() => setLiveSelected(null)} navigate={navigate} />
       )}
     </div>
   );

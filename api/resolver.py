@@ -1,1171 +1,926 @@
 #!/usr/bin/env python3
 """
-Binho Play — Bot de resolução VOD (v3).
+Binho Play — Runtime do addon Kodi (v4).
 
-Resolve TODOS os formatos de link do addon Kodi usando a mesma infraestrutura
-dele, com uma cadeia de fallback em camadas:
+Em vez de re-implementar (ou extrair) a lógica do addon, este bot EXECUTA o
+addon real (plugin.video.BrazucaPlay.Matrix) como se fosse o Kodi:
 
-  1. API de resolução (api.geekantenado.online / geekantenado.fly.dev) — formatos
-     `resolverN_mv=`, `resolverN_tvshows=`, `resolverN_episodes=`, `animes2=`;
-  2. API com o MESMO slug do formato de scraper (e slug "limpo" sem sufixo
-     Overflix) — muitos títulos que o catálogo aponta para Overflix/animes/
-     doramas/novelas existem na API sob o mesmo slug;
-  3. Scrapers reais, portados do addon decodificado:
-     - Overflix (movie2= / serie3=) com DESCOBERTA DINÂMICA de domínio
-       (igual ao addon: lê o aviso da página atual e migra sozinho se mudar);
-     - Doramas via doramasonline (host vindo do addon);
-     - Animes via animesonlinecc.to (direto + proxy de fetch da API);
-     - Novelas via novefx.biz / askflix.biz.
+  1. Baixa o ZIP do addon AO VIVO do repositório (mesmo URL que o Kodi usa:
+     addons_matrix.xml -> datadir -> zip). Fallbacks: repo do GitHub (raw) e a
+     cópia local embutida no deploy (addons/repo/Plugins/...).
+  2. Decodifica a ofuscação (mesma camada zlib+base64 que o próprio addon usa).
+  3. Executa o default.py com um shim do Kodi (xbmc/xbmcgui/xbmcplugin/
+     xbmcaddon/xbmcvfs + six + requests + simplejson), capturando
+     addDirectoryItem / setResolvedUrl.
 
-Tudo isso é lido de addon-sources.json (gerado por scripts/decode-addon.mjs a
-partir do ZIP do addon do próprio repositório) — quando o dono atualiza o
-addon, basta rodar `bun run generate` e o site passa a usar os novos hosts,
-sem editar nada manualmente.
-
-O navegador não pode chamar esses serviços diretamente (sem CORS / Cloudflare),
-então o app chama este bot (mesma origem, `/api/resolver`) e ele responde com
-CORS liberado + cache curto.
+Resultado: quando os desenvolvedores atualizam o addon (canais, hosts,
+resolvers, bases XML — atualizações diárias), o site passa a usar a versão
+nova AUTOMATICAMENTE, sem extração manual. Exatamente como o Kodi faz.
 
 Endpoints:
-  GET /resolver?resolver=N&request=<op>  -> resposta unificada (ver abaixo)
-  GET /                                    -> health check
-
-Resposta unificada (tudo):
-  {"kind": "stream",  "stream": "https://..."}
-  {"kind": "seasons", "seasons": [{"name": "...", "episodes": [
-      {"name": "...", "link": "...", "direct": true|false, "resolver": N}]}]}
-  {"kind": "error",   "message": "..."}
+  GET /                          -> health check
+  GET /resolver?resolver=N&request=...  -> contrato antigo (stream/seasons/error)
+  GET /tv                        -> canais ao vivo (grupos + canais do addon)
+  GET /browse?url=<plugin-url>   -> navega um menu do addon (listing ou stream)
+  GET /play?url=<plugin-url>     -> resolve um item reproduzível
+  GET /search?q=...              -> busca ao vivo nos menus de pesquisa do addon
+  GET /proxy?u=<url>&h=<json>    -> proxy de streams protegidos (Range + headers)
 
 Como rodar localmente (opcional):
   PORT=8787 python3 api/resolver.py
   e configure VITE_BOT_URL=http://localhost:8787
-
-No hosting do Freebuff, arquivos em `api/*.py` são instalados e executados
-automaticamente (requirements.txt ao lado), servindo o app na mesma origem.
 """
-import ast
 import base64
+import glob
 import json
 import os
-import random
 import re
-import string
+import sys
+import tempfile
+import threading
 import time
+import types
+import zlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import urlencode, urlparse, parse_qs, unquote, quote
-from urllib.request import Request, urlopen
+from urllib.parse import parse_qs, unquote, urlparse
 
 # ---------------------------------------------------------------------------
-# Configuração auto-derivada do addon do repositório
+# Fontes do addon (ao vivo primeiro, fallback local)
 # ---------------------------------------------------------------------------
-# O site não guarda URLs fixas: o script scripts/decode-addon.mjs decodifica o
-# addon (addons/plugin.video.BrazucaPlay.zip) e escreve addon-sources.json com
-# TODAS as fontes de dados (API de resolução, token, hosts dos scrapers). Quando
-# o dono do repositório atualiza o addon, basta rodar `bun run generate` — o
-# bot passa a usar os novos hosts automaticamente. Env vars ainda têm prioridade.
+UPSTREAM_BASE = os.environ.get("RESOLVER_UPSTREAM", "https://skyrisk.github.io/brazucaplay")
+GITHUB_BASE = os.environ.get("RESOLVER_GITHUB", "https://raw.githubusercontent.com/Rubensdj/brazucaplay/master")
+ADDON_ID = "plugin.video.BrazucaPlay.Matrix"
+REPO_XML = "addons/repo/addons_matrix.xml"
+REPO_XML_MAIN = "addons/repo/addons.xml"
+PLUGINS_DIR = "addons/repo/Plugins"
 
-_ADDON_CONFIG = {}
+CACHE_DIR = os.path.join(tempfile.gettempdir(), "binho-addon")
+ADDON_TTL = int(os.environ.get("RESOLVER_ADDON_TTL", "1800"))  # 30 min
+PROFILE_DIR = os.path.join(CACHE_DIR, "profile")
+ADDON_HOME = os.path.join(CACHE_DIR, "addon")
 
-def _load_addon_config():
-    """Lê addon-sources.json (gerado pelo decode-addon.mjs)."""
-    global _ADDON_CONFIG
-    for path in (
-        os.path.join(os.path.dirname(__file__), "..", "addon-sources.json"),
-        os.path.join(os.path.dirname(__file__), "addon-sources.json"),
-        "addon-sources.json",
-    ):
-        try:
-            with open(path, encoding="utf-8") as f:
-                data = json.load(f)
-            src = data.get("sources", {})
-            if src:
-                _ADDON_CONFIG = src
-                return
-        except Exception:
-            continue
+_lock = threading.Lock()  # serializa a execução do addon (Kodi é single-thread)
 
-_load_addon_config()
+# ---------------------------------------------------------------------------
+# Estado do shim (resetado a cada execução)
+# ---------------------------------------------------------------------------
+CAP = {"items": [], "ended": False, "stream": None, "failed": None}
+SEARCH_Q = ""
 
-
-def _cfg(*keys, default=None):
-    val = _ADDON_CONFIG
-    for k in keys:
-        if not isinstance(val, dict) or k not in val:
-            return default
-        val = val[k]
-    return val if val not in (None, "", []) else default
-
-
-ENDPOINTS = (
-    os.environ.get(
-        "RESOLVER_ENDPOINTS",
-        ",".join(
-            f"https://{e}" for e in _cfg("resolverEndpoints", default=["api.geekantenado.online", "geekantenado.fly.dev"])
-        ),
-    )
-    .split(",")
-)
-TOKEN = os.environ.get(
-    "RESOLVER_TOKEN",
-    _cfg(
-        "resolverToken",
-        default="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJyZXNvbHZlciIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzc5MDk4OTczfQ.WzQBuOqMai96Afleh9g-i7NXo6h-YsjPUbOgxlUqVsU",
-    ),
-)
-TIMEOUT = 12
-UA = (
-    "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36 "
-    "(KHTML, like Gecko) Chrome/131.0.0.0 Safari/537.36"
-)
-OVERFLIX_HOST = os.environ.get("OVERFLIX_HOST", _cfg("overflixHost", default="www.overflix.today"))
-DORAMA_HOST = os.environ.get("DORAMA_HOST", _cfg("doramaHost", default="doramasonline.net"))
-ANIME_HOST = os.environ.get("ANIME_HOST", _cfg("animeHost", default="animesonlinecc.to"))
-NOVEFX_HOST = os.environ.get("NOVEFX_HOST", _cfg("novefxHost", default="novefx.biz"))
-ASKFLIX_HOST = os.environ.get("ASKFLIX_HOST", _cfg("askflixHost", default="www.askflix.biz"))
-
-# Players do Overflix com bases FIXAS (igual ao addon): o playerData devolve só
-# os IDs por servidor; a base do player é sempre esta.
-OVERFLIX_PLAYERS = {
-    "mixdrop": "https://mixdrop.ps/e/",
-    "streamtape": "https://streamtape.com/e/",
-    "doodstream": "https://myvidplay.com/e/",
+SETTINGS = {
+    "ch_layout": "false",
+    "favoritos": "false",
+    "features_enable": "false",
+    "features_pass": "",
+    "epg": "false",
+    "canais_extra": "false",
+    "controledospais": "true",
+    "player_opt": "0",
+    "player_f4m": "false",
+    "ffmpeg_opt": "false",
+    "repeat_opt": "false",
+    "redecanais_opt": "false",
+    "disable_canais_extra": "false",
+    "epg_days": "2",
+    "epg_last": "",
+    "use_thumb": "false",
+    "donate_consider": "true",
+    "keyboard": "false",
+    "wvmob_user": "",
+    "wvmob_time": "",
 }
 
-CACHE_TTL = {
-    "tvshows": 900,
-    "mvshows": 900,
-    "episodes": 300,
-    "proxy": 600,
-    "direct": 600,
-    "default": 300,
-}
-
-_cache = {}
+KODI_TAG_RE = re.compile(r"\[/?[A-Za-z0-9 _.-]+\]|\[COLOR [^\]]+\]|\[/COLOR\]|\[CR\]|\[B\]|\[/B\]")
 
 
-def cache_get(key):
-    hit = _cache.get(key)
-    if hit and hit[0] > time.time():
-        return hit[1]
-    return None
+def clean_name(name):
+    """Remove tags Kodi ([B], [COLOR ...]) de títulos e nomes."""
+    if isinstance(name, bytes):
+        name = name.decode("utf-8", "replace")
+    name = str(name)
+    return KODI_TAG_RE.sub("", name).replace("\n", " ").strip()
 
 
-def cache_set(key, value, ttl):
-    _cache[key] = (time.time() + ttl, value)
-    if len(_cache) > 1024:
-        now = time.time()
-        for k in [k for k, v in _cache.items() if v[0] < now]:
-            _cache.pop(k, None)
+# ---------------------------------------------------------------------------
+# Shim do Kodi
+# ---------------------------------------------------------------------------
+class VideoInfoTag:
+    def __getattr__(self, _k):
+        return lambda *a, **kw: None
 
 
-def overflix_domain():
-    """Descobre o domínio ATUAL do Overflix — exatamente como o addon faz.
+class ListItem:
+    def __init__(self, name="", path="", **kw):
+        self._name = name.decode("utf-8", "replace") if isinstance(name, bytes) else str(name)
+        self._path = path.decode("utf-8", "replace") if isinstance(path, bytes) else str(path)
+        self.art = {}
+        self.props = {}
+        self.subs = []
+        self._tag = VideoInfoTag()
 
-    O addon consulta o domínio configurado; se a página avisa que o domínio
-    mudou (bloco `alert alert-info` com link novo, ou `domainAlertPayload` com
-    `baseUrl` novo em base64), passa a usar o novo automaticamente. O resultado
-    fica em cache por 1h para não pesar nas requisições.
-    """
-    now = time.time()
-    if _overflix_cache["host"] and now - _overflix_cache["at"] < 3600:
-        return _overflix_cache["host"]
-    discovered = _discover_overflix_domain()
-    if discovered:
-        _overflix_cache["host"] = discovered
-        _overflix_cache["at"] = now
-    return _overflix_cache["host"] or OVERFLIX_HOST
+    def setArt(self, art):
+        self.art.update(art or {})
+
+    def setInfo(self, *a, **kw):
+        pass
+
+    def getVideoInfoTag(self):
+        return self._tag
+
+    def setProperty(self, k, v):
+        self.props[str(k)] = str(v)
+
+    def getProperty(self, k):
+        return self.props.get(str(k), "")
+
+    def setPath(self, p):
+        self._path = str(p)
+
+    def setSubtitles(self, s):
+        self.subs = s
+
+    def setContentLookup(self, *a):
+        pass
+
+    def setMimeType(self, *a):
+        pass
 
 
-_overflix_cache = {"at": 0.0, "host": None}
+class Xbmc:
+    @staticmethod
+    def getInfoLabel(*_a):
+        return "21.0"
 
+    @staticmethod
+    def executebuiltin(*_a, **_kw):
+        pass
 
-def _discover_overflix_domain():
-    try:
-        html = fetch_direct(f"https://{OVERFLIX_HOST}/", timeout=10)
-    except Exception:
-        return None
-    html = html.replace("\n", "").replace("\r", "").replace("'", '"')
-    # 1) bloco de aviso com link para o novo domínio
-    bloco = re.search(
-        r'<div[^>]*class="alert alert-info"[^>]*>(.*?)</div>', html, re.DOTALL | re.IGNORECASE
-    )
-    if bloco:
-        link = re.search(r'<a[^>]*href="([^"]+)"', bloco.group(1), re.IGNORECASE)
-        if link:
-            dominio = urlparse(link.group(1)).netloc
-            if dominio and dominio.lower() != OVERFLIX_HOST.lower():
-                return dominio
-    # 2) domainAlertPayload (JSON em base64 com baseUrl em base64)
-    payload = re.search(r'window\.domainAlertPayload\s*=\s*"([^"]+)"', html)
-    if payload:
-        try:
-            decoded = json.loads(base64.b64decode(payload.group(1)).decode("utf-8"))
-            base_url = decoded.get("baseUrl")
-            if base_url:
-                dominio = urlparse(base64.b64decode(base_url).decode("utf-8")).netloc
-                if dominio and dominio.lower() != OVERFLIX_HOST.lower():
-                    return dominio
-        except Exception:
+    @staticmethod
+    def sleep(*_a):
+        pass
+
+    @staticmethod
+    def getCondVisibility(*_a, **_kw):
+        return False
+
+    @staticmethod
+    def log(*_a, **_kw):
+        pass
+
+    @staticmethod
+    def translatePath(p):
+        return p
+
+    @staticmethod
+    def getIPAddress():
+        return "127.0.0.1"
+
+    @staticmethod
+    def getLanguage(*_a):
+        return "Portuguese (Brazil)"
+
+    LOGERROR = "ERROR"
+    PLAYLIST_VIDEO = 1
+
+    class PlayList:
+        def __init__(self, *a):
             pass
-    return None
+
+        def clear(self):
+            pass
+
+        def add(self, *a):
+            pass
+
+    class Player:
+        def play(self, *a, **kw):
+            pass
+
+        def isPlaying(self):
+            return False
+
+    class Monitor:
+        def __init__(self, *a):
+            pass
+
+        def waitForAbort(self, *a):
+            return True
+
+        def abortRequested(self):
+            return True
+
+    class Keyboard:
+        def __init__(self, message="", heading=""):
+            pass
+
+        def doModal(self):
+            pass
+
+        def isConfirmed(self):
+            return True
+
+        def getText(self):
+            return SEARCH_Q
 
 
-# ---------------------------------------------------------------------------
-# Doramas — o domínio .org hoje redireciona para .net (meta refresh); o bot
-# segue o aviso da página como um navegador, então continua funcionando mesmo
-# quando o site migra de domínio (mesmo espírito do overflix_domain).
-# ---------------------------------------------------------------------------
-_dorama_cache = {"at": 0.0, "host": None}
+class Xbmcgui:
+    ListItem = ListItem
 
+    class Dialog:
+        @staticmethod
+        def ok(*a):
+            return True
 
-def dorama_domain():
-    now = time.time()
-    if _dorama_cache["host"] and now - _dorama_cache["at"] < 3600:
-        return _dorama_cache["host"]
-    discovered = _discover_dorama_domain()
-    if discovered:
-        _dorama_cache["host"] = discovered
-        _dorama_cache["at"] = now
-    return _dorama_cache["host"] or DORAMA_HOST
+        @staticmethod
+        def select(*a):
+            return 0
 
+        @staticmethod
+        def yesno(*a):
+            return True
 
-def _discover_dorama_domain():
-    try:
-        html = fetch_direct(f"https://{DORAMA_HOST}/", timeout=10)
-    except Exception:
-        return None
-    m = re.search(
-        r'<meta[^>]*http-equiv=["\']refresh["\'][^>]*content=["\']\d+;\s*url=([^"\']+)',
-        html,
-        re.IGNORECASE,
-    )
-    if not m:
-        m = re.search(r"Redirecting you to (https?://[^\s\"'<]+)", html, re.IGNORECASE)
-    if not m:
-        return None
-    dominio = urlparse(m.group(1)).netloc
-    if dominio and dominio.lower() != DORAMA_HOST.lower():
-        return dominio
-    return None
+        @staticmethod
+        def input(*a, **kw):
+            return SEARCH_Q
 
+        @staticmethod
+        def numeric(*a):
+            return "0"
 
-def is_base64(s):
-    if not s or len(s) < 12:
-        return False
-    if not re.fullmatch(r"[A-Za-z0-9+/=]+", s):
-        return False
-    try:
-        base64.b64decode(s, validate=True)
-        return True
-    except Exception:
-        return False
+        @staticmethod
+        def contextmenu(*a):
+            return 0
 
-
-def decode_result(result):
-    """O addon recebe o resultado em base64 (JSON/ast/dict/string). Decodifica."""
-    if not isinstance(result, str) or result in ("", "API Under Maintenance", "episode not found!"):
-        return result
-    if not is_base64(result):
-        return result
-    try:
-        raw = base64.b64decode(result).decode("utf-8", "replace")
-    except Exception:
-        return result
-    if not raw.strip():
-        return result
-    try:
-        return json.loads(raw)
-    except Exception:
-        pass
-    try:
-        return ast.literal_eval(raw)
-    except Exception:
-        pass
-    return raw
-
-
-# ---------------------------------------------------------------------------
-# Camada de transporte
-# ---------------------------------------------------------------------------
-def fetch_direct(url, referer="", headers=None, timeout=TIMEOUT):
-    """Fetch direto com headers de navegador. Fallback: proxy da API do addon."""
-    h = {
-        "User-Agent": UA,
-        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-        "Accept-Language": "pt-BR,pt;q=0.9,en-US;q=0.8",
-    }
-    if referer:
-        h["Referer"] = referer
-    if headers:
-        h.update(headers)
-    key = f"direct:{url}:{referer}"
-    cached = cache_get(key)
-    if cached is not None:
-        return cached
-    try:
-        req = Request(url, headers=h)
-        with urlopen(req, timeout=timeout) as resp:
-            body = resp.read().decode("utf-8", "replace")
-        if not body or len(body) < 100:
-            raise RuntimeError("resposta curta demais")
-        if "Attention Required" in body or "cf-wrapper" in body or "Just a moment" in body:
-            raise RuntimeError("cloudflare")
-        cache_set(key, body, CACHE_TTL["direct"])
-        return body
-    except Exception:
-        return proxy_get(url, referer)
-
-
-def api_call(params):
-    """Chama a API de resolução do addon (payload = base64 do dict de params)."""
-    payload = quote(base64.b64encode(json.dumps(params).encode("utf-8")).decode("utf-8"))
-    last_err = None
-    for attempt in range(2):
-        for endpoint in ENDPOINTS:
-            try:
-                url = f"{endpoint}/?resolver={payload}"
-                req = Request(url, headers={"Authorization": f"Bearer {TOKEN}", "User-Agent": "XC-IPTV"})
-                with urlopen(req, timeout=TIMEOUT) as resp:
-                    return json.loads(resp.read().decode("utf-8", "replace"))
-            except Exception as err:  # noqa: BLE001
-                last_err = err
-    raise RuntimeError(f"API de resolução indisponível: {last_err}")
-
-
-def call_resolver(resolver, request, retries=3):
-    """Equivalente ao resolver_api do addon: {resolver: N, request: \"cmd=slug\"}."""
-    params = json.dumps({"resolver": resolver, "request": request})
-    payload = base64.b64encode(params.encode("utf-8")).decode("utf-8")
-    payload_q = urlencode({"resolver": payload})
-    key = f"api:{resolver}:{request}"
-    ttl = CACHE_TTL.get(request.split("=")[0], CACHE_TTL["default"])
-    cached = cache_get(key)
-    if cached is not None:
-        return cached
-
-    last_err = None
-    for attempt in range(retries):
-        for endpoint in ENDPOINTS:
-            try:
-                url = f"{endpoint}/?{payload_q}"
-                req = Request(url, headers={"Authorization": f"Bearer {TOKEN}", "User-Agent": "XC-IPTV"})
-                with urlopen(req, timeout=TIMEOUT) as resp:
-                    body = resp.read().decode("utf-8", "replace")
-                data = json.loads(body)
-                result = decode_result(data.get("result"))
-                if result == "" or result is None:
-                    raise RuntimeError("resultado vazio")
-                cache_set(key, result, ttl)
-                return result
-            except Exception as err:  # noqa: BLE001
-                last_err = err
-        time.sleep(0.3 * (attempt + 1))
-    raise RuntimeError(f"API de resolução indisponível: {last_err}")
-
-
-def proxy_get(url, referer="", headers=""):
-    """Fetch de uma URL arbitrária através do proxy da API (custom_proxy do addon)."""
-    key = f"proxy:{url}:{referer}:{headers}"
-    cached = cache_get(key)
-    if cached is not None:
-        return cached
-    params = {
-        "action": "get",
-        "host": url,
-        "referer": referer,
-        "origin": "",
-        "post": "",
-        "cache": {"format": "minutes", "limit": 10},
-        "headers": headers,
-    }
-    result = api_call(params).get("result")
-    if not isinstance(result, str) or not result:
-        raise RuntimeError(f"Falha ao acessar {urlparse(url).netloc} (servidor indisponível ou bloqueado)")
-    try:
-        raw = base64.b64decode(result).decode("utf-8", "replace")
-    except Exception:
-        raw = result
-    if not raw or len(raw) < 100:
-        raise RuntimeError(f"Falha ao acessar {urlparse(url).netloc} (servidor indisponível ou bloqueado)")
-    if "Attention Required" in raw or "cf-wrapper" in raw or "Just a moment" in raw:
-        raise RuntimeError(f"{urlparse(url).netloc} está protegido por verificação (Cloudflare)")
-    cache_set(key, raw, CACHE_TTL["proxy"])
-    return raw
-
-
-# ---------------------------------------------------------------------------
-# Normalização para o contrato unificado
-# ---------------------------------------------------------------------------
-def stream_result(url):
-    return {"kind": "stream", "stream": url}
-
-
-def seasons_result(seasons):
-    return {"kind": "seasons", "seasons": seasons}
-
-
-def error_result(message):
-    return {"kind": "error", "message": message}
-
-
-def pick_stream(data):
-    if isinstance(data, str):
-        s = data.strip()
-        if re.match(r"^https?://", s, re.IGNORECASE):
-            return s
-        return None
-    if isinstance(data, list):
-        for entry in data:
-            if isinstance(entry, str) and re.match(r"^https?://", entry.strip(), re.IGNORECASE):
-                return entry.strip()
-    return None
-
-
-def normalize_seasons(data, resolver, slug=""):
-    """Converte a resposta crua da API (resolver 2/3/4) no formato unificado.
-
-    Resolver 2: [{season_number, episodes: [{episode_name, link}]}] — links diretos.
-    Resolver 3: {"1": {"episodes": {1: {...}}}} — episódios resolvidos via episodes=.
-    """
-    seasons = []
-
-    if isinstance(data, list):
-        for s in data:
-            if not isinstance(s, dict):
-                continue
-            eps = s.get("episodes")
-            if not isinstance(eps, list):
-                continue
-            episodes = []
-            for e in eps:
-                if not isinstance(e, dict) or not isinstance(e.get("link"), str):
-                    continue
-                link = e["link"].strip()
-                if not re.match(r"^https?://", link, re.IGNORECASE):
-                    continue
-                episodes.append(
-                    {
-                        "name": str(e.get("episode_name") or e.get("title") or "Episódio"),
-                        "link": link,
-                        "direct": True,
-                        "resolver": resolver,
-                    }
-                )
-            if episodes:
-                seasons.append(
-                    {
-                        "name": str(s.get("season_number") or f"Temporada {len(seasons) + 1}"),
-                        "episodes": episodes,
-                    }
-                )
-        return seasons or None
-
-    if isinstance(data, dict):
-        for key, value in data.items():
-            if not isinstance(value, dict):
-                continue
-            eps_raw = value.get("episodes")
-            episodes = []
-            if isinstance(eps_raw, dict):
-                for num, ep in eps_raw.items():
-                    ep = ep if isinstance(ep, dict) else {}
-                    episodes.append(
-                        {
-                            "name": str(ep.get("title") or f"Episódio {num}"),
-                            "link": f"{slug}#{key}#{num}#Dublado",
-                            "direct": False,
-                            "resolver": 3,
-                        }
-                    )
-            elif isinstance(eps_raw, list):
-                for e in eps_raw:
-                    if not isinstance(e, dict) or not isinstance(e.get("link"), str):
-                        continue
-                    link = e["link"].strip()
-                    if not re.match(r"^https?://", link, re.IGNORECASE):
-                        continue
-                    episodes.append(
-                        {
-                            "name": str(e.get("episode_name") or e.get("title") or "Episódio"),
-                            "link": link,
-                            "direct": True,
-                            "resolver": resolver,
-                        }
-                    )
-            if episodes:
-                seasons.append({"name": str(key), "episodes": episodes})
-        return seasons or None
-
-    return None
-
-
-def seasons_from_episodes(name, episodes):
-    """Constrói seasons no formato unificado a partir de lista (name, link, direct)."""
-    return [
-        {
-            "name": name,
-            "episodes": [
-                {"name": n, "link": l, "direct": d, "resolver": 0}
-                for (n, l, d) in episodes
-            ],
-        }
-    ]
-
-
-# ---------------------------------------------------------------------------
-# Formatos baseados na API de resolução
-# ---------------------------------------------------------------------------
-def resolve_api(resolver, request):
-    data = call_resolver(resolver, request)
-    if isinstance(data, str) and not re.match(r"^https?://", data, re.IGNORECASE):
-        return error_result(str(data) if data else "Nenhuma opção de reprodução disponível para este título.")
-    stream = pick_stream(data)
-    if stream:
-        return stream_result(stream)
-    cmd, _, slug = request.partition("=")
-    seasons = normalize_seasons(data, resolver, slug)
-    if seasons:
-        return seasons_result(seasons)
-    return error_result("Título indisponível no momento (resolver não retornou reprodução).")
-
-
-def resolve_animes2(slug):
-    return resolve_api(3, f"tvshows={slug}")
-
-
-# ---------------------------------------------------------------------------
-# Fallback: tentar a API com o slug do formato de scraper
-# ---------------------------------------------------------------------------
-def clean_slug(slug):
-    """Remove sufixos do Overflix: `-dublado-37372` / `-legendado-37372` / `-37372`."""
-    return (
-        slug.replace("-dublado", "")
-        .replace("-legendado", "")
-        .replace("-dual", "")
-        .replace("-dublado-dual", "")
-        .replace(r"-\d{3,}$", "")
-        .strip()
-    )
-
-
-def api_fallback(slug, op="tvshows", resolver=3):
-    """Tenta a API de resolução com o slug cru e depois o slug limpo."""
-    for candidate in [slug, clean_slug(slug)]:
-        if not candidate:
-            continue
-        try:
-            result = resolve_api(resolver, f"{op}={candidate}")
-        except Exception:
-            continue
-        if result["kind"] != "error":
-            return result
-    return None
-
-
-# ---------------------------------------------------------------------------
-# Overflix (movie2= / serie3=) — domínio atual + players diretos
-# ---------------------------------------------------------------------------
-def _unpack_packed(html):
-    """Unpacker do JS empacotado (p,a,c,k,e,d) usado pelo Mixdrop."""
-    m = re.search(
-        r"}\(\\(?:'|\")(.*?)\\'\s*,\s*(\d+)\s*,\s*(\d+)\s*,\\(?:'|\")(.*?)\\'(?:\.split|\))",
-        html,
-        re.DOTALL,
-    )
-    if not m:
-        m = re.search(r"}\('(.*?)'\s*,\s*(\d+)\s*,\s*(\d+)\s*,'(.*?)'\.split", html, re.DOTALL)
-    if not m:
-        return None
-    P, Kraw = m.group(1), m.group(4)
-    K = Kraw.split("|")
-
-    def repl(w):
-        if w.isdigit() and int(w) < len(K):
-            return K[int(w)] if K[int(w)] else w
-        return w
-
-    return re.sub(r"\b\w+\b", lambda mm: repl(mm.group(0)), P)
-
-
-def mixdrop_wurl(embed_url):
-    """Página do Mixdrop -> URL direta do vídeo (wurl) via unpack do JS."""
-    try:
-        html = fetch_direct(embed_url, referer=f"https://{overflix_domain()}/")
-    except Exception:
-        return None
-    for mm in re.finditer(r"eval\(function\(p,a,c,k,e,d\)", html):
-        out = _unpack_packed(html[mm.start(): mm.start() + 30000])
-        if not out:
-            continue
-        su = re.search(r'(?:vsr|wurl|surl)[^=]*=\s*"([^"]+)', out)
-        if su:
-            u = su.group(1)
-            if u.startswith("//"):
-                u = "https:" + u
-            if re.match(r"^https?://", u):
-                return u
-    # fallback: procurar URLs mxcontent diretas na página
-    m = re.search(r"https?:\\?\\?//[^\"'\\\\ ]*mxcontent[^\"'\\\\ ]*\.(?:mp4|m3u8)[^\"'\\\\ ]*", html)
-    if m:
-        return m.group(0).replace("\\/", "/").replace("\\u0026", "&")
-    return None
-
-
-def streamtape_direct(embed_url):
-    """Página do Streamtape -> URL get_video (redireciona para o MP4 direto)."""
-    try:
-        html = fetch_direct(embed_url, referer=f"https://{overflix_domain()}/")
-    except Exception:
-        return None
-    if "Video not found!" in html:
-        return None
-    src = re.findall(r"""ById\('.+?=\s*([\"']//[^;<]+)""", html)
-    if not src:
-        return None
-    parts = src[-1].replace("'", '"').split("+")
-    url = ""
-    for part in parts:
-        m = re.findall(r'"([^"]*)', part)
-        p1 = m[0] if m else ""
-        subs = re.findall(r"substring\((\d+)", part)
-        url += p1[sum(int(s) for s in subs):]
-    url += "&stream=1"
-    if url.startswith("//"):
-        url = "https:" + url
-    return url if re.match(r"^https?://", url) else None
-
-
-def resolve_embed(embed_url):
-    """Embed (mixdrop/streamtape) -> URL direta de vídeo."""
-    host = urlparse(embed_url).netloc.lower()
-    if "mixdrop" in host:
-        return mixdrop_wurl(embed_url)
-    if "streamtape" in host:
-        return streamtape_direct(embed_url)
-    return embed_to_direct(embed_url)
-
-
-def overflix_playerdata(video_id, page_url):
-    api = (
-        f"https://{overflix_domain()}/index.php?app=videobox&module=video&controller=view"
-        f"&do=playerData&id={video_id}"
-    )
-    raw = fetch_direct(api, referer=page_url, headers={"X-Requested-With": "XMLHttpRequest"})
-    return json.loads(raw)
-
-
-def _parse_servers(servers_str):
-    servers_str = servers_str.replace("&amp;", "&")
-    result = {}
-    for p in servers_str.split("&"):
-        if "=" in p:
-            k, v = p.split("=", 1)
-            result[k.strip().lower()] = v.strip()
-    return result
-
-
-def overflix_play(video_id, page_url):
-    """playerData do Overflix -> player direto (bases fixas do addon).
-
-    Igual ao addon: os IDs vêm de servers_dub (preferido) ou servers_leg, e a
-    base de cada player é fixa (mixdrop.ps, streamtape.com, myvidplay.com).
-    Tenta cada player até achar um vídeo direto.
-    """
-    try:
-        data = overflix_playerdata(video_id, page_url)
-    except Exception:
-        return None
-    if not isinstance(data, dict):
-        return None
-    if data.get("redirect"):
-        try:
-            raw = fetch_direct(data["redirect"], referer=page_url, headers={"X-Requested-With": "XMLHttpRequest"})
-            data = json.loads(raw)
-        except Exception:
+        @staticmethod
+        def notification(*a, **kw):
             return None
-    servers = _parse_servers(str(data.get("servers_dub", "") or ""))
-    if not servers:
-        servers = _parse_servers(str(data.get("servers_leg", "") or ""))
-    if not servers:
-        return None
-    for name, base in OVERFLIX_PLAYERS.items():
-        if name in servers and servers[name]:
-            embed = base + servers[name]
-            direct = resolve_embed(embed)
-            if direct:
-                return direct
-    return None
+
+    class DialogProgress:
+        def __init__(self, *a):
+            pass
+
+        def create(self, *a):
+            pass
+
+        def update(self, *a):
+            pass
+
+        def close(self):
+            pass
+
+        def iscanceled(self):
+            return False
 
 
-def resolve_overflix_movie(slug):
-    # 1) tentar a API com o mesmo slug (cobre ~100% dos filmes)
-    api = api_fallback(slug, op="mvshows")
-    if api:
-        return api
-    # 2) Overflix
-    video_id = slug.rstrip("/").split("-")[-1]
-    if not video_id.isdigit():
-        return error_result("Filme indisponível no momento (identificador inválido).")
-    page = f"https://{overflix_domain()}/filmes/online/{slug}/"
-    direct = overflix_play(video_id, page)
-    if direct:
-        return stream_result(direct)
-    return error_result("Servidor do Overflix indisponível no momento (filme). Tente novamente mais tarde.")
+class Xbmcaddon:
+    class Addon:
+        def __init__(self, id_=""):
+            self._id = id_
+
+        def getSetting(self, k):
+            return SETTINGS.get(k, "")
+
+        def setSetting(self, k, v):
+            SETTINGS[k] = str(v)
+
+        def setSettingBool(self, k, v):
+            SETTINGS[k] = "true" if v else "false"
+
+        def getAddonInfo(self, k):
+            return {
+                "path": ADDON_HOME + "/",
+                "profile": PROFILE_DIR + "/",
+                "version": "2.1.4",
+                "name": "BrazucaPlay Matrix",
+                "id": "plugin.video.BrazucaPlay.Matrix",
+                "icon": "",
+            }.get(k, "")
+
+        def getLocalizedString(self, *a):
+            return ""
+
+        def openSettings(self, *a):
+            pass
 
 
-def resolve_overflix_series(slug):
-    # 1) API com slug cru e limpo
-    api = api_fallback(slug, op="tvshows")
-    if api:
-        return api
-    # 2) Overflix — página da série + episodesList por temporada
-    host = overflix_domain()
-    url = f"https://{host}/series/online/{slug}/"
-    try:
-        html = fetch_direct(url)
-    except Exception:
-        return error_result("Servidor do Overflix indisponível no momento (série). Tente novamente mais tarde.")
-
-    bloco = re.search(r'<section class="vbEpisodes".*?</section>', html, re.DOTALL)
-    if not bloco:
-        return error_result("Série não encontrada no Overflix.")
-    video_id = re.search(r'data-video-id="(\d+)"', bloco.group(0))
-    seasons = re.findall(r'data-season="(\d+)"', bloco.group(0))
-    audio = re.search(r'data-current-audio="([^"]+)"', bloco.group(0))
-    if not video_id or not seasons:
-        return error_result("Série sem episódios listados no Overflix.")
-    video_id = video_id.group(1)
-    audio = audio.group(1) if audio else "Dublado"
-
-    out = []
-    for season in seasons:
-        api_url = (
-            f"https://{host}/index.php?app=videobox&module=video&controller=view"
-            f"&do=episodesList&id={video_id}&season={season}&audio={quote(audio)}"
-        )
-        try:
-            raw = fetch_direct(api_url, referer=url, headers={"X-Requested-With": "XMLHttpRequest"})
-            data = json.loads(raw)
-        except Exception:
-            continue
-        if isinstance(data, dict) and data.get("redirect"):
-            try:
-                raw = fetch_direct(data["redirect"], referer=url, headers={"X-Requested-With": "XMLHttpRequest"})
-                data = json.loads(raw)
-            except Exception:
-                continue
-        episodes = []
-        for ep in data.get("episodes", []) if isinstance(data, dict) else []:
-            if not isinstance(ep, dict):
-                continue
-            number = ep.get("number")
-            title = str(ep.get("title") or f"EPISÓDIO {number}").upper()
-            ep_url = ep.get("url")
-            if not ep_url:
-                continue
-            if number:
-                title = f"EPISÓDIO {number} - {title}" if f"EPISÓDIO {number}" not in title else title
-            episodes.append({"name": title, "link": ep_url, "direct": False, "resolver": 0})
-        if episodes:
-            out.append({"name": f"{season}ª TEMPORADA", "episodes": episodes})
-    if out:
-        return seasons_result(out)
-    return error_result("Série sem episódios disponíveis no Overflix.")
-
-
-# ---------------------------------------------------------------------------
-# Doramas (doramas_resolver1=) — doramasonline.net (estrutura nova)
-# ---------------------------------------------------------------------------
-def resolve_doramas(slug):
-    # 1) API com o mesmo slug
-    api = api_fallback(slug, op="tvshows")
-    if api:
-        return api
-    # 2) doramasonline (domínio descoberto — .org hoje aponta para .net)
-    host = dorama_domain()
-    url = f"https://{host}/br/series/{slug}/"
-    try:
-        html = fetch_direct(url)
-    except Exception:
-        return error_result("Servidor de doramas indisponível no momento (doramasonline).")
-
-    eps = re.findall(r'href="(/br/episodio/[^"]+)"', html)
-    if not eps:
-        return error_result("Dorama não encontrado no doramasonline.")
-    seen = set()
-    seasons = {}
-    for e in eps:
-        if e in seen:
-            continue
-        seen.add(e)
-        m = re.search(r"-temporada-(\d+)-episodio-(\d+)/?$", e)
-        if not m:
-            continue
-        season_num = int(m.group(1))
-        ep_num = int(m.group(2))
-        seasons.setdefault(season_num, []).append(
-            (f"EPISÓDIO {ep_num}", f"https://{host}{e}", False)
-        )
-    out = []
-    for season_num in sorted(seasons):
-        eps_sorted = sorted(seasons[season_num], key=lambda x: int(re.search(r"(\d+)$", x[0]).group(1)))
-        out.append(
+class Xbmcplugin:
+    @staticmethod
+    def addDirectoryItem(handle, url, listitem, isFolder=True):
+        CAP["items"].append(
             {
-                "name": f"{season_num}ª TEMPORADA",
-                "episodes": [
-                    {"name": n, "link": l, "direct": d, "resolver": 0}
-                    for (n, l, d) in eps_sorted
-                ],
+                "url": str(url),
+                "name": clean_name(listitem._name),
+                "folder": bool(isFolder),
+                "thumb": listitem.art.get("thumb", ""),
+                "fanart": listitem.art.get("fanart", ""),
+                "path": str(listitem._path),
+                "props": dict(listitem.props),
             }
         )
-    if out:
-        return seasons_result(out)
-    return error_result("Dorama sem episódios disponíveis no doramasonline.")
+        return True
+
+    @staticmethod
+    def endOfDirectory(handle, succeeded=True, *_a, **_kw):
+        CAP["ended"] = bool(succeeded)
+
+    @staticmethod
+    def setResolvedUrl(handle, succeeded, listitem):
+        CAP["stream"] = str(listitem._path)
+        CAP["ended"] = True
+
+    @staticmethod
+    def setContent(*a):
+        pass
+
+    @staticmethod
+    def addSortMethod(*a):
+        pass
+
+    SORT_METHOD_LABEL = 0
 
 
-def resolve_dorama_ep(ep_url):
-    try:
-        html = fetch_direct(ep_url)
-    except Exception:
-        return None
-    m = re.search(r"https://[^/]+/jwplayer-2/\?source=([^&\"']+)", html)
-    if m:
-        src = unquote(m.group(1))
-        if re.match(r"^https?://", src):
-            return src
-    m = re.search(r"(https?:\\?\\?//[^\"'\\\\ ]+\.(?:mp4|m3u8)[^\"'\\\\ ]*)", html)
-    if m:
-        return m.group(1).replace("\\/", "/").replace("\\u0026", "&")
-    return None
+class Xbmcvfs:
+    @staticmethod
+    def translatePath(p):
+        # mapeia QUALQUER special:// (profile, userdata, …) para o cache do bot,
+        # evitando que o addon escreva pastas soltas no diretório de trabalho
+        return re.sub(r"special://[^/]*/?", PROFILE_DIR + "/", str(p))
 
 
-# ---------------------------------------------------------------------------
-# Animes (animes3=) — animesonlinecc.to
-# ---------------------------------------------------------------------------
-def resolve_animes3(slug):
-    # 1) API com o mesmo slug (alguns animes existem lá)
-    api = api_fallback(slug, op="tvshows")
-    if api:
-        return api
-    # 2) animesonlinecc (direto + proxy)
-    url = f"https://{ANIME_HOST}/anime/{slug}"
-    try:
-        html = fetch_direct(url)
-    except Exception:
-        return error_result("Servidor de animes indisponível no momento (animesonlinecc).")
-    links = re.findall(
-        r'<div id="option-.+?src="(.+?)".+?</div>', html, re.MULTILINE | re.DOTALL | re.IGNORECASE
-    )
-    if not links:
-        return error_result("Anime não encontrado ou episódios indisponíveis no momento.")
-    for link in links:
-        link = link.strip()
-        if not link:
+def _install_module(name, obj):
+    mod = types.ModuleType(name)
+    for k, v in vars(obj).items():
+        if k.startswith("__"):
             continue
-        if "blogger" in link:
-            direct = embed_to_direct(link)
-            if direct:
-                return stream_result(direct)
-        if re.match(r"^https?://", link, re.IGNORECASE):
-            return stream_result(link)
-    return error_result("Servidor do anime indisponível no momento.")
+        setattr(mod, k, v)
+    sys.modules[name] = mod
+    return mod
+
+
+def _install_shims():
+    _install_module("xbmc", Xbmc)
+    _install_module("xbmcgui", Xbmcgui)
+    _install_module("xbmcplugin", Xbmcplugin)
+    _install_module("xbmcaddon", Xbmcaddon)
+    _install_module("xbmcvfs", Xbmcvfs)
+    _install_module("simplejson", __import__("json"))
+
+    six_mod = types.ModuleType("six")
+    six_mod.PY2 = False
+    six_mod.PY3 = True
+    six_mod.text_type = str
+    six_mod.binary_type = bytes
+    six_mod.string_types = (str,)
+    six_mod.integer_types = (int,)
+    six_mod.b = lambda s: s.encode() if isinstance(s, str) else s
+    six_mod.ensure_str = lambda s, *a, **kw: s.decode() if isinstance(s, bytes) else s
+    six_mod.ensure_binary = lambda s, *a, **kw: s.encode() if isinstance(s, str) else s
+    six_mod.moves = types.ModuleType("six.moves")
+    sys.modules["six"] = six_mod
+    sys.modules["six.moves"] = six_mod.moves
+
+    kodi_six = types.ModuleType("kodi_six")
+    sys.modules["kodi_six"] = kodi_six
+    for n in ("xbmc", "xbmcgui", "xbmcplugin", "xbmcaddon", "xbmcvfs"):
+        setattr(kodi_six, n, sys.modules[n])
 
 
 # ---------------------------------------------------------------------------
-# Novelas (novelas= / novelas2=)
+# Loader do addon (ao vivo com fallback)
 # ---------------------------------------------------------------------------
-def resolve_novelas(raw):
-    # formato: novelas=<server>#<slug>
-    parts = raw.split("#", 1)
-    if len(parts) != 2:
-        return error_result("Link de novela inválido.")
-    server, slug = parts
-    slug = slug.strip()
-    # 1) API com o mesmo slug
-    api = api_fallback(slug, op="tvshows")
-    if api:
-        return api
-    # 2) novefx.biz
-    if server == "psn":
-        bases = [
-            f"https://novefx.biz/{server}/novelas/{slug}.php",
-            f"https://novefx.biz/{server}/series/{slug}.php",
-        ]
-    else:
-        bases = [f"https://novefx.biz/novoformato/nov/{server}/{slug}.php"]
-    html = ""
-    for base in bases:
-        try:
-            html = fetch_direct(base, referer="https://saudeeffitness.top/")
-            if html:
-                break
-        except Exception:
-            continue
-    if not html:
-        return error_result("Servidor de novelas indisponível no momento (novefx).")
-    # o addon remove o placeholder do template antes de ler o originalUrl
-    html = html.replace("${chapterStr}", "")
-
-    # formato antigo 1: const temporadas = [...] + originalUrl
-    m = re.search(r"const\s+temporadas\s*=\s*(\[.*?\]);", html, re.S)
-    m_url = re.search(r"let\s+originalUrl\s*=\s*`([^`]+)`;", html)
-    if m and m_url:
-        json_data = re.sub(r",\s*\]", "]", m.group(1))
-        json_data = re.sub(r"([{,]\s*)(\w+)\s*:", r'\1"\2":', json_data)
-        try:
-            temporadas = json.loads(json_data)
-            out = []
-            for season in temporadas:
-                if not isinstance(season, dict):
-                    continue
-                nome = str(season.get("nome", "")).replace("TEMPORADA", "").strip()
-                inicio = season.get("inicio")
-                fim = season.get("fim")
-                if not inicio or not fim:
-                    continue
-                episodes = []
-                try:
-                    for num in range(int(inicio), int(fim) + 1):
-                        episodes.append((f"CAPÍTULO {num}", f"{m_url.group(1)}{num:03d}", False))
-                except Exception:
-                    continue
-                if episodes:
-                    out.append({"name": f"{nome}ª TEMPORADA", "episodes": episodes})
-            if out:
-                return seasons_result(out)
-        except Exception:
-            pass
-
-    # formato atual: while (chaptersAdded < N) { ... let originalUrl = `...${chapterStr}`; ... }
-    # (mesmo elif do addon: 'let originalUrl' + 'while (chaptersAdded')
-    m_total = re.search(r"chaptersAdded\s*<\s*(\d+)", html)
-    m_url2 = re.search(r"let\s+originalUrl\s*=\s*`([^`]+)`;", html)
-    if m_total and m_url2:
-        episodes = [
-            (f"CAPÍTULO {n}", f"{m_url2.group(1)}{n:03d}", False)
-            for n in range(1, int(m_total.group(1)) + 1)
-        ]
-        return seasons_result(seasons_from_episodes("Única temporada", episodes))
-
-    # formato antigo 2: let totalChapters = N + originalUrl
-    m_total2 = re.search(r"let\s+totalChapters\s*=\s*(\d+);", html)
-    if m_total2 and m_url2:
-        episodes = [
-            (f"CAPÍTULO {n}", f"{m_url2.group(1)}{n:03d}", False)
-            for n in range(1, int(m_total2.group(1)) + 1)
-        ]
-        return seasons_result(seasons_from_episodes("Única temporada", episodes))
-
-    # formato antigo 3: <option value=...>
-    options = re.findall(r'<option value="(.*?)">\s*(.*?)</option>', html)
-    episodes = []
-    for link, title in options:
-        title = title.replace("Episódio 0", "CAPÍTULO ").replace("Episódio", "CAPÍTULO")
-        if "CAPÍTULO" in title:
-            episodes.append((title, link, False))
-    if episodes:
-        return seasons_result(seasons_from_episodes("Única temporada", episodes))
-
-    return error_result("Novela indisponível no momento (novefx sem capítulos).")
+_ADDON_STATE = {"src": None, "version": None, "source": None, "fetched": 0.0, "dir": None}
 
 
-def resolve_novelas2(slug):
-    api = api_fallback(slug, op="tvshows")
-    if api:
-        return api
-    url = f"https://www.askflix.biz/series/{slug}/"
-    try:
-        html = fetch_direct(url)
-    except Exception:
-        return error_result("Servidor de novelas indisponível no momento (askflix).")
-    if 'id="seasons"' not in html:
-        return error_result("Novela não encontrada ou conteúdo bloqueado no askflix.")
-    seasons = []
-    for block in re.findall(
-        r'<div class="se-c"><div class="se-q">.*?<span class="title">(.*?)</span>(.*?)</div></div>',
-        html,
-        re.MULTILINE | re.DOTALL | re.IGNORECASE,
-    ):
-        title = block[0].strip()
-        eps = re.findall(r'<a href="(.*?)">(.*?)</a>', block[1], re.MULTILINE | re.DOTALL | re.IGNORECASE)
-        episodes = []
-        for href, label in eps:
-            label = re.sub(r"<[^>]+>", "", label).strip()
-            if not label:
-                continue
-            direct = bool(re.search(r"\.(mp4|m3u8)(\?|$)", href, re.IGNORECASE))
-            episodes.append({"name": label.upper(), "link": href, "direct": direct, "resolver": 0})
-        if episodes:
-            seasons.append({"name": title, "episodes": episodes})
-    if seasons:
-        return seasons_result(seasons)
-    return error_result("Novela sem episódios disponíveis no askflix.")
+def _http_get(url, timeout=25):
+    import requests  # declarado em requirements.txt
+
+    resp = requests.get(url, timeout=timeout, headers={"User-Agent": "Mozilla/5.0"})
+    resp.raise_for_status()
+    return resp
 
 
-# ---------------------------------------------------------------------------
-# Novelas — resolução de episódio (novelas_play do addon)
-# ---------------------------------------------------------------------------
-def _jsunpack(html):
-    """Unpacker do packer JS p,a,c,k,e,d (equivalente ao jsunpack do addon).
-
-    O player do novefx empacota o código com o packer clássico (variante com
-    e=function(c){...toString(36)...}) e os arquivos de vídeo só aparecem
-    depois de desempacotar.
-    """
-    m = re.search(
-        r"eval\(function\(p,a,c,k,e,d\)\{.*?\}\('(.*?)',(\d+),(\d+),'(.*?)'\.split\('\|'\),0,\{\}\)\)",
-        html,
-        re.S,
-    )
-    if not m:
-        return None
-    p, a, c, kraw = m.group(1), int(m.group(2)), int(m.group(3)), m.group(4)
-    k = kraw.split("|")
-    k += [""] * (c - len(k))
-    b36 = "0123456789abcdefghijklmnopqrstuvwxyz"
-
-    def enc(n):
-        out = ""
-        while True:
-            r = n % a
-            out = (chr(r + 29) if r > 35 else b36[r]) + out
-            n //= a
-            if n == 0:
-                break
-        return out
-
-    d = {}
-    for i in range(c):
-        d[enc(i)] = k[i] if k[i] else enc(i)
-    return re.sub(r"\w+", lambda mm: d.get(mm.group(0), mm.group(0)), p)
+def _find_version(xml_text):
+    m = re.search(r'<addon id="' + re.escape(ADDON_ID) + r'"[^>]*version="([^"]+)"', xml_text)
+    return m.group(1) if m else None
 
 
-def resolve_novefx_episode(ep_url):
-    """Página do capítulo (painel1.novefx.biz/v/...) -> arquivo de vídeo.
-
-    Porta o novelas_resolver do addon: procura `player.source = {` direto e,
-    senão, desempacota o eval e lê `sources:[...]`.
-    """
-    try:
-        html = fetch_direct(ep_url, referer="https://novefx.biz/")
-    except Exception:
-        return None
-    if "player.source = {" in html:
-        m = re.search(r"sources:\s*\[\{\s*src:\s*'([^']+)'", html)
-        if m:
-            return m.group(1)
-    m = re.search(r"(eval\(.+?)</script>", html, re.S)
-    if m:
-        decoded = _jsunpack(m.group(1)) or ""
-        m2 = re.search(r"sources:(\[.+?}\])", decoded, re.S)
-        if m2:
+def _candidate_zip_urls():
+    urls = []
+    for base in (UPSTREAM_BASE, GITHUB_BASE):
+        for xml_name in (REPO_XML, REPO_XML_MAIN):
             try:
-                arr = json.loads(m2.group(1))
-                for entry in reversed(arr):
-                    if isinstance(entry, dict) and entry.get("file"):
-                        return entry["file"]
-            except Exception:
-                pass
+                xml_url = f"{base}/{xml_name}"
+                text = _http_get(xml_url).text
+                ver = _find_version(text)
+                if ver:
+                    urls.append(
+                        (f"{base}/{PLUGINS_DIR}/{ADDON_ID}/{ADDON_ID}-{ver}.zip", f"{base} ({xml_name}) v{ver}")
+                    )
+            except Exception:  # noqa: BLE001
+                continue
+    return urls
+
+
+def _local_zip():
+    for pattern in (
+        os.path.join(os.path.dirname(__file__), "..", PLUGINS_DIR, ADDON_ID, "*.zip"),
+        os.path.join(os.path.dirname(__file__), PLUGINS_DIR, ADDON_ID, "*.zip"),
+        os.path.join(".", PLUGINS_DIR, ADDON_ID, "*.zip"),
+    ):
+        hits = sorted(glob.glob(pattern))
+        if hits:
+            return hits[-1]
     return None
 
 
-# ---------------------------------------------------------------------------
-# ep= (resolver um link de episódio de scraper)
-# ---------------------------------------------------------------------------
-def embed_to_direct(embed_url):
-    """Tenta extrair o arquivo de mídia direto da página do player."""
-    try:
-        html = fetch_direct(embed_url)
-    except Exception:
-        return None
-    patterns = [
-        r'https?://[^\s"\'<>]+?\.(?:m3u8|mp4)[^\s"\'<>]*',
-        r'"(?:file|src|source|url|link|playlist)"\s*:\s*"(https?://[^"]+)"',
-        r'sources?\s*[:=]\s*\[?\s*["\'](https?://[^"\']+)',
-    ]
-    for pat in patterns:
-        m = re.search(pat, html, re.IGNORECASE)
-        if m:
-            url = m.group(1) if m.lastindex else m.group(0)
-            if re.match(r"^https?://", url, re.IGNORECASE):
-                return url
-    return None
+def _decode_source(raw):
+    src = raw
+    for _ in range(8):
+        idx = src.find(b"exec((_)(b'")
+        if idx == -1:
+            break
+        blob = src[idx + 11:]
+        end = blob.find(b"')")
+        if end == -1:
+            break
+        src = zlib.decompress(base64.b64decode(blob[:end][::-1]))
+    return src
 
 
-def resolve_ep(link):
-    link = unquote(link)
-    # capítulo de novela (painel1.novefx.biz / redirectnflix.com)
-    if "novefx" in link or "painel1" in link or "redirectnflix" in link:
-        direct = resolve_novefx_episode(link)
-        if direct:
-            return stream_result(direct)
-    # página de episódio do dorama
-    if "doramasonline" in link or "/br/episodio/" in link:
-        direct = resolve_dorama_ep(link)
-        if direct:
-            return stream_result(direct)
-    # página de episódio do Overflix (data-video-id -> playerData)
-    if OVERFLIX_HOST in link or overflix_domain() in link or "overflix" in link:
+def _load_addon(force=False):
+    """Garante o addon decodificado em memória (TTL). Retorna dict de estado."""
+    now = time.time()
+    if not force and _ADDON_STATE["src"] and (now - _ADDON_STATE["fetched"]) < ADDON_TTL:
+        return _ADDON_STATE
+
+    state = {"src": None, "version": None, "source": "local", "fetched": now, "dir": None}
+    zip_bytes = None
+    label = "local"
+
+    for url, src_label in _candidate_zip_urls():
         try:
-            html = fetch_direct(link)
-            m = re.search(r'data-video-id="(\d+)"', html)
-            if m:
-                direct = overflix_play(m.group(1), link)
-                if direct:
-                    return stream_result(direct)
-        except Exception:
+            zip_bytes = _http_get(url).content
+            label = src_label
+            break
+        except Exception:  # noqa: BLE001
+            continue
+
+    if zip_bytes is None:
+        local = _local_zip()
+        if local:
+            with open(local, "rb") as f:
+                zip_bytes = f.read()
+            label = f"local ({os.path.basename(local)})"
+
+    if not zip_bytes:
+        raise RuntimeError("Addon indisponível (rede e cópia local falharam).")
+
+    import io
+    import zipfile
+
+    addon_dir = os.path.join(CACHE_DIR, "addon-src")
+    os.makedirs(addon_dir, exist_ok=True)
+    zf = zipfile.ZipFile(io.BytesIO(zip_bytes))
+    default_name = [n for n in zf.namelist() if n.endswith("default.py")]
+    if not default_name:
+        raise RuntimeError("ZIP do addon sem default.py")
+    default_name = default_name[0]
+    src = _decode_source(zf.read(default_name))
+    # versão vinda do addon.xml dentro do zip
+    version = None
+    try:
+        addon_xml = [n for n in zf.namelist() if n.endswith("addon.xml")][0]
+        xml_text = zf.read(addon_xml).decode("utf-8", "replace")
+        ver = re.search(r'<addon[^>]*id="' + re.escape(ADDON_ID) + r'"[^>]*version="([^"]+)"', xml_text)
+        if not ver:
+            ver = re.search(r'version="([^"]+)"', xml_text)
+        version = ver.group(1) if ver else None
+    except Exception:  # noqa: BLE001
+        version = None
+    # extrai os módulos auxiliares (codec.py etc.) para import
+    for member in zf.namelist():
+        if member.endswith(".py"):
+            target = os.path.join(addon_dir, os.path.basename(member))
+            with open(target, "wb") as f:
+                f.write(zf.read(member))
+    zf.close()
+
+    os.makedirs(PROFILE_DIR, exist_ok=True)
+    os.makedirs(ADDON_HOME, exist_ok=True)
+
+    state["src"] = src
+    state["dir"] = addon_dir
+    state["source"] = label
+    state["version"] = version
+    _ADDON_STATE.update(state)
+    return _ADDON_STATE
+
+
+# ---------------------------------------------------------------------------
+# Execução do addon
+# ---------------------------------------------------------------------------
+def run(params, search_q="", timeout=90):
+    """Executa o addon para um conjunto de params (mode/url/name/...)."""
+    global SEARCH_Q
+    addon = _load_addon()
+    params = dict(params)
+    # o addon chama quote_plus() nesses campos — evita TypeError com None
+    for k in ("iconimage", "fanart", "description", "subtitle", "genre", "date"):
+        params.setdefault(k, "")
+    SEARCH_Q = search_q
+    CAP["items"] = []
+    CAP["ended"] = False
+    CAP["stream"] = None
+    CAP["failed"] = None
+
+    qs = "&".join(f"{k}={v}" for k, v in params.items())
+    sys.argv = ["plugin://" + ADDON_ID + "/", "0", "?" + qs]
+    if addon["dir"] and addon["dir"] not in sys.path:
+        sys.path.insert(0, addon["dir"])
+
+    def _exec():
+        try:
+            # o addon decide o fluxo de pesquisa pela global pesquisa_desativar
+            # (que só é setada em getData) — semeamos para o modo 20 perguntar
+            # a query via Keyboard (shim devolve SEARCH_Q)
+            ns = {"__name__": "__main__", "pesquisa_desativar": "false", "search": ""}
+            exec(compile(addon["src"], "default.py", "exec"), ns)
+        except SystemExit:
             pass
-    # embeds do Overflix (mixdrop/streamtape)
-    if "mixdrop" in link or "streamtape" in link or "myvidplay" in link or "doodstream" in link:
-        direct = resolve_embed(link)
-        if direct:
-            return stream_result(direct)
-    if link.startswith("movie2=") or link.startswith("serie3="):
-        return dispatch(link)
-    if re.search(r"\.(mp4|m3u8)(\?|$)", link, re.IGNORECASE):
-        return stream_result(link)
-    direct = embed_to_direct(link)
-    if direct:
-        return stream_result(direct)
-    if re.match(r"^https?://", link, re.IGNORECASE):
-        return stream_result(link)
-    return error_result("Episódio indisponível no momento.")
+        except Exception as e:  # noqa: BLE001
+            CAP["failed"] = f"{type(e).__name__}: {e}"
+
+    t = threading.Thread(target=_exec, daemon=True)
+    t.start()
+    t.join(timeout)
+    return {
+        "items": list(CAP["items"]),
+        "ended": CAP["ended"],
+        "stream": CAP["stream"],
+        "failed": CAP["failed"],
+    }
+
+
+def _parse_plugin_url(plugin_url):
+    """Converte plugin://...?a=b&c=d em params. Também aceita dict direto."""
+    if isinstance(plugin_url, dict):
+        return dict(plugin_url)
+    m = re.search(r"\?([^#]+)", plugin_url or "")
+    if not m:
+        return {}
+    return {k: (v[0] if isinstance(v, list) else v) for k, v in parse_qs(m.group(1)).items()}
+
+
+def _item_plugin_url(item):
+    return item.get("url", "")
+
+
+def _parse_headers_suffix(url):
+    """Separa o sufixo |Header=value&... do estilo Kodi (pode estar em qualquer camada)."""
+    headers = {}
+    if "|" in url:
+        base, _, tail = url.partition("|")
+        if re.match(r"^https?://", base):
+            url = base
+            tail = tail.replace("|", "&")
+            for k, v in parse_qs(tail).items():
+                headers[k.strip()] = v[0] if v else ""
+    return url, headers
+
+
+def _unwrap_stream(raw):
+    """Trata o proxy interno do addon e o sufixo de headers do Kodi (em todas as camadas)."""
+    if not raw:
+        return None, {}
+    url = raw.strip()
+    headers = {}
+
+    url, h = _parse_headers_suffix(url)
+    headers.update(h)
+
+    # proxy interno do addon (codec/F4m): http://host:5000/?url=%68%74...
+    # a URL interna decodificada pode conter outro sufixo de headers — repete
+    for _ in range(3):
+        m = re.match(r"^https?://[^/]+:\d+/.*[?&]url=([^&]+)", url)
+        if not m:
+            break
+        inner = unquote(m.group(1))
+        if not inner.startswith("http"):
+            break
+        url = inner
+        url, h = _parse_headers_suffix(url)
+        headers.update(h)
+
+    return url, headers
+
+
+def _mode_for_link(link):
+    """Modo de navegação para um link do addon (derivado da tabela do próprio addon)."""
+    if not link:
+        return 16
+    known = [
+        ("#menu_canais_adults", 21), ("#menu_canais", 21),
+        ("#novelas_menu", 25), ("#desenhos_menu", 28), ("#doramas_menu", 31),
+        ("#doramas_list=", 6), ("#animes_menu", 22), ("#series_list=", 6),
+        ("#animes_list=", 6), ("#novelas_list=", 6), ("#movies_pages=", 27),
+        ("#series_pages=", 27), ("#trilogias_list", 3), ("#hub_categorias", 2),
+        ("#search_hub", 2), ("#hub_menu", 2), ("serie3=", 26),
+        ("bunnycdn_tvshows=", 31), ("resolver1_tvshows=", 31), ("resolver2_tvshows=", 31),
+        ("resolver3_tvshows=", 31), ("resolver4_tvshows=", 31), ("resolver5_tvshows=", 31),
+        ("doramas_resolver1=", 31), ("onedrive=", 31), ("novelas=", 25),
+        ("novelas2=", 25), ("wvmob=", 30), ("animes4=", 31),
+    ]
+    for prefix, mode in known:
+        if link.startswith(prefix):
+            return mode
+    if re.match(r"^resolver\d+_mv=", link) or link.startswith("movie2=") or link.startswith("bunnycdn_mv="):
+        return 16
+    return 16
+
+
+def _is_series_link(link):
+    return _mode_for_link(link) not in (16,)
 
 
 # ---------------------------------------------------------------------------
-# Despacho principal (resolver=0 -> opção crua do addon)
+# Lógica dos endpoints
 # ---------------------------------------------------------------------------
-def dispatch(opt):
-    opt = opt.strip()
-    if opt.startswith("animes2="):
-        return resolve_animes2(opt.split("=", 1)[1])
-    if opt.startswith("movie2="):
-        return resolve_overflix_movie(opt.split("=", 1)[1])
-    if opt.startswith("serie3="):
-        return resolve_overflix_series(opt.split("=", 1)[1])
-    if opt.startswith("animes3="):
-        return resolve_animes3(opt.split("=", 1)[1])
-    if opt.startswith("doramas_resolver1="):
-        return resolve_doramas(opt.split("=", 1)[1])
-    if opt.startswith("novelas="):
-        return resolve_novelas(opt.split("=", 1)[1])
-    if opt.startswith("novelas2="):
-        return resolve_novelas2(opt.split("=", 1)[1])
-    if opt.startswith("ep="):
-        return resolve_ep(opt.split("=", 1)[1])
-    # link direto (mp4/m3u8)
-    if re.match(r"^https?://", opt, re.IGNORECASE):
-        return stream_result(opt)
-    return error_result("Formato de link não reconhecido.")
+_CACHE = {}
+_CACHE_LOCK = threading.Lock()
+
+
+def _cached(key, ttl, producer):
+    with _CACHE_LOCK:
+        hit = _CACHE.get(key)
+        if hit and time.time() - hit[0] < ttl:
+            return hit[1]
+    value = producer()
+    with _CACHE_LOCK:
+        _CACHE[key] = (time.time(), value)
+    return value
 
 
 def resolve(resolver, request):
+    """Contrato antigo: filme -> stream; série -> seasons; senão error."""
+    request = unquote(request)
+    if not request:
+        return {"kind": "error", "message": "request vazio."}
+
+    # formato antigo mvshows=slug -> resolverN_mv=slug
+    m = re.match(r"^(resolver\d+)_mv=(.+)$", request)
+    if m:
+        request = f"resolver{m.group(1)[8:]}_mv={m.group(2)}"
+    m = re.match(r"^mvshows=(.+)$", request)
+    if m:
+        request = f"resolver{resolver or 1}_mv={m.group(1)}"
+    m = re.match(r"^tvshows=(.+)$", request)
+    if m:
+        request = f"resolver{resolver or 1}_tvshows={m.group(1)}"
+    if request.startswith("ep="):
+        # episódio direto: request é um plugin-url
+        plugin_url = request[3:]
+        params = _parse_plugin_url(plugin_url)
+        params.setdefault("mode", "16")
+        return _resolve_stream(params)
+
+    # #series_list=A|B|C -> tenta cada opção
+    if request.startswith("#"):
+        options = request.split("=", 1)[1].split("|") if "=" in request else []
+        last = None
+        for opt in options:
+            res = _try_link(opt)
+            if res["kind"] == "error":
+                last = res
+                continue
+            return res
+        return last or {"kind": "error", "message": "Nenhuma opção disponível."}
+
+    return _try_link(request)
+
+
+def _try_link(link):
+    if _is_series_link(link):
+        return _cached(
+            "seasons:" + link,
+            1800,
+            lambda: _resolve_seasons(link),
+        )
+    return _resolve_stream({"mode": "16", "url": link, "name": link})
+
+
+def _resolve_stream(params):
     try:
-        if resolver > 0:
-            return resolve_api(resolver, request)
-        return dispatch(request)
-    except Exception as err:  # noqa: BLE001
-        return error_result(str(err) or "Falha na resolução.")
+        r = run(params, timeout=90)
+    except Exception as e:  # noqa: BLE001
+        return {"kind": "error", "message": str(e)}
+    if r["failed"]:
+        return {"kind": "error", "message": r["failed"]}
+    url, headers = _unwrap_stream(r["stream"])
+    if url and url.startswith("http"):
+        return {
+            "kind": "stream",
+            "stream": url,
+            "headers": headers or None,
+        }
+    if r["items"]:
+        # o addon devolveu um menu em vez de stream (ex.: série)
+        return _listing_to_resolve(r["items"])
+    return {"kind": "error", "message": "Stream indisponível no momento."}
+
+
+def _resolve_seasons(link):
+    mode = _mode_for_link(link)
+    first = run({"mode": str(mode), "url": link, "name": link}, timeout=90)
+    if first["failed"]:
+        return {"kind": "error", "message": first["failed"]}
+    return _listing_to_resolve(first["items"])
+
+
+def _listing_to_resolve(items):
+    """Transforma uma listagem do addon no contrato {kind: seasons}."""
+    folders = [it for it in items if it["folder"]]
+    playable = [it for it in items if not it["folder"] and "mode=16" in it["url"]]
+    seasons = []
+
+    if folders:
+        for folder in folders[:8]:
+            r = run(_parse_plugin_url(folder["url"]), timeout=60)
+            if r["failed"] or not r["items"]:
+                continue
+            eps = []
+            for it in r["items"]:
+                if it["folder"] or "mode=16" not in it["url"]:
+                    continue
+                eps.append(_episode_item(it))
+            if eps:
+                seasons.append({"name": folder["name"], "episodes": eps})
+    elif playable:
+        seasons.append({"name": "Temporada 1", "episodes": [_episode_item(it) for it in playable]})
+
+    if not seasons:
+        return {"kind": "error", "message": "Nenhum episódio disponível no momento."}
+    return {"kind": "seasons", "seasons": seasons}
+
+
+def _episode_item(item):
+    return {
+        "name": item["name"],
+        "link": item["url"],
+        "direct": False,
+        "resolver": 0,
+    }
+
+
+def live_tv():
+    """Canais ao vivo: menu TV -> grupos -> canais (mode 16) / submenus."""
+    def produce():
+        r = run({"mode": "21", "url": "#menu_canais"}, timeout=90)
+        if r["failed"]:
+            return {"error": r["failed"], "groups": []}
+        groups = []
+        for group in r["items"]:
+            if not group["folder"]:
+                continue
+            g = {"name": group["name"], "thumb": group["thumb"], "channels": []}
+            gr = run(_parse_plugin_url(group["url"]), timeout=90)
+            if gr["failed"]:
+                groups.append(g)
+                continue
+            for ch in gr["items"]:
+                ch_url = _parse_plugin_url(ch["url"])
+                if ch_url.get("url") in ("here", "") or not ch["url"]:
+                    continue  # cabeçalho de seção, não é canal
+                if "mode=16" in ch["url"]:
+                    g["channels"].append(
+                        {
+                            "name": ch["name"],
+                            "thumb": ch["thumb"] or group["thumb"],
+                            "url": ch["url"],
+                            "folder": False,
+                        }
+                    )
+                elif ch["folder"]:
+                    g["channels"].append(
+                        {"name": ch["name"], "thumb": ch["thumb"] or group["thumb"], "url": ch["url"], "folder": True}
+                    )
+            groups.append(g)
+        return {"groups": groups, "total": sum(len(g["channels"]) for g in groups)}
+
+    return _cached("tv", 600, produce)
+
+
+def browse(plugin_url, search_q=""):
+    """Navega um plugin-url do addon."""
+    params = _parse_plugin_url(plugin_url)
+    if not params:
+        return {"type": "error", "message": "URL de navegação inválida."}
+    r = run(params, search_q=search_q, timeout=90)
+    if r["failed"]:
+        return {"type": "error", "message": r["failed"]}
+    url, headers = _unwrap_stream(r["stream"])
+    if url and url.startswith("http"):
+        return {"type": "stream", "stream": url, "headers": headers or None}
+    items = []
+    for it in r["items"]:
+        items.append(
+            {
+                "name": it["name"],
+                "url": it["url"],
+                "folder": it["folder"],
+                "thumb": it["thumb"],
+                "fanart": it["fanart"],
+            }
+        )
+    return {"type": "listing", "items": items}
+
+
+def play(plugin_url):
+    """Resolve um item reproduzível (mode 16)."""
+    params = _parse_plugin_url(plugin_url)
+    params.setdefault("mode", "16")
+    res = _resolve_stream(params)
+    return {"type": "stream" if res["kind"] == "stream" else "error", **res}
+
+
+SEARCH_MENUS = [
+    ("filmes", "27", "#filmes_menu"),
+    ("series", "27", "#series_menu"),
+    ("animes", "22", "#animes_menu"),
+    ("doramas", "31", "#doramas_menu"),
+    ("novelas", "25", "#novelas_menu"),
+    ("desenhos", "28", "#desenhos_menu"),
+]
+
+
+def search(q, categories=None):
+    """Busca ao vivo: navega o menu da categoria, acha o item PESQUISAR, executa."""
+    q = q.strip()
+    if not q:
+        return {"type": "error", "message": "Busca vazia."}
+    wanted = categories or [c for c, _, _ in SEARCH_MENUS]
+    results = []
+
+    for cat, mode, menu_url in SEARCH_MENUS:
+        if cat not in wanted:
+            continue
+        try:
+            menu = run({"mode": mode, "url": menu_url}, timeout=60)
+            if menu["failed"]:
+                continue
+            search_item = None
+            for it in menu["items"]:
+                if "PESQUIS" in it["name"].upper():
+                    search_item = it
+                    break
+            if not search_item:
+                continue
+            res = run(_parse_plugin_url(search_item["url"]), search_q=q, timeout=60)
+            if res["failed"]:
+                continue
+            for it in res["items"]:
+                results.append(
+                    {
+                        "name": it["name"],
+                        "url": it["url"],
+                        "folder": it["folder"],
+                        "thumb": it["thumb"],
+                        "fanart": it["fanart"],
+                        "category": cat,
+                    }
+                )
+        except Exception:  # noqa: BLE001
+            continue
+
+    if not results:
+        return {"type": "error", "message": "Nada encontrado ao vivo."}
+    return {"type": "listing", "items": results}
+
+
+# ---------------------------------------------------------------------------
+# Proxy de streams protegidos (Range + headers)
+# ---------------------------------------------------------------------------
+def stream_proxy(url, headers_json, range_header):
+    import requests
+
+    headers = {}
+    try:
+        headers = json.loads(headers_json or "{}")
+    except Exception:  # noqa: BLE001
+        headers = {}
+    headers.setdefault("User-Agent", "Mozilla/5.0 (Linux; Android 13) AppleWebKit/537.36")
+
+    def do_request(range_):
+        h = dict(headers)
+        if range_:
+            h["Range"] = range_
+        req = requests.get(url, headers=h, stream=True, timeout=30, allow_redirects=True)
+        return req
+
+    req = do_request(range_header)
+    if req.status_code == 403 and "Referer" in headers:
+        del headers["Referer"]
+        req = do_request(range_header)
+    return req
 
 
 # ---------------------------------------------------------------------------
@@ -1178,7 +933,7 @@ class Handler(BaseHTTPRequestHandler):
     def _cors(self):
         self.send_header("Access-Control-Allow-Origin", "*")
         self.send_header("Access-Control-Allow-Methods", "GET, OPTIONS")
-        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization")
+        self.send_header("Access-Control-Allow-Headers", "Content-Type, Authorization, Range")
 
     def _json(self, obj, status=200):
         body = json.dumps(obj, ensure_ascii=False).encode("utf-8")
@@ -1195,32 +950,116 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
 
     def do_GET(self):
-        path = urlparse(self.path).path.rstrip("/")
-        if path.endswith("/resolver"):
-            qs = parse_qs(urlparse(self.path).query)
-            try:
+        parsed = urlparse(self.path)
+        path = parsed.path.rstrip("/")
+        qs = parse_qs(parsed.query)
+        try:
+            if path.endswith("/resolver"):
                 resolver = int(qs.get("resolver", ["0"])[0])
                 request = qs.get("request", [""])[0]
                 if not request:
                     self._json({"success": False, "error": "request obrigatório"}, 400)
                     return
-                data = resolve(resolver, request)
+                with _lock:
+                    data = resolve(resolver, request)
                 self._json({"success": True, "data": data})
-            except Exception as err:  # noqa: BLE001
-                self._json({"success": False, "error": str(err)}, 502)
+                return
+            if path.endswith("/tv"):
+                with _lock:
+                    data = live_tv()
+                if "error" in data:
+                    self._json({"success": False, "error": data["error"]}, 502)
+                    return
+                self._json({"success": True, "data": data})
+                return
+            if path.endswith("/browse"):
+                url = qs.get("url", [""])[0]
+                q = qs.get("q", [""])[0]
+                with _lock:
+                    data = browse(url, search_q=q)
+                self._json({"success": True, "data": data})
+                return
+            if path.endswith("/play"):
+                url = qs.get("url", [""])[0]
+                with _lock:
+                    data = play(url)
+                self._json({"success": True, "data": data})
+                return
+            if path.endswith("/search"):
+                q = qs.get("q", [""])[0]
+                cats = qs.get("categorias", [None])[0]
+                wanted = cats.split(",") if cats else None
+                with _lock:
+                    data = search(q, wanted)
+                self._json({"success": True, "data": data})
+                return
+            if path.endswith("/proxy"):
+                self._handle_proxy(qs)
+                return
+            if path in ("", "/"):
+                addon = _load_addon()
+                self._json(
+                    {
+                        "ok": True,
+                        "service": "binhoplay-kodi-runtime",
+                        "addonVersion": addon["version"],
+                        "source": addon["source"],
+                        "updatedAt": time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime(addon["fetched"])),
+                    }
+                )
+                return
+            self._json({"success": False, "error": "not found"}, 404)
+        except Exception as err:  # noqa: BLE001
+            self._json({"success": False, "error": str(err)}, 502)
+
+    def _handle_proxy(self, qs):
+        url = qs.get("u", [""])[0]
+        if not url.startswith("http"):
+            self._json({"success": False, "error": "url inválida"}, 400)
             return
-        if path in ("", "/"):
-            self._json({"ok": True, "service": "binhoplay-resolver-bot"})
+        headers_json = qs.get("h", [""])[0]
+        range_header = self.headers.get("Range")
+        try:
+            req = stream_proxy(url, headers_json, range_header)
+        except Exception as err:  # noqa: BLE001
+            self._json({"success": False, "error": str(err)}, 502)
             return
-        self._json({"success": False, "error": "not found"}, 404)
+        if req.status_code >= 400:
+            self._json({"success": False, "error": f"upstream HTTP {req.status_code}"}, 502)
+            req.close()
+            return
+        self.send_response(req.status_code)
+        for header in ("Content-Type", "Content-Length", "Accept-Ranges", "Content-Range", "Content-Disposition", "Content-Encoding"):
+            value = req.headers.get(header)
+            if value:
+                self.send_header(header, value)
+        self._cors()
+        self.end_headers()
+        try:
+            for chunk in req.iter_content(64 * 1024):
+                self.wfile.write(chunk)
+        except (BrokenPipeError, ConnectionResetError):
+            pass
+        finally:
+            req.close()
 
 
 def main():
     port = int(os.environ.get("PORT", "8787"))
+    _install_shims()
     server = ThreadingHTTPServer(("0.0.0.0", port), Handler)
-    print(f"Bot de resolução ouvindo em http://0.0.0.0:{port}", flush=True)
+    print(f"Runtime do addon Kodi ouvindo em http://0.0.0.0:{port}", flush=True)
     server.serve_forever()
 
 
 if __name__ == "__main__":
+    if "--selftest" in sys.argv:
+        _install_shims()
+        addon = _load_addon()
+        print("addon:", addon["version"], "| source:", addon["source"])
+        r = run({"mode": "0"})
+        print("home failed:", r["failed"], "| items:", len(r["items"]))
+        for it in r["items"][:7]:
+            print("  -", it["name"][:50])
+        sys.exit(0)
     main()
