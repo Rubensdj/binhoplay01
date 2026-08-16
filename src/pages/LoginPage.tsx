@@ -88,9 +88,9 @@ export default function LoginPage({ onLogin }: { onLogin: () => void }) {
           />
 
           {mode === "register" && config.requireApproval && (
-            <p className="mt-4 rounded-xl border border-amber-500/20 bg-amber-500/10 px-3 py-2.5 text-xs font-medium text-amber-200/90">
-              Contas novas ficam <strong>aguardando aprovação</strong> do administrador antes de
-              liberar o conteúdo.
+            <p className="mt-4 rounded-xl border border-rose-500/20 bg-rose-500/10 px-3 py-2.5 text-xs font-medium text-rose-200/90">
+              Contas novas ficam <strong>bloqueadas</strong> — o vendedor ou administrador precisa desbloquear
+              antes de liberar o conteúdo.
             </p>
           )}
 

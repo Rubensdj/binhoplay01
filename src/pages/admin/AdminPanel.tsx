@@ -21,6 +21,8 @@ export default function AdminPanel({ onLogout }: { onLogout: () => void }) {
   const [tab, setTab] = useState<Tab>("painel");
   const { clients } = useAdminData();
   const pendentes = clients.filter((c) => c.status === "pendente").length;
+  const bloqueados = clients.filter((c) => c.status === "bloqueado").length;
+  const totalAcao = pendentes + bloqueados;
 
   return (
     <div className="min-h-screen bg-ink-950 pb-20 text-slate-200 antialiased">
@@ -78,8 +80,8 @@ export default function AdminPanel({ onLogout }: { onLogout: () => void }) {
                     : "text-slate-400 hover:bg-white/5 hover:text-white"
                 }`}
               >
-                {t.key === "clientes" && pendentes > 0
-                  ? `Clientes (${pendentes})`
+                {t.key === "clientes" && totalAcao > 0
+                  ? `Clientes (${totalAcao})`
                   : t.label}
               </button>
             ))}

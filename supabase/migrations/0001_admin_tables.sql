@@ -58,7 +58,7 @@ create table if not exists public.clients (
   account_type text not null default 'permanente' check (account_type in ('teste', 'permanente')),
   test_days integer not null default 0,
   test_expires_at bigint,
-  status text not null default 'pendente' check (status in ('ativo', 'pendente', 'inativo')),
+  status text not null default 'bloqueado' check (status in ('ativo', 'pendente', 'bloqueado', 'inativo')),
   seller_id text,
   access jsonb,
   notes text not null default '',
@@ -69,7 +69,7 @@ alter table public.clients enable row level security;
 
 -- ------------------------------------------------------------
 -- 5. Trigger: todo cadastro novo vira um cliente automaticamente
---    (status 'pendente' quando o painel exige aprovação)
+--    (status 'bloqueado' quando o painel exige aprovação/bloqueio)
 -- ------------------------------------------------------------
 create or replace function public.handle_new_user()
 returns trigger
@@ -86,7 +86,7 @@ begin
     from public.site_config
     where id = 1;
 
-  v_status := case when v_approval then 'pendente' else 'ativo' end;
+  v_status := case when v_approval then 'bloqueado' else 'ativo' end;
 
   insert into public.clients (id, auth_id, name, email, status, created_at)
   values (

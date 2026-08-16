@@ -143,15 +143,15 @@ export default function AdminSettings() {
           <Toggle
             checked={requireApproval}
             onChange={setRequireApproval}
-            label="Exigir aprovação do administrador para ativar novas contas"
+            label="Exigir desbloqueio (vendedor/admin) para ativar novas contas"
           />
         </div>
         <p className="mt-3 text-[11px] text-slate-600">
-          Com a aprovação ligada, contas novas (incluindo testes criados por vendedores) ficam
-          <strong className="text-amber-300"> pendentes</strong> até você aprovar em Clientes — o
-          cliente só enxerga o app depois do seu OK. Desligue para contas novas nascerem ativas.
-          No cadastro de clientes você também define o tipo de conta (teste ou permanente), o
-          desconto (%) e o que cada cliente acessa (TV ao vivo e categorias).
+          Com o desbloqueio ligado, contas novas (incluindo testes criados por vendedores) ficam
+          <strong className="text-rose-300"> bloqueadas</strong> até você ou um vendedor desbloquear em
+          Clientes — o cliente só enxerga o app depois do desbloqueio. Desligue para contas novas
+          nascerem ativas. No cadastro de clientes você também define o tipo de conta (teste ou
+          permanente), o desconto (%) e o que cada cliente acessa (TV ao vivo e categorias).
         </p>
       </Card>
 

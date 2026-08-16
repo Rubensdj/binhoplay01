@@ -33,7 +33,7 @@ export interface Seller {
   createdAt: number;
 }
 
-export type ClientStatus = "ativo" | "pendente" | "inativo";
+export type ClientStatus = "ativo" | "pendente" | "bloqueado" | "inativo";
 
 /** Tipo de conta: teste (temporária, para vender) ou permanente (paga). */
 export type AccountType = "teste" | "permanente";
@@ -77,7 +77,7 @@ export interface SiteConfig {
   plans: Plan[];
   /** Duração padrão (dias) de uma conta de teste. */
   testDaysDefault: number;
-  /** Exige aprovação do administrador (status pendente) para ativar novas contas. */
+  /** Exige aprovação do administrador/vendedor (status bloqueado) para ativar novas contas. */
   requireApproval: boolean;
 }
 

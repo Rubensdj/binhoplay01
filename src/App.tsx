@@ -119,6 +119,7 @@ export default function App() {
     if (!record) return "unknown";
     if (isTestExpired(record)) return "expired";
     if (record.status === "pendente") return "pendente";
+    if (record.status === "bloqueado") return "bloqueado";
     if (record.status === "inativo") return "inativo";
     return null;
   }, [clients]);

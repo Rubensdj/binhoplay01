@@ -1,4 +1,4 @@
-export type AccessGateKind = "unknown" | "pendente" | "inativo" | "expired";
+export type AccessGateKind = "unknown" | "pendente" | "bloqueado" | "inativo" | "expired";
 
 const CONTENT: Record<AccessGateKind, { icon: string; title: string; text: string }> = {
   unknown: {
@@ -10,6 +10,11 @@ const CONTENT: Record<AccessGateKind, { icon: string; title: string; text: strin
     icon: "⏳",
     title: "Aguardando aprovação",
     text: "Um administrador precisa aprovar o seu acesso antes de liberar o conteúdo. Assim que for aprovado, atualize a página para começar a assistir.",
+  },
+  bloqueado: {
+    icon: "🔒",
+    title: "Conta bloqueada",
+    text: "Sua conta está bloqueada aguardando desbloqueio. Fale com o vendedor ou administrador para liberar o acesso.",
   },
   inativo: {
     icon: "⛔",

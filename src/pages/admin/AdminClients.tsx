@@ -29,13 +29,14 @@ import {
   Toggle,
 } from "./ui";
 
-const STATUS_TONE: Record<ClientStatus, "emerald" | "amber" | "slate"> = {
+const STATUS_TONE: Record<ClientStatus, "emerald" | "amber" | "rose" | "slate"> = {
   ativo: "emerald",
   pendente: "amber",
+  bloqueado: "rose",
   inativo: "slate",
 };
 
-const STATUS_OPTIONS: ClientStatus[] = ["ativo", "pendente", "inativo"];
+const STATUS_OPTIONS: ClientStatus[] = ["ativo", "pendente", "bloqueado", "inativo"];
 
 function AccountBadge({ client }: { client: Client }) {
   if (client.accountType === "teste") {
@@ -113,7 +114,7 @@ function buildMessage(
 ): string {
   const url = window.location.origin;
   const aprovacao = pending
-    ? " Sua conta está aguardando a aprovação do administrador — assim que for aprovada, o acesso será liberado."
+    ? " Sua conta está bloqueada aguardando desbloqueio pelo vendedor ou administrador — assim que for desbloqueada, o acesso será liberado."
     : "";
   return (
     `Olá ${name}! 🎬\n\n` +
@@ -151,7 +152,7 @@ const emptyForm = (cfg: SiteConfig): FormState => ({
   discount: "0",
   accountType: "permanente",
   testDays: String(cfg.testDaysDefault),
-  status: cfg.requireApproval ? "pendente" : "ativo",
+  status: cfg.requireApproval ? "bloqueado" : "ativo",
   sellerId: "",
   access: defaultAccess(),
   notes: "",
@@ -320,7 +321,7 @@ export default function AdminClients() {
       accountType: "teste",
       testDays: days,
       testExpiresAt: Date.now() + days * 86_400_000,
-      status: config.requireApproval ? "pendente" : "ativo",
+      status: config.requireApproval ? "bloqueado" : "ativo",
       sellerId: seller?.id ?? null,
       access: normalizeAccess(testForm.access),
       notes: `Conta de teste criada por ${days} dias${seller ? ` (vendedor: ${seller.name})` : ""}.`,
@@ -497,6 +498,15 @@ export default function AdminClients() {
                       className="rounded-xl bg-emerald-600 px-4 py-2 text-sm font-bold text-white shadow-md shadow-emerald-600/25 transition hover:bg-emerald-500"
                     >
                       ✓ Aprovar acesso
+                    </button>
+                  )}
+                  {c.status === "bloqueado" && (
+                    <button
+                      type="button"
+                      onClick={() => updateClient(c.id, { status: "ativo" })}
+                      className="rounded-xl bg-rose-600 px-4 py-2 text-sm font-bold text-white shadow-md shadow-rose-600/25 transition hover:bg-rose-500"
+                    >
+                      🔓 Desbloquear acesso
                     </button>
                   )}
                   <GhostButton onClick={() => openEdit(c)}>Editar</GhostButton>

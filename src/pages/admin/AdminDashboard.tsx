@@ -1,9 +1,10 @@
 import { fmtBRL, updateClient, useAdminData } from "../../lib/adminStore";
 import { Badge, Card, EmptyState } from "./ui";
 
-const STATUS_TONE: Record<string, "emerald" | "amber" | "slate"> = {
+const STATUS_TONE: Record<string, "emerald" | "amber" | "rose" | "slate"> = {
   ativo: "emerald",
   pendente: "amber",
+  bloqueado: "rose",
   inativo: "slate",
 };
 
@@ -18,6 +19,7 @@ export default function AdminDashboard({
 
   const ativos = clients.filter((c) => c.status === "ativo");
   const pendentes = clients.filter((c) => c.status === "pendente");
+  const bloqueados = clients.filter((c) => c.status === "bloqueado");
   const testes = clients.filter((c) => c.accountType === "teste");
   const receitaMensal = ativos
     .filter((c) => c.accountType !== "teste")
@@ -31,6 +33,7 @@ export default function AdminDashboard({
     { label: "Clientes ativos", value: String(ativos.length), accent: "text-emerald-400" },
     { label: "Contas de teste", value: String(testes.length), accent: "text-sky-400" },
     { label: "Clientes pendentes", value: String(pendentes.length), accent: "text-amber-400" },
+    { label: "Clientes bloqueados", value: String(bloqueados.length), accent: "text-rose-400" },
     { label: "Receita estimada (ativos)", value: fmtBRL(receitaMensal), accent: "text-brand-400" },
   ];
 
@@ -124,6 +127,15 @@ export default function AdminDashboard({
                         className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-emerald-500"
                       >
                         Aprovar
+                      </button>
+                    )}
+                    {c.status === "bloqueado" && (
+                      <button
+                        type="button"
+                        onClick={() => updateClient(c.id, { status: "ativo" })}
+                        className="rounded-lg bg-rose-600 px-3 py-1.5 text-xs font-bold text-white transition hover:bg-rose-500"
+                      >
+                        Desbloquear
                       </button>
                     )}
                   </div>
