@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T08:45:23.514Z",
+  "generatedAt": "2026-08-17T09:51:12.444Z",
   "repoUrl": "https://skyrisk.github.io/brazucaplay",
   "supportedKodi": "16.1, 17, 18, 19, 20 e 21+",
   "addons": [
@@ -1354,18 +1354,6 @@
   ],
   "content": [
     {
-      "id": "Hbo2.br|2026-08-17T04:46:00.000Z",
-      "title": "Invocação do Mal 2",
-      "description": "Os famosos demonologistas Lorraine e Ed Warren viajam até o norte de Londres. Lá, eles ajudam uma mãe solteira que cria quatro filhos sozinha em uma casa atormentada por espíritos malignos.",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Hbo2.br",
-      "channelName": "Hbo2",
-      "logo": "/logos/hbo2.png",
-      "start": "2026-08-17T04:46:00.000Z",
-      "stop": "2026-08-17T07:06:00.000Z"
-    },
-    {
       "id": "BandRede.br|2026-08-17T05:00:00.000Z",
       "title": "Igreja Universal do Reino de Deus",
       "description": "Acompanhe momentos de fé proporcionados pela Igreja Universal do Reino de Deus.",
@@ -1376,114 +1364,6 @@
       "logo": "/logos/band.png",
       "start": "2026-08-17T05:00:00.000Z",
       "stop": "2026-08-17T11:00:00.000Z"
-    },
-    {
-      "id": "Globorecife.br|2026-08-17T05:05:00.000Z",
-      "title": "Filme",
-      "description": "Acompanhe uma produção cinematográfica.",
-      "category": "Novelas",
-      "adult": false,
-      "channelId": "Globorecife.br",
-      "channelName": "Globo",
-      "logo": "/logos/globo.png",
-      "start": "2026-08-17T05:05:00.000Z",
-      "stop": "2026-08-17T07:00:00.000Z"
-    },
-    {
-      "id": "Amc.br|2026-08-17T05:10:00.000Z",
-      "title": "Cidade de Asfalto",
-      "description": "Jovem paramédico descobre a realidade cruel das ruas de Nova York no turno da noite.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Amc.br",
-      "channelName": "AMC",
-      "logo": "/logos/amc.png",
-      "start": "2026-08-17T05:10:00.000Z",
-      "stop": "2026-08-17T07:25:00.000Z"
-    },
-    {
-      "id": "Lifetime.br|2026-08-17T05:35:00.000Z",
-      "title": "Onde as Garotas Morrem",
-      "description": "Sienna, uma estudante de pós-graduação em justiça criminal, decide solucionar um caso arquivado com a ajuda de um colega, apenas para descobrir que caiu em uma armadilha mortal.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Lifetime.br",
-      "channelName": "Lifetime",
-      "logo": "/logos/lifetime.png",
-      "start": "2026-08-17T05:35:00.000Z",
-      "stop": "2026-08-17T07:07:00.000Z"
-    },
-    {
-      "id": "Sexyhot.br|2026-08-17T05:45:00.000Z",
-      "title": "Treinamento Duplo de Bumbum",
-      "description": "Elas fazem o treino do dia ser muito mais interessante com a penetração dupla.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Sexyhot.br",
-      "channelName": "Sexyhot",
-      "logo": "/logos/sexyhot.png",
-      "start": "2026-08-17T05:45:00.000Z",
-      "stop": "2026-08-17T06:46:00.000Z"
-    },
-    {
-      "id": "Ae.br|2026-08-17T06:00:00.000Z",
-      "title": "JO",
-      "description": "Na Place des Vosges, uma pedra é jogada do apartamento de Victor Hugo. Uma jovem mulher é encontrada morta com um ferimento na cabeça.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Ae.br",
-      "channelName": "Ae",
-      "logo": "/logos/ae.png",
-      "start": "2026-08-17T06:00:00.000Z",
-      "stop": "2026-08-17T06:50:00.000Z"
-    },
-    {
-      "id": "Cartoonnetwork.br|2026-08-17T06:00:00.000Z",
-      "title": "Hora de Aventura",
-      "description": "Finn vive grandes aventuras na terra de Ooo na companhia de seu melhor amigo, Jake. De viagens a reinos alucinantes a lutas contra vampiros, os dois estão prontos para enfrentar qualquer perigo.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Cartoonnetwork.br",
-      "channelName": "Cartoon Network",
-      "logo": "/logos/cartoon_network.png",
-      "start": "2026-08-17T06:00:00.000Z",
-      "stop": "2026-08-17T07:30:00.000Z"
-    },
-    {
-      "id": "Cinemax.br|2026-08-17T06:02:00.000Z",
-      "title": "7 Dias no Inferno",
-      "description": "Dois campeões de tênis, Aaron Williams e Charles Poole, se enfrentam em uma partida épica que tem sete dias de duração.",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Cinemax.br",
-      "channelName": "Cinemax",
-      "logo": "/logos/cinemax.png",
-      "start": "2026-08-17T06:02:00.000Z",
-      "stop": "2026-08-17T06:46:00.000Z"
-    },
-    {
-      "id": "Hbo.br|2026-08-17T06:02:00.000Z",
-      "title": "Lanternas",
-      "description": "Ao seguirem o novo recruta John Stewart e a lenda Hal Jordan, dois policiais intergalácticos se envolvem em um mistério ao investigarem assassinato no coração dos Estados Unidos.",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Hbo.br",
-      "channelName": "HBO",
-      "logo": "/logos/hbo.png",
-      "start": "2026-08-17T06:02:00.000Z",
-      "stop": "2026-08-17T07:18:00.000Z"
-    },
-    {
-      "id": "Gnt.br|2026-08-17T06:03:00.000Z",
-      "title": "Que História É Essa, Porchat?",
-      "description": "Fábio Porchat recebe a cantora Ivete Sangalo e as atrizes Marisa Orth e Samantha Schmutz, que relembram suas histórias. Na plateia, uma preparação para festa terminou em sangue.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Gnt.br",
-      "channelName": "GNT",
-      "logo": "/logos/gnt.png",
-      "start": "2026-08-17T06:03:00.000Z",
-      "stop": "2026-08-17T07:04:00.000Z"
     },
     {
       "id": "E.br|2026-08-17T06:15:00.000Z",
@@ -1510,196 +1390,16 @@
       "stop": "2026-08-17T07:55:00.000Z"
     },
     {
-      "id": "Axn.br|2026-08-17T06:25:00.000Z",
-      "title": "CSI",
-      "description": "Uma equipe especializada de investigadores forenses descobre peças perdidas de um perigoso quebra-cabeça e tentam colocá-las juntas.",
+      "id": "Lifetime.br|2026-08-17T07:07:00.000Z",
+      "title": "Pesadelo na Faculdade",
+      "description": "Duas amigas sentem que estão vivendo a vida universitária que sonharam desde que estudavam juntas no ensino médio. Mas quando alugam um apartamento perto do campus e descobrem que a inquilina anterior foi assassinada, a vida delas se transf",
       "category": "Séries",
       "adult": false,
-      "channelId": "Axn.br",
-      "channelName": "AXN",
-      "logo": "/logos/axn.png",
-      "start": "2026-08-17T06:25:00.000Z",
-      "stop": "2026-08-17T07:20:00.000Z"
-    },
-    {
-      "id": "Disneychannel.br|2026-08-17T06:30:00.000Z",
-      "title": "Jessie",
-      "description": "As aventuras de uma adolescente do Texas que se muda para Nova York e se torna babá das crianças precoces da família Ross.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Disneychannel.br",
-      "channelName": "Disney Channel",
-      "logo": "/logos/disney_channel.png",
-      "start": "2026-08-17T06:30:00.000Z",
-      "stop": "2026-08-17T07:00:00.000Z"
-    },
-    {
-      "id": "Playboytv.br|2026-08-17T06:35:00.000Z",
-      "title": "7 Lives Xposed",
-      "description": "Devinn fica com ciúmes do relacionamento de Xiamora com Dawn; Patty toma uma decisão.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Playboytv.br",
-      "channelName": "Playboytv",
-      "logo": "/logos/playboytv.png",
-      "start": "2026-08-17T06:35:00.000Z",
-      "stop": "2026-08-17T07:20:00.000Z"
-    },
-    {
-      "id": "Boomerang.br|2026-08-17T06:42:00.000Z",
-      "title": "Grizzy e os Lemmings",
-      "description": "Uma inteligência artificial se conecta com o urso de pelúcia do Grizzy, que ganha vida.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Boomerang.br",
-      "channelName": "Boomerang",
-      "logo": "/logos/boomerang.png",
-      "start": "2026-08-17T06:42:00.000Z",
-      "stop": "2026-08-17T06:49:00.000Z"
-    },
-    {
-      "id": "Discoverykids.br|2026-08-17T06:44:00.000Z",
-      "title": "Kung Fu Wa",
-      "description": "Para espairecer, a turma visita o famoso lago de lótus da Ilha Estrelada.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Discoverykids.br",
-      "channelName": "Discovery Kids",
-      "logo": "/logos/discovery_kids.png",
-      "start": "2026-08-17T06:44:00.000Z",
-      "stop": "2026-08-17T06:55:00.000Z"
-    },
-    {
-      "id": "Cinemax.br|2026-08-17T06:46:00.000Z",
-      "title": "Anjos da Noite",
-      "description": "Os vampiros mantêm uma batalha e uma antiga rivalidade com um grupo de lobisomens. Quando um estudante de medicina mortal é ameaçado, uma vampira tenta protegê-lo e evitar que uma nova raça híbrida seja criada.",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Cinemax.br",
-      "channelName": "Cinemax",
-      "logo": "/logos/cinemax.png",
-      "start": "2026-08-17T06:46:00.000Z",
-      "stop": "2026-08-17T07:16:00.000Z"
-    },
-    {
-      "id": "Sexyhot.br|2026-08-17T06:46:00.000Z",
-      "title": "Estranho & Adorável Desejo Intruso",
-      "description": "Entre luzes, quatro amigas brincam de troca de papéis. Uma noite estranha, cheia de sexo lésbico.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Sexyhot.br",
-      "channelName": "Sexyhot",
-      "logo": "/logos/sexyhot.png",
-      "start": "2026-08-17T06:46:00.000Z",
-      "stop": "2026-08-17T07:46:00.000Z"
-    },
-    {
-      "id": "Boomerang.br|2026-08-17T06:49:00.000Z",
-      "title": "Grizzy and the Lemmings",
-      "description": "Grizzy e os Lemmings jogam um jogo: os Cavaleiros Lemmings contra o Urso Mágico.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Boomerang.br",
-      "channelName": "Boomerang",
-      "logo": "/logos/boomerang.png",
-      "start": "2026-08-17T06:49:00.000Z",
-      "stop": "2026-08-17T06:56:00.000Z"
-    },
-    {
-      "id": "Ae.br|2026-08-17T06:50:00.000Z",
-      "title": "Acusado - Fui Eu que Fiz Isso?",
-      "description": "Um acidente de carro termina com a morte de um adolescente. O outro motorista, um jovem de 25 anos, é acusado de homicídio em segundo grau por atirar nele logo após a colisão. No entanto, o réu alega legítima defesa.",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Ae.br",
-      "channelName": "Ae",
-      "logo": "/logos/ae.png",
-      "start": "2026-08-17T06:50:00.000Z",
-      "stop": "2026-08-17T07:35:00.000Z"
-    },
-    {
-      "id": "Discoverykids.br|2026-08-17T06:55:00.000Z",
-      "title": "Polly Pocket",
-      "description": "Polly e seus amigos mal podem esperar para se divertir no baile da escola. Polly deve ficar pequena para descobrir quem está sabotando o evento e salvar o baile da escola.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Discoverykids.br",
-      "channelName": "Discovery Kids",
-      "logo": "/logos/discovery_kids.png",
-      "start": "2026-08-17T06:55:00.000Z",
-      "stop": "2026-08-17T07:06:00.000Z"
-    },
-    {
-      "id": "Disneychannel.br|2026-08-17T07:00:00.000Z",
-      "title": "Gravity Falls - Um Verão de Mistérios",
-      "description": "Os gêmeos Dipper e Mabel Pines passam as férias com o tio-avô numa misteriosa cidade. Eles tentam se adaptar à estranha região, mas sentem algo estranho e começam a investigar. Dipper encontra um diário codificado e a aventura começa.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Disneychannel.br",
-      "channelName": "Disney Channel",
-      "logo": "/logos/disney_channel.png",
-      "start": "2026-08-17T07:00:00.000Z",
-      "stop": "2026-08-17T07:30:00.000Z"
-    },
-    {
-      "id": "Globorecife.br|2026-08-17T07:00:00.000Z",
-      "title": "Hora 1",
-      "description": "Os assuntos mais importantes do Brasil e do mundo durante as primeiras horas da manhã. Voltado para o público que acorda cedo, o telejornal conta ainda com a participação de correspondentes internacionais.",
-      "category": "Novelas",
-      "adult": false,
-      "channelId": "Globorecife.br",
-      "channelName": "Globo",
-      "logo": "/logos/globo.png",
-      "start": "2026-08-17T07:00:00.000Z",
-      "stop": "2026-08-17T07:30:00.000Z"
-    },
-    {
-      "id": "Boomerang.br|2026-08-17T07:03:00.000Z",
-      "title": "Hey Fuzzy Yellow",
-      "description": "Fuzzy Yellow e Marzipan descobrem poças musicais, mas as melodias que criam não impressionam o seu amigo Moon.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Boomerang.br",
-      "channelName": "Boomerang",
-      "logo": "/logos/boomerang.png",
-      "start": "2026-08-17T07:03:00.000Z",
-      "stop": "2026-08-17T07:14:00.000Z"
-    },
-    {
-      "id": "Gnt.br|2026-08-17T07:04:00.000Z",
-      "title": "Casa Brasileira",
-      "description": "Em Porto Alegre, conheça a casa-ateliê da artista Heloísa Crocco, às margens do Guaíba, que também abriga a cozinha-contêiner do seu filho, Vico Crocco; em Santa Catarina veja a casa centenária de madeira do seu outro filho, o designer Thom",
-      "category": "Séries",
-      "adult": false,
-      "channelId": "Gnt.br",
-      "channelName": "GNT",
-      "logo": "/logos/gnt.png",
-      "start": "2026-08-17T07:04:00.000Z",
-      "stop": "2026-08-17T07:33:00.000Z"
-    },
-    {
-      "id": "Hbo2.br|2026-08-17T07:06:00.000Z",
-      "title": "Resident Evil 6 - O Capítulo Final",
-      "description": "Sobrevivente do massacre zumbi, Alice retorna para onde o pesadelo começou, Raccoon City, em que a Umbrella Corporation reúne suas forças para um ataque final contra os remanescentes do apocalipse. Para vencer a dura batalha final e salvar ",
-      "category": "Filmes",
-      "adult": false,
-      "channelId": "Hbo2.br",
-      "channelName": "Hbo2",
-      "logo": "/logos/hbo2.png",
-      "start": "2026-08-17T07:06:00.000Z",
-      "stop": "2026-08-17T07:36:00.000Z"
-    },
-    {
-      "id": "Discoverykids.br|2026-08-17T07:17:00.000Z",
-      "title": "O Show da Luna!",
-      "description": "Em mais um dia de férias no Bagre Azul, Luna, Júpiter e Cláudio descobrem que é possível fazer queijo. Depois de experimentar uma receita que não dá certo, o trio mergulha em um faz de conta que termina em uma Tarantela e três peças de muss",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Discoverykids.br",
-      "channelName": "Discovery Kids",
-      "logo": "/logos/discovery_kids.png",
-      "start": "2026-08-17T07:17:00.000Z",
-      "stop": "2026-08-17T07:28:00.000Z"
+      "channelId": "Lifetime.br",
+      "channelName": "Lifetime",
+      "logo": "/logos/lifetime.png",
+      "start": "2026-08-17T07:07:00.000Z",
+      "stop": "2026-08-17T08:38:00.000Z"
     },
     {
       "id": "Hbo.br|2026-08-17T07:18:00.000Z",
@@ -1714,16 +1414,16 @@
       "stop": "2026-08-17T09:11:00.000Z"
     },
     {
-      "id": "Playboytv.br|2026-08-17T07:20:00.000Z",
-      "title": "Naughty Cosplay",
-      "description": "Charly Summer, Delilah Day, Spencer Bradley e Vanessa Sky adoram transar de personagens de cosplay.",
-      "category": "Adultos",
-      "adult": true,
-      "channelId": "Playboytv.br",
-      "channelName": "Playboytv",
-      "logo": "/logos/playboytv.png",
+      "id": "Axn.br|2026-08-17T07:20:00.000Z",
+      "title": "CSI",
+      "description": "A equipe é chamada para uma cena de assassinato em um hotel familiar; Nick junta as evidências de três casos separados de assassinatos que aconteceram no mesmo lugar ao longo de um ano.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
       "start": "2026-08-17T07:20:00.000Z",
-      "stop": "2026-08-17T07:50:00.000Z"
+      "stop": "2026-08-17T08:10:00.000Z"
     },
     {
       "id": "Amc.br|2026-08-17T07:25:00.000Z",
@@ -1760,6 +1460,18 @@
       "logo": "/logos/disney_channel.png",
       "start": "2026-08-17T07:30:00.000Z",
       "stop": "2026-08-17T08:00:00.000Z"
+    },
+    {
+      "id": "Gloob.br|2026-08-17T07:32:00.000Z",
+      "title": "Escola de Gênios",
+      "description": "Zazá volta à EDG com a condição de não se envolver mais com astrofísica. Bruno coloca seu segredo em risco. Loma descobre que a interface monitora o rendimento dos alunos e causa a maior confusão.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Gloob.br",
+      "channelName": "Gloob",
+      "logo": "/logos/gloob.png",
+      "start": "2026-08-17T07:32:00.000Z",
+      "stop": "2026-08-17T07:55:00.000Z"
     },
     {
       "id": "Gnt.br|2026-08-17T07:33:00.000Z",
@@ -1810,6 +1522,18 @@
       "stop": "2026-08-17T08:16:00.000Z"
     },
     {
+      "id": "Boomerang.br|2026-08-17T07:48:00.000Z",
+      "title": "Hey Fuzzy Yellow",
+      "description": "Uma lanterna flutuante segue Moon, narrando cada um dos seus movimentos com uma voz operística; Fuzzy Yellow ajuda Moon a fazê-la desaparecer.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Boomerang.br",
+      "channelName": "Boomerang",
+      "logo": "/logos/boomerang.png",
+      "start": "2026-08-17T07:48:00.000Z",
+      "stop": "2026-08-17T07:59:00.000Z"
+    },
+    {
       "id": "Canalbrasil.br|2026-08-17T07:55:00.000Z",
       "title": "Os Fuzis",
       "description": "Um grupo de soldados chega a uma cidade pobre nordestina para impedir que a população saqueie um depósito de alimentos. Em meio a um cenário desolador, os soldados ficam chocados com a negligência do governo.",
@@ -1820,6 +1544,18 @@
       "logo": "/logos/canalbrasil.png",
       "start": "2026-08-17T07:55:00.000Z",
       "stop": "2026-08-17T09:21:00.000Z"
+    },
+    {
+      "id": "Boomerang.br|2026-08-17T07:59:00.000Z",
+      "title": "Morphle",
+      "description": "O Sr. Vanderboos tenta fazer um churrasco, mas Mila e Morphle, como bombeiros, apagam o fogo.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Boomerang.br",
+      "channelName": "Boomerang",
+      "logo": "/logos/boomerang.png",
+      "start": "2026-08-17T07:59:00.000Z",
+      "stop": "2026-08-17T08:03:00.000Z"
     },
     {
       "id": "Disneychannel.br|2026-08-17T08:00:00.000Z",
@@ -1870,6 +1606,30 @@
       "stop": "2026-08-17T08:32:00.000Z"
     },
     {
+      "id": "Gloob.br|2026-08-17T08:14:00.000Z",
+      "title": "Bugados",
+      "description": "Carol herda um colar da bisavó que guarda um grande segredo; Tyron, Mig e Glinda têm certeza que Dona Olga só pode ser uma vampira.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Gloob.br",
+      "channelName": "Gloob",
+      "logo": "/logos/gloob.png",
+      "start": "2026-08-17T08:14:00.000Z",
+      "stop": "2026-08-17T08:42:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-17T08:24:00.000Z",
+      "title": "Agente Binky ao Resgate!",
+      "description": "Binky fica orgulhoso quando vê Ted ao volante do carrinho de controle remoto do humano menor. Porém, quando o garoto sai de casa o veículo passa a ser guiado por uma lesma.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-17T08:24:00.000Z",
+      "stop": "2026-08-17T08:36:00.000Z"
+    },
+    {
       "id": "Disneychannel.br|2026-08-17T08:30:00.000Z",
       "title": "Phineas e Ferb",
       "description": "Phineas e Ferb querem aproveitar as férias ao máximo. Nas aventuras, os dois tornam-se músicos, constroem uma montanha-russa e uma praia no fundo do quintal e até voltam ao passado para encontrar dinossauros.",
@@ -1880,6 +1640,18 @@
       "logo": "/logos/disney_channel.png",
       "start": "2026-08-17T08:30:00.000Z",
       "stop": "2026-08-17T09:00:00.000Z"
+    },
+    {
+      "id": "Lifetime.br|2026-08-17T08:38:00.000Z",
+      "title": "Dance Moms",
+      "description": "Christi Lukasiak revive as batalhas mais ferozes do show travadas em nome de suas filhas. Os conflitos épicos entre Christi e Yolanda, Holly e Jill, Kelly e Christi e muito mais.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Lifetime.br",
+      "channelName": "Lifetime",
+      "logo": "/logos/lifetime.png",
+      "start": "2026-08-17T08:38:00.000Z",
+      "stop": "2026-08-17T09:08:00.000Z"
     },
     {
       "id": "Ae.br|2026-08-17T09:00:00.000Z",
@@ -1990,6 +1762,18 @@
       "stop": "2026-08-17T10:50:00.000Z"
     },
     {
+      "id": "Lifetime.br|2026-08-17T09:00:00.000Z",
+      "title": "Rastros de um Sequestro",
+      "description": "Após anos procurando por sua filha desaparecida, Abby está convencida de que encontrou a pessoa responsável por levá-la. Mas as autoridades acreditam que ela é apenas uma mãe perturbada e não a ajudam. Ela, então, decide resolver o problema",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Lifetime.br",
+      "channelName": "Lifetime",
+      "logo": "/logos/lifetime.png",
+      "start": "2026-08-17T09:00:00.000Z",
+      "stop": "2026-08-17T10:28:00.000Z"
+    },
+    {
       "id": "Playboytv.br|2026-08-17T09:00:00.000Z",
       "title": "Big Boob Bad Girls Club",
       "description": "Elas têm corpos pequenos, mas seios enormes, ideais para atingir o ápice do prazer. Você vai querer experimentar a delícia de se enfiar nesses decotes sinuosos.",
@@ -2086,6 +1870,18 @@
       "stop": "2026-08-17T10:45:00.000Z"
     },
     {
+      "id": "Disneychannel.br|2026-08-17T09:30:00.000Z",
+      "title": "Supergatinhos",
+      "description": "Ginny, Sparks, Buddy e Bitsy não são apenas gatinhos fofos, mas também são corajosos, inteligentes, fortes e gentis, e se transformam em Super-gatinhos quando surgem problemas.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-17T09:30:00.000Z",
+      "stop": "2026-08-17T10:00:00.000Z"
+    },
+    {
       "id": "Gnt.br|2026-08-17T09:48:00.000Z",
       "title": "Fazendo a Festa",
       "description": "Os Ursinhos Carinhosos invadem o programa e espalham muito amor na festa de cinco anos da Carolina. Fernanda Rodrigues e a Liga se enchem de carinho e preparam uma festa linda para a pequena aniversariante.",
@@ -2110,6 +1906,18 @@
       "stop": "2026-08-17T11:00:00.000Z"
     },
     {
+      "id": "Disneychannel.br|2026-08-17T10:00:00.000Z",
+      "title": "Star Wars - Aventuras dos Jovens Jedi",
+      "description": "Os jovens Jedi estudam os caminhos da Força, exploram a galáxia, ajudam cidadãos e criaturas necessitados e aprendem habilidades valiosas.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-17T10:00:00.000Z",
+      "stop": "2026-08-17T10:30:00.000Z"
+    },
+    {
       "id": "Sexyhot.br|2026-08-17T10:03:00.000Z",
       "title": "Dois a Dois",
       "description": "",
@@ -2120,6 +1928,18 @@
       "logo": "/logos/sexyhot.png",
       "start": "2026-08-17T10:03:00.000Z",
       "stop": "2026-08-17T11:27:00.000Z"
+    },
+    {
+      "id": "Disneychannel.br|2026-08-17T10:30:00.000Z",
+      "title": "Um Cãozinho Genial",
+      "description": "Phinny lidera uma equipe de cães que trabalham duro enquanto ajudam a cidade de Petsburg.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Disneychannel.br",
+      "channelName": "Disney Channel",
+      "logo": "/logos/disney_channel.png",
+      "start": "2026-08-17T10:30:00.000Z",
+      "stop": "2026-08-17T10:45:00.000Z"
     },
     {
       "id": "Playboytv.br|2026-08-17T10:30:00.000Z",
@@ -2302,6 +2122,18 @@
       "stop": "2026-08-17T12:06:00.000Z"
     },
     {
+      "id": "Gnt.br|2026-08-17T11:44:00.000Z",
+      "title": "Decora",
+      "description": "Pole dance, futebol e barzinho: o desafio é juntar essas referências na decoração de uma república.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-17T11:44:00.000Z",
+      "stop": "2026-08-17T12:46:00.000Z"
+    },
+    {
       "id": "BandRede.br|2026-08-17T12:00:00.000Z",
       "title": "Bora Brasil",
       "description": "Acompanhe as principais informações do Brasil e do mundo com leveza, interatividade e credibilidade.",
@@ -2336,6 +2168,18 @@
       "logo": "/logos/playboytv.png",
       "start": "2026-08-17T12:06:00.000Z",
       "stop": "2026-08-17T12:29:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-17T12:29:00.000Z",
+      "title": "Pleasure Parlour",
+      "description": "O menu oferece serviços eróticos.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-17T12:29:00.000Z",
+      "stop": "2026-08-17T12:53:00.000Z"
     },
     {
       "id": "Cartoonnetwork.br|2026-08-17T12:30:00.000Z",
@@ -2374,6 +2218,30 @@
       "stop": "2026-08-17T13:35:00.000Z"
     },
     {
+      "id": "Gnt.br|2026-08-17T12:46:00.000Z",
+      "title": "Mais Cor, por Favor",
+      "description": "Ingrid e Mario querem repaginar o lounge que dá acesso à laje. Eles pedem a Thalita para trazer personalidade ao local e soluções para os móveis que têm ali.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Gnt.br",
+      "channelName": "GNT",
+      "logo": "/logos/gnt.png",
+      "start": "2026-08-17T12:46:00.000Z",
+      "stop": "2026-08-17T13:19:00.000Z"
+    },
+    {
+      "id": "Playboytv.br|2026-08-17T12:53:00.000Z",
+      "title": "Tua Esposa Minha Fantasia",
+      "description": "Esposas querem diversão e procuram outros homens, já que os maridos estão longe de satisfazê-las.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Playboytv.br",
+      "channelName": "Playboytv",
+      "logo": "/logos/playboytv.png",
+      "start": "2026-08-17T12:53:00.000Z",
+      "stop": "2026-08-17T14:36:00.000Z"
+    },
+    {
       "id": "Canalbrasil.br|2026-08-17T13:00:00.000Z",
       "title": "Rânia",
       "description": "Rânia é uma adolescente humilde de Fortaleza que trabalha em um quiosque de praia enquanto sonha em ser bailarina. Ela arranja um bico como dançarina em uma boate e acaba conhecendo uma famosa coreógrafa que pode tornar seu sonho realidade.",
@@ -2384,6 +2252,18 @@
       "logo": "/logos/canalbrasil.png",
       "start": "2026-08-17T13:00:00.000Z",
       "stop": "2026-08-17T14:30:00.000Z"
+    },
+    {
+      "id": "Axn.br|2026-08-17T13:10:00.000Z",
+      "title": "NCIS",
+      "description": "Quando o cadáver de um homem é encontrado num caixão de ferro que vem da Guerra Civil, a equipe descobre que a vítima era um sargento e foi enterrado vivo.",
+      "category": "Séries",
+      "adult": false,
+      "channelId": "Axn.br",
+      "channelName": "AXN",
+      "logo": "/logos/axn.png",
+      "start": "2026-08-17T13:10:00.000Z",
+      "stop": "2026-08-17T14:00:00.000Z"
     },
     {
       "id": "Hbo.br|2026-08-17T13:16:00.000Z",
@@ -2422,6 +2302,18 @@
       "stop": "2026-08-17T14:45:00.000Z"
     },
     {
+      "id": "Sexyhot.br|2026-08-17T13:35:00.000Z",
+      "title": "Rotina",
+      "description": "Assista a quatro historinhas bem apimentadas que poderiam acontecer na vida de qualquer casal.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-17T13:35:00.000Z",
+      "stop": "2026-08-17T14:25:00.000Z"
+    },
+    {
       "id": "Hbo2.br|2026-08-17T13:40:00.000Z",
       "title": "Magic Mike - A Última Dança",
       "description": "Magic Mike Lane, falido e trabalhando como bartender na Flórida, decide voltar aos palcos. Ao conhecer uma socialite em Londres, ele recebe uma proposta irrecusável. Com tudo em risco, Mike e seu grupo de dançarinos precisam se esforçar par",
@@ -2446,6 +2338,30 @@
       "stop": "2026-08-17T15:00:00.000Z"
     },
     {
+      "id": "Cartoonnetwork.br|2026-08-17T14:00:00.000Z",
+      "title": "Ilha dos Desafios",
+      "description": "Dezesseis adolescentes estão presos juntos e devem competir uns contra os outros para saírem vitoriosos. Eles enfrentam uma série de provações e desafios que fazem com que os competidores sejam eliminados até que um único indivíduo permaneç",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Cartoonnetwork.br",
+      "channelName": "Cartoon Network",
+      "logo": "/logos/cartoon_network.png",
+      "start": "2026-08-17T14:00:00.000Z",
+      "stop": "2026-08-17T14:30:00.000Z"
+    },
+    {
+      "id": "Sexyhot.br|2026-08-17T14:25:00.000Z",
+      "title": "Hora do Arrepio",
+      "description": "Vizinhos enigmáticos e excitantes.",
+      "category": "Adultos",
+      "adult": true,
+      "channelId": "Sexyhot.br",
+      "channelName": "Sexyhot",
+      "logo": "/logos/sexyhot.png",
+      "start": "2026-08-17T14:25:00.000Z",
+      "stop": "2026-08-17T14:39:00.000Z"
+    },
+    {
       "id": "Canalbrasil.br|2026-08-17T14:30:00.000Z",
       "title": "Elba Ramalho em Cordas, Gonzaga e Afins",
       "description": "A cantora Elba Ramalho apresenta canções de Luiz Gonzaga e de grandes nomes da MPB. Algodão, Assum Preto, Sabiá e Que Nem Jiló compõem o repertório.",
@@ -2456,6 +2372,18 @@
       "logo": "/logos/canalbrasil.png",
       "start": "2026-08-17T14:30:00.000Z",
       "stop": "2026-08-17T16:15:00.000Z"
+    },
+    {
+      "id": "Globorecife.br|2026-08-17T14:45:00.000Z",
+      "title": "NE1",
+      "description": "Acompanhe as últimas notícias de Pernambuco, além de informações de trânsito e a previsão do tempo.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-17T14:45:00.000Z",
+      "stop": "2026-08-17T16:00:00.000Z"
     },
     {
       "id": "BandRede.br|2026-08-17T15:00:00.000Z",
@@ -2518,6 +2446,18 @@
       "stop": "2026-08-17T17:30:00.000Z"
     },
     {
+      "id": "Globorecife.br|2026-08-17T16:00:00.000Z",
+      "title": "Globo Esporte PE",
+      "description": "Veja o que há de mais importante no esporte em Pernambuco, no Brasil e no mundo. Notícias esportivas com o sotaque da região, quadros especiais e histórias inspiradoras.",
+      "category": "Novelas",
+      "adult": false,
+      "channelId": "Globorecife.br",
+      "channelName": "Globo",
+      "logo": "/logos/globo.png",
+      "start": "2026-08-17T16:00:00.000Z",
+      "stop": "2026-08-17T16:25:00.000Z"
+    },
+    {
       "id": "Hbo.br|2026-08-17T16:51:00.000Z",
       "title": "Mulher-Maravilha 1984",
       "description": "Na Guerra Fria, o desaparecimento de um antigo artefato capaz de realizar desejos faz com que Diana parta em uma nova missão.",
@@ -2542,6 +2482,18 @@
       "stop": "2026-08-17T19:40:00.000Z"
     },
     {
+      "id": "Hbo2.br|2026-08-17T17:10:00.000Z",
+      "title": "Eles Vão te Matar",
+      "description": "Uma mulher responde a um anúncio enigmático para uma vaga de governanta em um luxuoso e sombrio arranha-céu em Nova York. Ao chegar, ela descobre que moradores desapareceram sem deixar rastros por décadas, alimentando boatos de um culto sat",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-17T17:10:00.000Z",
+      "stop": "2026-08-17T18:50:00.000Z"
+    },
+    {
       "id": "BandRede.br|2026-08-17T17:30:00.000Z",
       "title": "Melhor da Tarde",
       "description": "Programa promove dicas de bem-estar, culinária, fofocas, astrologia e muito mais. Todo dia, uma tarde diferente com um time completo de colaboradores.",
@@ -2552,6 +2504,18 @@
       "logo": "/logos/band.png",
       "start": "2026-08-17T17:30:00.000Z",
       "stop": "2026-08-17T19:00:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-17T18:50:00.000Z",
+      "title": "Premonição 6 - Laços de Sangue",
+      "description": "Atormentada por um pesadelo violento e recorrente, uma estudante universitária volta para casa em busca da única pessoa que pode ser capaz de quebrar o ciclo de morte e salvar sua família do terrível destino que inevitavelmente os aguarda.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-17T18:50:00.000Z",
+      "stop": "2026-08-17T20:45:00.000Z"
     },
     {
       "id": "Hbo.br|2026-08-17T19:26:00.000Z",
@@ -2576,6 +2540,42 @@
       "logo": "/logos/cinemax.png",
       "start": "2026-08-17T19:40:00.000Z",
       "stop": "2026-08-17T21:32:00.000Z"
+    },
+    {
+      "id": "Hbo2.br|2026-08-17T20:45:00.000Z",
+      "title": "A Morte do Demônio",
+      "description": "Mia é uma viciada em drogas que, para vencer seus demônios pessoais, vai com seu irmão David, a namorada do irmão, Natalie, e os amigos de infância Olivia e Eric até uma cabana rústica, que pertence à família. Assim que chegam, descobrem qu",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo2.br",
+      "channelName": "Hbo2",
+      "logo": "/logos/hbo2.png",
+      "start": "2026-08-17T20:45:00.000Z",
+      "stop": "2026-08-17T22:20:00.000Z"
+    },
+    {
+      "id": "Hbo.br|2026-08-17T21:16:00.000Z",
+      "title": "Pílula de Farinha - O Escândalo que Gerou Vidas",
+      "description": "Um novo erro na produção do anticoncepcional agrava escândalo e reabre dúvidas sobre procedimentos do laboratório. As vítimas enfrentam partos em condições adversas, enquanto uma advogada ligada ao caso descobre que também foi afetada pelo ",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Hbo.br",
+      "channelName": "HBO",
+      "logo": "/logos/hbo.png",
+      "start": "2026-08-17T21:16:00.000Z",
+      "stop": "2026-08-17T22:01:00.000Z"
+    },
+    {
+      "id": "Cinemax.br|2026-08-17T21:32:00.000Z",
+      "title": "Coração Errante",
+      "description": "Santiago, um homem dominado por seus demônios e paixões, embarca numa busca desesperada e frenética de uma única coisa: amar e ser amado.",
+      "category": "Filmes",
+      "adult": false,
+      "channelId": "Cinemax.br",
+      "channelName": "Cinemax",
+      "logo": "/logos/cinemax.png",
+      "start": "2026-08-17T21:32:00.000Z",
+      "stop": "2026-08-17T23:31:00.000Z"
     }
   ],
   "demoVideos": [
