@@ -386,6 +386,49 @@ def _install_shims():
 
 
 # ---------------------------------------------------------------------------
+# Proxy residencial opcional (para fontes que bloqueiam IPs de datacenter)
+# ---------------------------------------------------------------------------
+# Alguns hosts (ex.: animesonlinecc.to) bloqueiam IPs de datacenter com
+# Cloudflare ("Attention Required"). Nenhuma ferramenta de bypass resolve —
+# só um proxy RESIDENCIAL. Se ANIME_PROXY estiver definido (ex.:
+# http://user:pass@host:port), o bot roteia apenas os hosts de PROXY_HOSTS
+# por ele. Sem a variável, nada muda (comportamento atual).
+PROXY_URL = os.environ.get("ANIME_PROXY", "").strip()
+PROXY_HOSTS = [h.strip() for h in os.environ.get("PROXY_HOSTS", "animesonlinecc.to").split(",") if h.strip()]
+
+
+def _install_proxy():
+    """Injeta o proxy residencial só nas requisições para os hosts bloqueados."""
+    if not PROXY_URL:
+        return False
+    try:
+        import requests
+
+        orig_session = requests.sessions.Session.request
+
+        def wrapped(self, method, url, *a, **kw):
+            if any(h in str(url) for h in PROXY_HOSTS):
+                kw["proxies"] = {"http": PROXY_URL, "https": PROXY_URL}
+            return orig_session(self, method, url, *a, **kw)
+
+        requests.sessions.Session.request = wrapped
+
+        orig_api = requests.api.request
+
+        def wrapped_api(method, url, **kw):
+            if any(h in str(url) for h in PROXY_HOSTS):
+                kw["proxies"] = {"http": PROXY_URL, "https": PROXY_URL}
+            return orig_api(method, url, **kw)
+
+        requests.api.request = wrapped_api
+        print(f"Proxy residencial ativo para: {', '.join(PROXY_HOSTS)}", flush=True)
+        return True
+    except Exception as e:  # noqa: BLE001
+        print(f"Proxy residencial NÃO ativado: {e}", flush=True)
+        return False
+
+
+# ---------------------------------------------------------------------------
 # Loader do addon (ao vivo com fallback)
 # ---------------------------------------------------------------------------
 _ADDON_STATE = {"src": None, "version": None, "source": None, "fetched": 0.0, "dir": None}
@@ -1188,6 +1231,7 @@ class Handler(BaseHTTPRequestHandler):
 def main():
     port = int(os.environ.get("PORT", "8787"))
     _install_shims()
+    _install_proxy()
     server = ThreadingHTTPServer(("0.0.0.0", port), Handler)
     print(f"Runtime do addon Kodi ouvindo em http://0.0.0.0:{port}", flush=True)
     server.serve_forever()
@@ -1196,6 +1240,7 @@ def main():
 if __name__ == "__main__":
     if "--selftest" in sys.argv:
         _install_shims()
+        _install_proxy()
         addon = _load_addon()
         print("addon:", addon["version"], "| source:", addon["source"])
         r = run({"mode": "0"})
