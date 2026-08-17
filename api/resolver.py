@@ -822,7 +822,14 @@ def _resolve_stream(params):
 
 def _resolve_seasons(link):
     mode = _mode_for_link(link)
-    first = run({"mode": str(mode), "url": link, "name": link}, timeout=90)
+    params = {"mode": str(mode), "url": link, "name": link}
+    first = run(params, timeout=90)
+    if first["failed"]:
+        fb = _anime_fallback_params(params)
+        if fb:
+            fb_res = run(fb, timeout=90)
+            if not fb_res["failed"] and (fb_res["stream"] or fb_res["items"]):
+                first = fb_res
     if first["failed"]:
         return {"kind": "error", "message": _friendly_error(first["failed"])}
     return _listing_to_resolve(first["items"])
@@ -932,12 +939,37 @@ def _listing_payload(r):
     return items
 
 
+def _anime_fallback_params(params):
+    """Se um anime animes3= falhar (fonte animesonlinecc bloqueada para IPs de
+    datacenter), tenta o MESMO título pelo resolver3_tvshows (API que funciona
+    de servidor). Retorna params de fallback ou None."""
+    url = str(params.get("url", "") or "")
+    if not url.startswith("animes3="):
+        return None
+    slug = url.split("=", 1)[1]
+    if not slug:
+        return None
+    fb = {"mode": "31", "url": "resolver3_tvshows=" + slug}
+    for k in ("name", "iconimage", "fanart", "description"):
+        if params.get(k):
+            fb[k] = params[k]
+    return fb
+
+
 def browse(plugin_url, search_q=""):
     """Navega um plugin-url do addon."""
     params = _parse_plugin_url(plugin_url)
     if not params:
         return {"type": "error", "message": "URL de navegação inválida."}
     r = _run_retry(params, search_q=search_q, timeout=90)
+    if r["failed"]:
+        fb = _anime_fallback_params(params)
+        if fb:
+            fb_res = _run_retry(fb, search_q=search_q, timeout=90)
+            # só aceita o fallback se ele produziu conteúdo de verdade;
+            # senão mantém o erro original (mensagem clara da fonte bloqueada)
+            if not fb_res["failed"] and (fb_res["stream"] or fb_res["items"]):
+                r = fb_res
     if r["failed"]:
         return {"type": "error", "message": _friendly_error(r["failed"])}
     url, headers = _unwrap_stream(r["stream"])
