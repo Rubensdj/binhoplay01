@@ -396,6 +396,12 @@ def _install_shims():
 PROXY_URL = os.environ.get("ANIME_PROXY", "").strip()
 PROXY_HOSTS = [h.strip() for h in os.environ.get("PROXY_HOSTS", "animesonlinecc.to").split(",") if h.strip()]
 
+# Token opcional: se BOT_TOKEN estiver definido, TODAS as chamadas HTTP
+# precisam de ?token=<BOT_TOKEN>. Protege a banda de um bot rodado em casa
+# (Cloudflare Tunnel público) contra uso por terceiros. Sem a variável, o
+# bot continua aberto (comportamento atual).
+BOT_TOKEN = os.environ.get("BOT_TOKEN", "").strip()
+
 
 def _install_proxy():
     """Injeta o proxy residencial só nas requisições para os hosts bloqueados."""
@@ -1014,7 +1020,10 @@ def _rewrite_hls(body, base_url, headers):
     h_json = json.dumps(headers or {}, ensure_ascii=False)
 
     def proxy_for(target):
-        return "proxy?u=" + quote(target, safe="") + "&h=" + quote(h_json, safe="")
+        u = "proxy?u=" + quote(target, safe="") + "&h=" + quote(h_json, safe="")
+        if BOT_TOKEN:
+            u += "&token=" + quote(BOT_TOKEN, safe="")
+        return u
 
     def rewrite_uri(uri):
         if not uri or uri.startswith("proxy?") or uri.startswith("data:"):
@@ -1091,10 +1100,16 @@ class Handler(BaseHTTPRequestHandler):
         self._cors()
         self.end_headers()
 
+    def _auth_ok(self, qs):
+        return not BOT_TOKEN or qs.get("token", [""])[0] == BOT_TOKEN
+
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/")
         qs = parse_qs(parsed.query)
+        if not self._auth_ok(qs):
+            self._json({"success": False, "error": "token inválido"}, 401)
+            return
         try:
             if path.endswith("/resolver"):
                 resolver = int(qs.get("resolver", ["0"])[0])
