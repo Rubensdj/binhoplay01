@@ -42,7 +42,7 @@ import time
 import types
 import zlib
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
-from urllib.parse import parse_qs, unquote, urlparse
+from urllib.parse import parse_qs, quote, unquote, urljoin, urlparse
 
 # ---------------------------------------------------------------------------
 # Fontes do addon (ao vivo primeiro, fallback local)
@@ -533,7 +533,10 @@ def run(params, search_q="", timeout=90):
     CAP["stream"] = None
     CAP["failed"] = None
 
-    qs = "&".join(f"{k}={v}" for k, v in params.items())
+    # IMPORTANTE: valores com URL-encode — o addon lê sys.argv[2] com parse_qs
+    # e depende de valores intactos (ex.: url=serie3_temp=1&video_id=... — o &
+    # interno pertence ao VALOR; sem encode ele vira separador e quebra o fluxo)
+    qs = "&".join(f"{k}={quote(str(v), safe='')}" for k, v in params.items())
     sys.argv = ["plugin://" + ADDON_ID + "/", "0", "?" + qs]
     if addon["dir"] and addon["dir"] not in sys.path:
         sys.path.insert(0, addon["dir"])
@@ -562,10 +565,14 @@ def run(params, search_q="", timeout=90):
 
 
 def _parse_plugin_url(plugin_url):
-    """Converte plugin://...?a=b&c=d em params. Também aceita dict direto."""
+    """Converte plugin://...?a=b&c=d em params. Também aceita dict direto.
+
+    IMPORTANTE: o `#` NÃO é fragmento em URL de plugin do Kodi — é dado
+    (ex.: url=#filmes_menu). Cortar em `#` quebra qualquer menu com prefixo
+    # (já que o handler HTTP decodifica %23 antes de chegar aqui)."""
     if isinstance(plugin_url, dict):
         return dict(plugin_url)
-    m = re.search(r"\?([^#]+)", plugin_url or "")
+    m = re.search(r"\?(.+)", plugin_url or "")
     if not m:
         return {}
     return {k: (v[0] if isinstance(v, list) else v) for k, v in parse_qs(m.group(1)).items()}
@@ -614,6 +621,37 @@ def _unwrap_stream(raw):
     return url, headers
 
 
+def _friendly_error(raw):
+    """Traduz erros internos do addon em mensagens claras para o usuário."""
+    if not raw:
+        return "Falha inesperada ao carregar este conteúdo."
+    msg = str(raw)
+    low = msg.lower()
+    if any(k in low for k in ("indexerror", "keyerror", "attributeerror", "typeerror", "valueerror")):
+        return (
+            "A fonte deste título não retornou dados no momento "
+            "(pode estar fora do ar ou bloqueando acessos automáticos). "
+            "Tente outro título ou volte mais tarde."
+        )
+    if "connectionerror" in low or "timeout" in low or "max retries" in low or "proxyerror" in low:
+        return "Falha de conexão com a fonte do conteúdo. Tente novamente em instantes."
+    if "403" in msg or "forbidden" in low:
+        return "A fonte deste conteúdo bloqueou o acesso automático (HTTP 403)."
+    if "404" in msg or "not found" in low:
+        return "A fonte não encontrou este conteúdo (pode ter sido removido)."
+    return msg
+
+
+def _is_header_item(item):
+    """Itens-cabeçalho do addon (url=here / vazio) não são conteúdo reproduzível."""
+    url = str(item.get("url", "") or "")
+    if not url:
+        return True
+    params = _parse_plugin_url(url)
+    u = params.get("url", "")
+    return u in ("here", "") or url == "here"
+
+
 def _mode_for_link(link):
     """Modo de navegação para um link do addon (derivado da tabela do próprio addon)."""
     if not link:
@@ -628,7 +666,12 @@ def _mode_for_link(link):
         ("bunnycdn_tvshows=", 31), ("resolver1_tvshows=", 31), ("resolver2_tvshows=", 31),
         ("resolver3_tvshows=", 31), ("resolver4_tvshows=", 31), ("resolver5_tvshows=", 31),
         ("doramas_resolver1=", 31), ("onedrive=", 31), ("novelas=", 25),
-        ("novelas2=", 25), ("wvmob=", 30), ("animes4=", 31),
+        ("novelas2=", 25), ("wvmob=", 30),
+        ("animes2=", 22), ("animes3=", 22), ("animes4=", 22), ("animes5=", 22),
+        ("#animes3_temp=", 22), ("#animes2_temp=", 22),
+        ("#novelas2_temp=", 25), ("novelas_temp=", 25),
+        ("#doramas_temp=", 31), ("doramas_resolver1_temp=", 31),
+        ("#desenhos_temp=", 28), ("desenhos2=", 28), ("desenhos3=", 28),
     ]
     for prefix, mode in known:
         if link.startswith(prefix):
@@ -710,11 +753,11 @@ def _try_link(link):
 
 def _resolve_stream(params):
     try:
-        r = run(params, timeout=90)
+        r = _run_retry(params, timeout=90)
     except Exception as e:  # noqa: BLE001
-        return {"kind": "error", "message": str(e)}
+        return {"kind": "error", "message": _friendly_error(str(e))}
     if r["failed"]:
-        return {"kind": "error", "message": r["failed"]}
+        return {"kind": "error", "message": _friendly_error(r["failed"])}
     url, headers = _unwrap_stream(r["stream"])
     if url and url.startswith("http"):
         return {
@@ -732,7 +775,7 @@ def _resolve_seasons(link):
     mode = _mode_for_link(link)
     first = run({"mode": str(mode), "url": link, "name": link}, timeout=90)
     if first["failed"]:
-        return {"kind": "error", "message": first["failed"]}
+        return {"kind": "error", "message": _friendly_error(first["failed"])}
     return _listing_to_resolve(first["items"])
 
 
@@ -776,7 +819,7 @@ def live_tv():
     def produce():
         r = run({"mode": "21", "url": "#menu_canais"}, timeout=90)
         if r["failed"]:
-            return {"error": r["failed"], "groups": []}
+            return {"error": _friendly_error(r["failed"]), "groups": []}
         groups = []
         for group in r["items"]:
             if not group["folder"]:
@@ -809,19 +852,25 @@ def live_tv():
     return _cached("tv", 600, produce)
 
 
-def browse(plugin_url, search_q=""):
-    """Navega um plugin-url do addon."""
-    params = _parse_plugin_url(plugin_url)
-    if not params:
-        return {"type": "error", "message": "URL de navegação inválida."}
-    r = run(params, search_q=search_q, timeout=90)
-    if r["failed"]:
-        return {"type": "error", "message": r["failed"]}
-    url, headers = _unwrap_stream(r["stream"])
-    if url and url.startswith("http"):
-        return {"type": "stream", "stream": url, "headers": headers or None}
+def _run_retry(params, search_q="", timeout=90, tries=2):
+    """Executa o addon com 1 nova tentativa em falhas transitórias (rede/dados)."""
+    last = None
+    for i in range(tries):
+        r = run(params, search_q=search_q, timeout=timeout)
+        if not r["failed"]:
+            return r
+        last = r
+        if i + 1 < tries:
+            time.sleep(0.5)
+    return last
+
+
+def _listing_payload(r):
+    """Converte items do addon no contrato do bot, descartando cabeçalhos (url=here)."""
     items = []
     for it in r["items"]:
+        if _is_header_item(it):
+            continue
         items.append(
             {
                 "name": it["name"],
@@ -831,7 +880,21 @@ def browse(plugin_url, search_q=""):
                 "fanart": it["fanart"],
             }
         )
-    return {"type": "listing", "items": items}
+    return items
+
+
+def browse(plugin_url, search_q=""):
+    """Navega um plugin-url do addon."""
+    params = _parse_plugin_url(plugin_url)
+    if not params:
+        return {"type": "error", "message": "URL de navegação inválida."}
+    r = _run_retry(params, search_q=search_q, timeout=90)
+    if r["failed"]:
+        return {"type": "error", "message": _friendly_error(r["failed"])}
+    url, headers = _unwrap_stream(r["stream"])
+    if url and url.startswith("http"):
+        return {"type": "stream", "stream": url, "headers": headers or None}
+    return {"type": "listing", "items": _listing_payload(r)}
 
 
 def play(plugin_url):
@@ -874,10 +937,12 @@ def search(q, categories=None):
                     break
             if not search_item:
                 continue
-            res = run(_parse_plugin_url(search_item["url"]), search_q=q, timeout=60)
+            res = _run_retry(_parse_plugin_url(search_item["url"]), search_q=q, timeout=60)
             if res["failed"]:
                 continue
             for it in res["items"]:
+                if _is_header_item(it):
+                    continue
                 results.append(
                     {
                         "name": it["name"],
@@ -897,8 +962,33 @@ def search(q, categories=None):
 
 
 # ---------------------------------------------------------------------------
-# Proxy de streams protegidos (Range + headers)
+# Proxy de streams protegidos (Range + headers + reescrita HLS)
 # ---------------------------------------------------------------------------
+def _rewrite_hls(body, base_url, headers):
+    """Reescreve um manifest HLS para que segmentos/chaves/playlists passem
+    pelo proxy (com os mesmos headers). Sem isso, o hls.js resolve URIs
+    relativas contra a URL do proxy e os segmentos quebram (404/403)."""
+    h_json = json.dumps(headers or {}, ensure_ascii=False)
+
+    def proxy_for(target):
+        return "proxy?u=" + quote(target, safe="") + "&h=" + quote(h_json, safe="")
+
+    def rewrite_uri(uri):
+        if not uri or uri.startswith("proxy?") or uri.startswith("data:"):
+            return uri
+        return proxy_for(urljoin(base_url, uri))
+
+    out = []
+    for line in body.splitlines():
+        s = line.strip()
+        if s.startswith("#EXT-X-") and 'URI="' in s:
+            line = re.sub(r'URI="([^"]+)"', lambda m: 'URI="' + rewrite_uri(m.group(1)) + '"', line)
+        elif s and not s.startswith("#"):
+            line = rewrite_uri(s)
+        out.append(line)
+    return "\n".join(out) + "\n"
+
+
 def stream_proxy(url, headers_json, range_header):
     import requests
 
@@ -921,6 +1011,15 @@ def stream_proxy(url, headers_json, range_header):
         del headers["Referer"]
         req = do_request(range_header)
     return req
+
+
+def _is_hls_response(req, url):
+    """HLS quando o Content-Type diz mpegurl ou a URL termina em .m3u8.
+    NÃO consome o stream aqui (evita perder bytes do corpo)."""
+    ctype = (req.headers.get("Content-Type") or "").lower()
+    if "mpegurl" in ctype:
+        return True
+    return url.lower().endswith((".m3u8", ".m3u"))
 
 
 # ---------------------------------------------------------------------------
@@ -1028,6 +1127,48 @@ class Handler(BaseHTTPRequestHandler):
             self._json({"success": False, "error": f"upstream HTTP {req.status_code}"}, 502)
             req.close()
             return
+
+        # HLS: baixa o manifest inteiro e reescreve os URIs para o proxy,
+        # senão os segmentos relativos quebram no navegador.
+        try:
+            if _is_hls_response(req, url):
+                chunks = []
+                total = 0
+                for chunk in req.iter_content(64 * 1024):
+                    chunks.append(chunk)
+                    total += len(chunk)
+                    if total > 8 * 1024 * 1024:  # >8MB não é manifest
+                        break
+                body = b"".join(chunks)
+                req.close()
+                is_hls = body.lstrip().startswith(b"#EXTM3U") or "mpegurl" in (req.headers.get("Content-Type") or "").lower()
+                if is_hls:
+                    rewritten = _rewrite_hls(body.decode("utf-8", "replace"), url, json.loads(headers_json or "{}") or {})
+                    data = rewritten.encode("utf-8")
+                    self.send_response(200)
+                    self.send_header("Content-Type", "application/vnd.apple.mpegurl; charset=utf-8")
+                    self.send_header("Content-Length", str(len(data)))
+                    self._cors()
+                    self.end_headers()
+                    self.wfile.write(data)
+                    return
+                # URL .m3u8 mas corpo não-HLS: devolve o corpo como veio
+                self.send_response(200)
+                self.send_header("Content-Type", req.headers.get("Content-Type") or "application/octet-stream")
+                self.send_header("Content-Length", str(len(body)))
+                self._cors()
+                self.end_headers()
+                self.wfile.write(body)
+                return
+        except Exception as err:  # noqa: BLE001
+            # se a reescrita falhar, tenta o streaming normal abaixo
+            try:
+                req.close()
+            except Exception:  # noqa: BLE001
+                pass
+            self._json({"success": False, "error": "proxy HLS: " + str(err)}, 502)
+            return
+
         self.send_response(req.status_code)
         for header in ("Content-Type", "Content-Length", "Accept-Ranges", "Content-Range", "Content-Disposition", "Content-Encoding"):
             value = req.headers.get(header)

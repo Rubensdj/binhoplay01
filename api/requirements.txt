@@ -1,2 +1,7 @@
-# O bot executa o addon Kodi real, que importa `requests`.
+# O bot executa o addon Kodi real. Dependências que o addon importa:
+#   requests          -> rede (o addon importa requests/requests.adapters)
+#   pycryptodomex     -> `from Cryptodome.Cipher import AES` (resolvers de
+#                        streams criptografados / chaves HLS)
+# certifi vem junto com requests.
 requests>=2.31
+pycryptodomex>=3.19
