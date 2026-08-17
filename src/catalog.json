@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-17T08:42:29.668Z",
+  "generatedAt": "2026-08-17T08:45:23.514Z",
   "repoUrl": "https://skyrisk.github.io/brazucaplay",
   "supportedKodi": "16.1, 17, 18, 19, 20 e 21+",
   "addons": [
@@ -1534,18 +1534,6 @@
       "stop": "2026-08-17T07:00:00.000Z"
     },
     {
-      "id": "Discoverykids.br|2026-08-17T06:33:00.000Z",
-      "title": "Kung Fu Wa",
-      "description": "Tee Zeng passa o dia pensando em um plano para resgatar Hao. Para animá-la, Min e Abelhudo a presenteiam com um jogo de tabuleiro de aventuras espaciais, comprado em uma loja de antiguidades.",
-      "category": "Desenhos",
-      "adult": false,
-      "channelId": "Discoverykids.br",
-      "channelName": "Discovery Kids",
-      "logo": "/logos/discovery_kids.png",
-      "start": "2026-08-17T06:33:00.000Z",
-      "stop": "2026-08-17T06:44:00.000Z"
-    },
-    {
       "id": "Playboytv.br|2026-08-17T06:35:00.000Z",
       "title": "7 Lives Xposed",
       "description": "Devinn fica com ciúmes do relacionamento de Xiamora com Dawn; Patty toma uma decisão.",
@@ -1568,6 +1556,18 @@
       "logo": "/logos/boomerang.png",
       "start": "2026-08-17T06:42:00.000Z",
       "stop": "2026-08-17T06:49:00.000Z"
+    },
+    {
+      "id": "Discoverykids.br|2026-08-17T06:44:00.000Z",
+      "title": "Kung Fu Wa",
+      "description": "Para espairecer, a turma visita o famoso lago de lótus da Ilha Estrelada.",
+      "category": "Desenhos",
+      "adult": false,
+      "channelId": "Discoverykids.br",
+      "channelName": "Discovery Kids",
+      "logo": "/logos/discovery_kids.png",
+      "start": "2026-08-17T06:44:00.000Z",
+      "stop": "2026-08-17T06:55:00.000Z"
     },
     {
       "id": "Cinemax.br|2026-08-17T06:46:00.000Z",

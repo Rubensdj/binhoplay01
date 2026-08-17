@@ -939,21 +939,37 @@ def _listing_payload(r):
     return items
 
 
+# Cadeia de fallback para animes: quando a fonte original (animesonlinecc,
+# bloqueada para IPs de datacenter) falha, tenta o MESMO título em cada
+# backend/resolver do addon, na ordem. resolver3 está vivo hoje (API
+# geekantenado); os demais são backends separados que podem voltar ao ar a
+# qualquer momento (resolver1/animes4 esteve "Under Maintenance").
+_ANIME_RESOLVER_CHAIN = [
+    "resolver3_tvshows",
+    "animes4",
+    "resolver4_tvshows",
+    "resolver5_tvshows",
+]
+
+
 def _anime_fallback_params(params):
     """Se um anime animes3= falhar (fonte animesonlinecc bloqueada para IPs de
-    datacenter), tenta o MESMO título pelo resolver3_tvshows (API que funciona
-    de servidor). Retorna params de fallback ou None."""
+    datacenter), retorna a CADEIA de fallbacks para o MESMO título. Cada item é
+    um dict de params; o primeiro que produzir conteúdo vence."""
     url = str(params.get("url", "") or "")
     if not url.startswith("animes3="):
         return None
     slug = url.split("=", 1)[1]
     if not slug:
         return None
-    fb = {"mode": "31", "url": "resolver3_tvshows=" + slug}
-    for k in ("name", "iconimage", "fanart", "description"):
-        if params.get(k):
-            fb[k] = params[k]
-    return fb
+    chain = []
+    for resolver in _ANIME_RESOLVER_CHAIN:
+        fb = {"mode": "31", "url": f"{resolver}={slug}"}
+        for k in ("name", "iconimage", "fanart", "description"):
+            if params.get(k):
+                fb[k] = params[k]
+        chain.append(fb)
+    return chain
 
 
 def browse(plugin_url, search_q=""):
@@ -963,13 +979,17 @@ def browse(plugin_url, search_q=""):
         return {"type": "error", "message": "URL de navegação inválida."}
     r = _run_retry(params, search_q=search_q, timeout=90)
     if r["failed"]:
-        fb = _anime_fallback_params(params)
-        if fb:
-            fb_res = _run_retry(fb, search_q=search_q, timeout=90)
-            # só aceita o fallback se ele produziu conteúdo de verdade;
-            # senão mantém o erro original (mensagem clara da fonte bloqueada)
-            if not fb_res["failed"] and (fb_res["stream"] or fb_res["items"]):
-                r = fb_res
+        chain = _anime_fallback_params(params)
+        if chain:
+            for i, fb in enumerate(chain):
+                # backends frios (fora do resolver3) usam timeout menor para
+                # não travar a navegação quando o título não existe em nenhum
+                fb_res = _run_retry(fb, search_q=search_q, timeout=60 if i == 0 else 35)
+                # só aceita o fallback se ele produziu conteúdo de verdade;
+                # senão continua a cadeia (e mantém o erro original ao final)
+                if not fb_res["failed"] and (fb_res["stream"] or fb_res["items"]):
+                    r = fb_res
+                    break
     if r["failed"]:
         return {"type": "error", "message": _friendly_error(r["failed"])}
     url, headers = _unwrap_stream(r["stream"])
